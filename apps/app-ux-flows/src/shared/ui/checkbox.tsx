@@ -1,4 +1,5 @@
-import { useId } from 'react'
+import { Checkbox as CheckboxPrimitive } from './primitives/checkbox'
+import { Label } from './primitives/label'
 
 type CheckboxProps = {
   label: string
@@ -6,13 +7,9 @@ type CheckboxProps = {
   onChange: (checked: boolean) => void
 }
 
-export const Checkbox = ({ label, checked, onChange }: CheckboxProps) => {
-  const inputId = useId()
-
-  return (
-    <div>
-      <input checked={checked} id={inputId} onChange={(event) => onChange(event.target.checked)} type="checkbox" />
-      <label htmlFor={inputId}>{label}</label>
-    </div>
-  )
-}
+export const Checkbox = ({ label, checked, onChange }: CheckboxProps) => (
+  <Label className="flex w-fit items-center gap-2">
+    <CheckboxPrimitive checked={checked} onCheckedChange={(next) => onChange(next)} />
+    {label}
+  </Label>
+)

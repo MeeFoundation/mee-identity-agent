@@ -20,7 +20,9 @@ export const AlternativeHomeScreen = () => {
         onClick={() => goToScreen('medication-form')}
       />
       <PetCard pet={pet} />
-      <p>{t('flows.addMedication.alternativeHome.medicationCount', { count: medications.length })}</p>
+      <p className="text-muted-foreground text-sm">
+        {t('flows.addMedication.alternativeHome.medicationCount', { count: medications.length })}
+      </p>
     </section>
   )
 }

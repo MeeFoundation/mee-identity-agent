@@ -1,10 +1,12 @@
+import { Button } from '@/shared/ui/button'
+
 import type { QuickActionProps } from '../model'
 
 export const ProminentQuickAction = ({ label, description, onClick }: QuickActionProps) => (
-  <aside>
-    <p>{description}</p>
-    <button onClick={onClick} style={{ fontSize: '1.5rem', padding: '1rem', width: '100%' }} type="button">
+  <aside className="flex flex-col gap-3">
+    <p className="text-muted-foreground text-sm">{description}</p>
+    <Button className="w-full" onClick={onClick} size="xxl">
       {label}
-    </button>
+    </Button>
   </aside>
 )

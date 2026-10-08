@@ -14,7 +14,7 @@
     "steiger:concepts": "pnpm --filter app-concepts steiger"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.3.15",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "lefthook": "^1.13.0",

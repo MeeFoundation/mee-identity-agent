@@ -26,7 +26,7 @@ const ObjectAttributeControl: FC<ObjectAttributeControlProps> = (props) => {
 
   return (
     <View className="mt-3">
-      <Text className="-mb-2 z-10 ml-2 self-start bg-white px-1 text-gray-600 text-xs">
+      <Text className="z-10 -mb-2 ml-2 self-start bg-white px-1 text-gray-600 text-xs">
         {label}
       </Text>
       <View className="rounded-lg border border-black/7 p-3">

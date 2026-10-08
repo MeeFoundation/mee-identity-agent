@@ -1,3 +1,6 @@
+import '@fontsource-variable/public-sans'
+import '@/app/styles.css'
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 

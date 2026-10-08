@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "aliases": {
+    "components": "@/shared/ui",
+    "hooks": "@/shared/lib",
+    "lib": "@/shared/lib",
+    "ui": "@/shared/ui/primitives",
+    "utils": "@/shared/lib/cn"
+  },
+  "iconLibrary": "lucide",
+  "menuAccent": "subtle",
+  "menuColor": "default",
+  "registries": {},
+  "rsc": false,
+  "rtl": false,
+  "style": "base-nova",
+  "tailwind": {
+    "baseColor": "neutral",
+    "config": "",
+    "css": "src/app/styles.css",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "tsx": true
+}

@@ -1,5 +1,10 @@
 import { createRoute, notFound, redirect, useNavigate, useRouter } from '@tanstack/react-router'
+import { ChevronLeftIcon } from 'lucide-react'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { Button } from '@/shared/ui/button'
+import { DeviceFrame } from '@/slices/device-frame/device-frame'
 
 import { findFlow, hasScreen } from '@/slices/flow/registry'
 import { FlowRunner } from '@/slices/flow/runtime/flow-runner'
@@ -11,6 +16,7 @@ import { validateFlowSearch } from './flow-search'
 import { rootRoute } from './root'
 
 const FlowScreenRoute = () => {
+  const { t } = useTranslation()
   const { flow } = flowScreenRoute.useLoaderData()
   const { screenId } = flowScreenRoute.useParams()
   const navigate = useNavigate()
@@ -42,14 +48,32 @@ const FlowScreenRoute = () => {
   const exit = useCallback(() => navigate({ to: '/' }), [navigate])
 
   return (
-    <FlowRunner
-      exit={exit}
-      flow={flow}
-      goBack={goBack}
-      key={`${flow.flowId}:${flow.variantId ?? ''}`}
-      navigateToScreen={navigateToScreen}
-      screenId={screenId}
-    />
+    <main className="relative flex h-dvh flex-col items-center gap-4 overflow-hidden bg-gray-100 px-4 py-6 max-[480px]:block max-[480px]:p-0 lg:py-3">
+      <header className="grid w-full max-w-3xl shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-4 max-[480px]:hidden lg:absolute lg:top-6 lg:left-6 lg:flex lg:w-64 lg:flex-col lg:items-start lg:gap-1">
+        <div>
+          <Button onClick={exit} size="s" tone="tertiary" variant="link">
+            <ChevronLeftIcon aria-hidden className="-ml-1 size-4" />
+            {t('flow.chrome.allFlows')}
+          </Button>
+        </div>
+        <h1 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h1>
+        {import.meta.env.DEV && flow.variantId && (
+          <p className="justify-self-end text-muted-foreground text-xs">
+            {t('flow.chrome.variant', { variant: flow.variantId })}
+          </p>
+        )}
+      </header>
+      <DeviceFrame screenKey={screenId}>
+        <FlowRunner
+          exit={exit}
+          flow={flow}
+          goBack={goBack}
+          key={`${flow.flowId}:${flow.variantId ?? ''}`}
+          navigateToScreen={navigateToScreen}
+          screenId={screenId}
+        />
+      </DeviceFrame>
+    </main>
   )
 }
 

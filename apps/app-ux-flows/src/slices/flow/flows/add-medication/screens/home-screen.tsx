@@ -15,13 +15,13 @@ export const HomeScreen = () => {
     <section>
       <Header title={t('flows.addMedication.home.title')} />
       <PetCard pet={pet} />
-      <h2>{t('flows.addMedication.home.medicationsTitle')}</h2>
+      <h2 className="font-semibold text-base text-gray-900">{t('flows.addMedication.home.medicationsTitle')}</h2>
       {medications.length === 0 ? (
-        <p>{t('flows.addMedication.home.noMedications')}</p>
+        <p className="text-muted-foreground text-sm">{t('flows.addMedication.home.noMedications')}</p>
       ) : (
-        <ul>
+        <ul className="divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
           {medications.map((medication) => (
-            <li key={medication.id}>
+            <li className="px-4 py-3 text-sm" key={medication.id}>
               {t(
                 medication.withFood
                   ? 'flows.addMedication.medication.summaryWithFood'

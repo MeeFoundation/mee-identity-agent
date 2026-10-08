@@ -1,5 +1,9 @@
 export const en = {
   flow: {
+    chrome: {
+      allFlows: 'Back to all flows',
+      variant: 'Variant (dev only): {{variant}}',
+    },
     completion: {
       allFlows: 'Back to all flows',
       body: 'You have completed "{{title}}".',

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
+import { Button } from '@/shared/ui/button'
+
 type VariantChoice = {
   id: string
   nameKey: string
@@ -23,38 +25,48 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession }: HomePageProp
   const { t } = useTranslation()
 
   return (
-    <section>
-      <h1>{t('home.title')}</h1>
-      <ul>
+    <main className="min-h-dvh bg-gray-50">
+      <header className="border-gray-200 border-b bg-white">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
+          <h1 className="font-semibold text-2xl text-gray-900">{t('home.title')}</h1>
+          <Button onClick={onStartNewSession} tone="tertiary" variant="outlined">
+            {t('home.newSession')}
+          </Button>
+        </div>
+      </header>
+      <ul className="mx-auto grid max-w-5xl gap-4 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
         {flows.map((flow) => (
-          <li key={flow.id}>
-            <span>{t(flow.titleKey)}</span>{' '}
+          <li className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5" key={flow.id}>
+            <h2 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h2>
             {flow.variantChoices ? (
-              <>
-                <span>{t('home.chooseVariant')}</span>
-                <ul>
+              <div className="flex flex-col gap-3">
+                <p className="text-muted-foreground text-sm">{t('home.chooseVariant')}</p>
+                <ul className="flex flex-col gap-3">
                   {flow.variantChoices.map((choice) => (
-                    <li key={choice.id}>
-                      <button onClick={() => onStartFlow(flow.id, choice.id)} type="button">
+                    <li className="flex flex-col gap-1" key={choice.id}>
+                      <Button onClick={() => onStartFlow(flow.id, choice.id)} variant="outlined">
                         {t(choice.nameKey)}
-                      </button>
-                      {choice.descriptionKey && <span> {t(choice.descriptionKey)}</span>}
+                      </Button>
+                      {choice.descriptionKey && (
+                        <span className="text-muted-foreground text-xs">{t(choice.descriptionKey)}</span>
+                      )}
                     </li>
                   ))}
                 </ul>
-              </>
+              </div>
             ) : (
-              <button onClick={() => onStartFlow(flow.id)} type="button">
+              <Button className="self-start" onClick={() => onStartFlow(flow.id)}>
                 {t('home.start')}
-              </button>
+              </Button>
             )}
-            {flow.assignedVariantId && <small> {t('home.assignedVariant', { variant: flow.assignedVariantId })}</small>}
+            {flow.assignedVariantId && (
+              <small className="text-muted-foreground text-xs">
+                {t('home.assignedVariant', { variant: flow.assignedVariantId })}
+              </small>
+            )}
           </li>
         ))}
       </ul>
-      <button onClick={onStartNewSession} type="button">
-        {t('home.newSession')}
-      </button>
-    </section>
+    </main>
   )
 }
