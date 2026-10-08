@@ -1,0 +1,48 @@
+schema: spec-driven
+
+context: |
+  pnpm monorepo. Apps live in apps/* (app-concepts, app-production, app-tellipod: Expo/React Native
+  with native ios/ and android/ projects; app-ux-flows: Vite web SPA). Shared packages live in
+  packages/* (@mee/core: framework-agnostic utilities, @mee/ui: React Native UI).
+  Apps may be split into separate repositories later, so specs must stay separable per app.
+
+rules:
+  proposal:
+    - List capabilities using the app-scoped spec paths defined in the specs rules
+  specs:
+    - Organize capabilities by app first, then by domain - `specs/<app>/<domain>`, e.g. `app-ux-flows/flow-runtime`, `app-concepts/wallet`
+    - Use the workspace folder name as the app segment (`app-concepts`, `app-production`, `app-tellipod`, `app-ux-flows`)
+    - When behavior differs per platform, split it into `specs/<app>/<domain>/ios` and `specs/<app>/<domain>/android`; keep cross-platform behavior in `specs/<app>/<domain>`
+    - Behavior owned by a shared package goes under `specs/packages/<package>/<domain>` (e.g. `packages/core/attributes`), never under an app
+    - When several apps need the same behavior, give each app its own spec rather than one spec shared across apps, so an app can be moved out of the monorepo with only its own specs
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

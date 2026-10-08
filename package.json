@@ -8,6 +8,9 @@
     "concepts:android": "pnpm --filter app-concepts android",
     "production:ios": "pnpm --filter app-production ios",
     "production:android": "pnpm --filter app-production android",
+    "tellipod:ios": "pnpm --filter app-tellipod ios",
+    "tellipod:android": "pnpm --filter app-tellipod android",
+    "ux-flows:dev": "pnpm --filter app-ux-flows dev",
     "steiger:concepts": "pnpm --filter app-concepts steiger"
   },
   "devDependencies": {
