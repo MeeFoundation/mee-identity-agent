@@ -3,7 +3,11 @@ import { useCallback } from 'react'
 
 import { findFlow, hasScreen } from '@/slices/flow/registry'
 import { FlowRunner } from '@/slices/flow/runtime/flow-runner'
+import { resolveFlow } from '@/slices/flow/runtime/resolve-flow'
+import { browserAssignmentStore } from '@/slices/flow/variants/assignment-store'
+import { isVariantOf, selectVariant } from '@/slices/flow/variants/select-variant'
 
+import { validateFlowSearch } from './flow-search'
 import { rootRoute } from './root'
 
 const FlowScreenRoute = () => {
@@ -14,8 +18,12 @@ const FlowScreenRoute = () => {
 
   const navigateToScreen = useCallback(
     (nextScreenId: string) =>
-      navigate({ params: { flowId: flow.id, screenId: nextScreenId }, to: '/flows/$flowId/$screenId' }),
-    [navigate, flow.id],
+      navigate({
+        params: { flowId: flow.flowId, screenId: nextScreenId },
+        search: (previous) => previous,
+        to: '/flows/$flowId/$screenId',
+      }),
+    [navigate, flow.flowId],
   )
 
   const goBack = useCallback(() => {
@@ -24,11 +32,12 @@ const FlowScreenRoute = () => {
       return
     }
     navigate({
-      params: { flowId: flow.id, screenId: flow.initialScreen },
+      params: { flowId: flow.flowId, screenId: flow.initialScreen },
       replace: true,
+      search: (previous) => previous,
       to: '/flows/$flowId/$screenId',
     })
-  }, [router, navigate, flow.id, flow.initialScreen])
+  }, [router, navigate, flow.flowId, flow.initialScreen])
 
   const exit = useCallback(() => navigate({ to: '/' }), [navigate])
 
@@ -37,7 +46,7 @@ const FlowScreenRoute = () => {
       exit={exit}
       flow={flow}
       goBack={goBack}
-      key={flow.id}
+      key={`${flow.flowId}:${flow.variantId ?? ''}`}
       navigateToScreen={navigateToScreen}
       screenId={screenId}
     />
@@ -45,14 +54,26 @@ const FlowScreenRoute = () => {
 }
 
 export const flowScreenRoute = createRoute({
-  beforeLoad: ({ params }) => {
-    const flow = findFlow(params.flowId)
-    if (!flow) throw notFound()
+  beforeLoad: ({ params, search }) => {
+    const definition = findFlow(params.flowId)
+    if (!definition) throw notFound()
+
+    if (search.variant !== undefined && !isVariantOf(definition, search.variant)) {
+      throw redirect({
+        params: { flowId: definition.id, screenId: params.screenId },
+        replace: true,
+        search: {},
+        to: '/flows/$flowId/$screenId',
+      })
+    }
+
+    const flow = resolveFlow(definition, selectVariant(definition, search.variant, browserAssignmentStore))
 
     if (!hasScreen(flow, params.screenId)) {
       throw redirect({
-        params: { flowId: flow.id, screenId: flow.initialScreen },
+        params: { flowId: flow.flowId, screenId: flow.initialScreen },
         replace: true,
+        search,
         to: '/flows/$flowId/$screenId',
       })
     }
@@ -63,4 +84,5 @@ export const flowScreenRoute = createRoute({
   getParentRoute: () => rootRoute,
   loader: ({ context }) => ({ flow: context.flow }),
   path: 'flows/$flowId/$screenId',
+  validateSearch: validateFlowSearch,
 })

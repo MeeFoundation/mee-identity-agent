@@ -1,4 +1,4 @@
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
@@ -8,6 +8,7 @@ import {
   emptyMedicationDraft,
   medicationDraftAtom,
   medicationsAtom,
+  showMedicationHintAtom,
 } from '../model'
 
 export const MedicationFormScreen = () => {
@@ -16,6 +17,7 @@ export const MedicationFormScreen = () => {
   const { back, goToScreen } = useFlowNavigation<AddMedicationScreenId>()
   const [draft, setDraft] = useAtom(medicationDraftAtom)
   const setMedications = useSetAtom(medicationsAtom)
+  const showHint = useAtomValue(showMedicationHintAtom)
 
   const canSave = draft.name.trim() !== '' && draft.dosage.trim() !== ''
 
@@ -28,6 +30,7 @@ export const MedicationFormScreen = () => {
   return (
     <section>
       <Header onBack={back} title={t('flows.addMedication.form.title')} />
+      {showHint && <p>{t('flows.addMedication.form.hint')}</p>}
       <TextField
         label={t('flows.addMedication.form.nameLabel')}
         onChange={(name) => setDraft({ ...draft, name })}

@@ -9,6 +9,11 @@ export const en = {
   },
   flows: {
     addMedication: {
+      alternativeHome: {
+        medicationCount_one: '{{count}} medication tracked',
+        medicationCount_other: '{{count}} medications tracked',
+        title: 'Care for {{name}}',
+      },
       confirmation: {
         addMedication: 'Add a medication',
         backToPet: 'Back to pet',
@@ -20,6 +25,7 @@ export const en = {
       },
       form: {
         dosageLabel: 'Dosage',
+        hint: 'You can find the name and dosage on the medication label.',
         nameLabel: 'Medication name',
         save: 'Save',
         title: 'Add medication',
@@ -41,9 +47,25 @@ export const en = {
         details_other: '{{species}}, {{count}} years old',
       },
       title: 'Add medication',
+      variants: {
+        alternativeHome: {
+          description: 'Action-first home screen',
+          name: 'Alternative home',
+        },
+        control: {
+          name: 'Control',
+        },
+        prominentAction: {
+          description: 'Prominent Add Medication action with a form hint',
+          name: 'Prominent action',
+        },
+      },
     },
   },
   home: {
+    assignedVariant: 'Assigned variant (dev only): {{variant}}',
+    chooseVariant: 'Choose version:',
+    newSession: 'Start new test session',
     start: 'Start',
     title: 'UX Flows',
   },

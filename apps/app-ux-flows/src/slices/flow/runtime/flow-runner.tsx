@@ -2,8 +2,9 @@ import { Provider } from 'jotai'
 import { useMemo, useRef, useState } from 'react'
 
 import { CompletionView } from './completion-view'
-import type { ComponentEnvironment, FlowDefinition, FlowStore, ScreenComponent } from './define-flow'
+import type { ComponentEnvironment, FlowStore, ScreenComponent } from './define-flow'
 import { type FlowNavigation, FlowRuntimeContext } from './flow-context'
+import type { ResolvedFlow } from './resolve-flow'
 
 type FlowRun = {
   id: number
@@ -11,8 +12,8 @@ type FlowRun = {
   status: 'in-progress' | 'completed'
 }
 
-type FlowRunnerProps<S extends string, C extends ComponentEnvironment, I> = {
-  flow: FlowDefinition<S, C, I>
+type FlowRunnerProps<S extends string, C extends ComponentEnvironment, I extends object> = {
+  flow: ResolvedFlow<S, C, I>
   screenId: S
   initialState?: I
   componentOverrides?: Partial<C>
@@ -22,7 +23,7 @@ type FlowRunnerProps<S extends string, C extends ComponentEnvironment, I> = {
   exit: () => void
 }
 
-export const FlowRunner = <S extends string, C extends ComponentEnvironment, I>({
+export const FlowRunner = <S extends string, C extends ComponentEnvironment, I extends object>({
   flow,
   screenId,
   initialState,
@@ -68,7 +69,8 @@ export const FlowRunner = <S extends string, C extends ComponentEnvironment, I>(
 
   const runtime = useMemo(() => ({ components, navigation }), [components, navigation])
 
-  const Screen: ScreenComponent = flow.screens[screenId]
+  const Screen: ScreenComponent | undefined = flow.screens[screenId]
+  if (!Screen) throw new Error(`Flow "${flow.flowId}" has no screen "${screenId}" in its resolved variant`)
 
   return (
     <Provider store={run.store}>

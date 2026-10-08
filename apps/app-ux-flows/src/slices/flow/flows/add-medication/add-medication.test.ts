@@ -12,6 +12,8 @@ import {
   medicationsAtom,
   type Pet,
   petAtom,
+  type QuickActionProps,
+  showMedicationHintAtom,
 } from './model'
 import { HomeScreen } from './screens/home-screen'
 
@@ -39,6 +41,33 @@ const useTypeContracts = () => {
     // @ts-expect-error every declared screen must be implemented
     screens: { home: HomeScreen },
   })
+
+  defineFlow<AddMedicationScreenId, AddMedicationComponents, AddMedicationInitialState>({
+    ...addMedicationFlow,
+    variants: {
+      incompatibleComponent: {
+        components: {
+          // @ts-expect-error a replacement cannot require props the base component does not receive
+          QuickAction: (_props: QuickActionProps & { badge: number }) => null,
+        },
+        nameKey: 'incompatible-component',
+      },
+      undeclaredScreen: {
+        nameKey: 'undeclared-screen',
+        screens: {
+          // @ts-expect-error a variant cannot override a screen its flow does not declare
+          'does-not-exist': HomeScreen,
+        },
+      },
+      wrongInitialState: {
+        initialState: {
+          // @ts-expect-error variant initial state uses the flow's typed initial-state shape
+          showMedicationHint: 'yes',
+        },
+        nameKey: 'wrong-initial-state',
+      },
+    },
+  })
 }
 
 describe('add-medication flow store', () => {
@@ -47,6 +76,14 @@ describe('add-medication flow store', () => {
 
     expect(store.get(petAtom)).toEqual(gingerFixture)
     expect(store.get(medicationsAtom)).toEqual([])
+    expect(store.get(showMedicationHintAtom)).toBe(false)
+  })
+
+  it('turns on the medication hint flag when supplied', () => {
+    const store = addMedicationFlow.createStore({ showMedicationHint: true })
+
+    expect(store.get(showMedicationHintAtom)).toBe(true)
+    expect(store.get(petAtom)).toEqual(gingerFixture)
   })
 
   it('overrides only the supplied initial-state fields', () => {

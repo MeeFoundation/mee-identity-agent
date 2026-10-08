@@ -28,6 +28,7 @@ export const emptyMedicationDraft: MedicationDraft = { dosage: '', name: '', wit
 export type AddMedicationInitialState = {
   pet?: Pet
   medications?: Medication[]
+  showMedicationHint?: boolean
 }
 
 export type PetCardProps = {
@@ -50,3 +51,5 @@ export const petAtom = atom<Pet>(gingerFixture)
 export const medicationsAtom = atom<Medication[]>([])
 
 export const medicationDraftAtom = atom<MedicationDraft>(emptyMedicationDraft)
+
+export const showMedicationHintAtom = atom(false)
