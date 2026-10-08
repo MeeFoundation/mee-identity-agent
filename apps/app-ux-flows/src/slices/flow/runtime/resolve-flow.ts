@@ -1,12 +1,16 @@
-import type { ComponentEnvironment, FlowDefinition, FlowStore, ScreenComponent } from './define-flow'
+import type { ComponentEnvironment, DesignFrame, FlowDefinition, FlowStore, ScreenComponent } from './define-flow'
 
 export type ResolvedFlow<S extends string, C extends ComponentEnvironment, I extends object> = {
   flowId: string
   variantId: string | null
+  code: string | null
+  variantCode: string | null
   titleKey: string
+  descriptionKey: string | null
   initialScreen: S
   screens: Partial<Record<S, ScreenComponent>>
   components: C
+  designFrames: Partial<Record<S, DesignFrame>>
   createStore(initialState?: I): FlowStore
 }
 
@@ -46,15 +50,19 @@ const createResolvedFlow = <S extends string, C extends ComponentEnvironment, I 
   const variantState = variant?.initialState
 
   return {
+    code: flow.code ?? null,
     components: { ...flow.components, ...variant?.components },
     createStore: (initialState) =>
       flow.createStore(
         variantState && initialState ? { ...variantState, ...initialState } : (initialState ?? variantState),
       ),
+    descriptionKey: flow.descriptionKey ?? null,
+    designFrames: { ...flow.designFrames, ...variant?.designFrames },
     flowId: flow.id,
     initialScreen: flow.initialScreen,
     screens,
     titleKey: flow.titleKey,
+    variantCode: variant?.code ?? null,
     variantId,
   }
 }

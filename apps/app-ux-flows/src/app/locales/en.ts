@@ -12,62 +12,109 @@ export const en = {
     },
   },
   flows: {
-    addMedication: {
-      alternativeHome: {
-        medicationCount_one: '{{count}} medication tracked',
-        medicationCount_other: '{{count}} medications tracked',
-        title: 'Care for {{name}}',
-      },
-      confirmation: {
-        addMedication: 'Add a medication',
-        backToPet: 'Back to pet',
-        emptyBody: '{{name}} has no medications yet.',
-        emptyTitle: 'Nothing added yet',
-        finish: 'Finish',
-        startOver: 'Start over',
-        title: 'Medication added',
-      },
-      form: {
-        dosageLabel: 'Dosage',
-        hint: 'You can find the name and dosage on the medication label.',
-        nameLabel: 'Medication name',
+    expPet002: {
+      addForm: {
+        description: {
+          medication: 'A medication record everyone with access to this pod can see — dose, frequency, and schedule.',
+        },
         save: 'Save',
-        title: 'Add medication',
-        withFoodLabel: 'Give with food',
+        templateLabel: 'Form template',
+        templates: {
+          contactInfo: 'Contact Info',
+          medication: 'Medication',
+          pet: 'Pet',
+          petCareAndFeeding: 'Pet Care & Feeding',
+        },
+        title: 'Add form',
       },
-      home: {
+      aiSuggestion: {
         addMedication: 'Add medication',
-        addMedicationDescription: 'Track a new medication for {{name}}',
-        medicationsTitle: 'Medications',
-        noMedications: 'No medications yet.',
-        title: 'Pet overview',
+        caption: 'AI Suggestion',
+      },
+      categories: {
+        attachments: 'Attachments',
+        medical: 'Medical',
+        members: 'Members',
+        subpods: 'Subpods',
+      },
+      description: 'Compares adding a pet medication through manual entry points with a one-tap AI suggestion.',
+      forms: {
+        addContactInfo: 'Add contact info',
+        addForm: 'Add form',
+        createForm: 'Create form',
+        emptyMessage: 'Forms help you hold this pod’s info.',
+        emptyTitle: 'You have no forms yet',
+        title: 'Forms',
+      },
+      medical: {
+        addMedication: 'Add medication',
+        emptyMessage: 'Medications help you track what {{name}} takes.',
+        emptyTitle: 'No medications yet',
+        sectionTitle: 'Medications',
+        title: 'Medical',
       },
       medication: {
-        summary: '{{name}}: {{dosage}}',
-        summaryWithFood: '{{name}}: {{dosage}}, with food',
+        fields: {
+          activeIngredient: 'Medication / Active ingredient',
+          brandName: 'Brand name',
+          dose: 'Dose',
+          doseForm: 'Dose form',
+          frequency: 'Frequency',
+          manufacturer: 'Manufacturer',
+          startDate: 'Start date',
+        },
+        formTitle: 'Medication',
+        frequency_one: 'Once per day',
+        frequency_other: '{{count}} times per day',
       },
-      petCard: {
-        details_one: '{{species}}, {{count}} year old',
-        details_other: '{{species}}, {{count}} years old',
+      notes: {
+        placeholder:
+          'add your notes here and explore more capabilities of the pod by adding forms and chatting with the Telli agent',
+        toolbar: {
+          alignLeft: 'Align left',
+          alignRight: 'Align right',
+          blockquote: 'Quote',
+          bold: 'Bold',
+          codeBlock: 'Code block',
+          image: 'Insert image',
+          indent: 'Indent',
+          inlineCode: 'Inline code',
+          italic: 'Italic',
+          label: 'Formatting',
+          link: 'Insert link',
+          orderedList: 'Numbered list',
+          outdent: 'Outdent',
+          paragraph: 'Paragraph',
+          strikethrough: 'Strikethrough',
+          underline: 'Underline',
+          unorderedList: 'Bulleted list',
+        },
       },
-      title: 'Add medication',
+      tabs: {
+        chat: 'Chat',
+        info: 'Info',
+        notes: 'Notes',
+      },
+      title: 'Medication entry point',
       variants: {
-        alternativeHome: {
-          description: 'Action-first home screen',
-          name: 'Alternative home',
+        a: {
+          description: 'Manual entry points: Add form and the Medical category.',
+          name: 'Manual entry',
         },
-        control: {
-          name: 'Control',
-        },
-        prominentAction: {
-          description: 'Prominent Add Medication action with a form hint',
-          name: 'Prominent action',
+        b: {
+          description: 'Manual entry points plus a one-tap AI suggestion.',
+          name: 'AI suggestion',
         },
       },
     },
   },
   home: {
     assignedVariant: 'Assigned variant (dev only): {{variant}}',
+    catalogue: {
+      baseFlow: 'Base flow',
+      noFrame: 'No Figma frame',
+      title: 'Experiment catalogue (dev only)',
+    },
     chooseVariant: 'Choose version:',
     newSession: 'Start new test session',
     start: 'Start',
@@ -78,8 +125,21 @@ export const en = {
     title: 'Page not found',
   },
   ui: {
+    bottomSheet: {
+      close: 'Close',
+    },
+    categoryRow: {
+      label: '{{label}}, {{count}}',
+    },
+    formCard: {
+      edit: 'Edit {{field}}',
+    },
     header: {
       back: 'Back',
+    },
+    podTopBar: {
+      back: 'Back',
+      menu: 'More options',
     },
   },
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { addMedicationFlow } from './flows/add-medication/flow'
+import { expPet002Flow } from './flows/exp-pet-002/flow'
 import { findFlow, hasScreen, listFlows } from './registry'
 import { resolveFlow } from './runtime/resolve-flow'
 
@@ -11,11 +11,11 @@ const listVariantIds = (variants: object | undefined): (string | null)[] =>
 
 describe('flow registry', () => {
   it('lists every registered flow', () => {
-    expect(listFlows()).toContain(addMedicationFlow)
+    expect(listFlows()).toContain(expPet002Flow)
   })
 
   it('resolves a known flow id', () => {
-    expect(findFlow(addMedicationFlow.id)).toBe(addMedicationFlow)
+    expect(findFlow(expPet002Flow.id)).toBe(expPet002Flow)
   })
 
   it('returns undefined for an unknown flow id instead of throwing', () => {
@@ -24,9 +24,9 @@ describe('flow registry', () => {
   })
 
   it('checks screen ids against the resolved flow screens', () => {
-    const flow = resolveFlow(addMedicationFlow, 'control')
+    const flow = resolveFlow(expPet002Flow, 'a')
 
-    expect(hasScreen(flow, 'medication-form')).toBe(true)
+    expect(hasScreen(flow, 'medical')).toBe(true)
     expect(hasScreen(flow, 'does-not-exist')).toBe(false)
     expect(hasScreen(flow, 'constructor')).toBe(false)
   })

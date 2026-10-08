@@ -124,6 +124,43 @@ describe('resolveFlow', () => {
     expect(() => resolveFlow(brokenFlow, null)).toThrow()
   })
 
+  it('resolves a flow without metadata to empty metadata', () => {
+    const resolved = resolveFlow(noVariantFlow, null)
+
+    expect(resolved.code).toBeNull()
+    expect(resolved.variantCode).toBeNull()
+    expect(resolved.descriptionKey).toBeNull()
+    expect(resolved.designFrames).toEqual({})
+  })
+
+  it('exposes codes and lets a variant override individual design frames', () => {
+    const homeFrame = { name: 'EXP-1-A - Home', url: 'https://figma.example/home-a' }
+    const formFrame = { name: 'EXP-1-A - Form', url: 'https://figma.example/form-a' }
+    const variantHomeFrame = { name: 'EXP-1-B - Home', url: 'https://figma.example/home-b' }
+    const experimentFlow = defineFlow<'home' | 'form', { Footer: typeof Footer }, FixtureState>({
+      ...noVariantFlow,
+      code: 'EXP-1',
+      descriptionKey: 'experiment.description',
+      designFrames: { form: formFrame, home: homeFrame },
+      id: 'experiment',
+      screens: { form: FormScreen, home: HomeScreen },
+      variants: {
+        a: { code: 'EXP-1-A', nameKey: 'a' },
+        b: { code: 'EXP-1-B', designFrames: { home: variantHomeFrame }, nameKey: 'b' },
+      },
+    })
+
+    const a = resolveFlow(experimentFlow, 'a')
+    expect(a.code).toBe('EXP-1')
+    expect(a.variantCode).toBe('EXP-1-A')
+    expect(a.descriptionKey).toBe('experiment.description')
+    expect(a.designFrames).toEqual({ form: formFrame, home: homeFrame })
+
+    const b = resolveFlow(experimentFlow, 'b')
+    expect(b.variantCode).toBe('EXP-1-B')
+    expect(b.designFrames).toEqual({ form: formFrame, home: variantHomeFrame })
+  })
+
   it('returns the same resolved flow for repeated calls', () => {
     expect(resolveFlow(fixtureFlow, 'prominent')).toBe(resolveFlow(fixtureFlow, 'prominent'))
     expect(resolveFlow(fixtureFlow, 'prominent')).not.toBe(resolveFlow(fixtureFlow, 'control'))

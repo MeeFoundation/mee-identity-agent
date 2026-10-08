@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/shared/ui/button'
+import type { FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
+
+import { FlowCatalogue } from './flow-catalogue'
 
 type VariantChoice = {
   id: string
@@ -11,17 +14,21 @@ type VariantChoice = {
 type FlowLauncher = {
   id: string
   titleKey: string
+  descriptionKey: string | null
   variantChoices: readonly VariantChoice[] | null
   assignedVariantId: string | null
+  catalogue: FlowCatalogueData | null
 }
 
 type HomePageProps = {
   flows: readonly FlowLauncher[]
   onStartFlow: (flowId: string, variantId?: string) => void
   onStartNewSession: () => void
+  screenHref: (flowId: string, screenId: string, variantId: string | null) => string
+  onOpenScreen: (href: string) => void
 }
 
-export const HomePage = ({ flows, onStartFlow, onStartNewSession }: HomePageProps) => {
+export const HomePage = ({ flows, onStartFlow, onStartNewSession, screenHref, onOpenScreen }: HomePageProps) => {
   const { t } = useTranslation()
 
   return (
@@ -37,7 +44,10 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession }: HomePageProp
       <ul className="mx-auto grid max-w-5xl gap-4 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
         {flows.map((flow) => (
           <li className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5" key={flow.id}>
-            <h2 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h2>
+            <div className="flex flex-col gap-1">
+              <h2 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h2>
+              {flow.descriptionKey && <p className="text-muted-foreground text-sm">{t(flow.descriptionKey)}</p>}
+            </div>
             {flow.variantChoices ? (
               <div className="flex flex-col gap-3">
                 <p className="text-muted-foreground text-sm">{t('home.chooseVariant')}</p>
@@ -59,10 +69,19 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession }: HomePageProp
                 {t('home.start')}
               </Button>
             )}
-            {flow.assignedVariantId && (
-              <small className="text-muted-foreground text-xs">
-                {t('home.assignedVariant', { variant: flow.assignedVariantId })}
-              </small>
+            {flow.catalogue ? (
+              <FlowCatalogue
+                assignedVariantId={flow.assignedVariantId}
+                catalogue={flow.catalogue}
+                onOpenScreen={onOpenScreen}
+                screenHref={screenHref}
+              />
+            ) : (
+              flow.assignedVariantId && (
+                <small className="text-muted-foreground text-xs">
+                  {t('home.assignedVariant', { variant: flow.assignedVariantId })}
+                </small>
+              )
             )}
           </li>
         ))}
