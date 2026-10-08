@@ -9,7 +9,7 @@ const HomeRoute = () => {
   const { flows } = homeRoute.useLoaderData()
   const navigate = useNavigate()
 
-  return <HomePage flows={flows} onStartFlow={(flowId) => navigate({ params: { flowId }, to: '/$flowId' })} />
+  return <HomePage flows={flows} onStartFlow={(flowId) => navigate({ params: { flowId }, to: '/flows/$flowId' })} />
 }
 
 export const homeRoute = createRoute({

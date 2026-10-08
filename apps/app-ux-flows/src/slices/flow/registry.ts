@@ -1,10 +1,12 @@
-import { exampleFlow } from './flows/example-flow'
-import type { Flow } from './model'
+import { addMedicationFlow } from './flows/add-medication/flow'
+import type { ComponentEnvironment, FlowDefinition } from './runtime/define-flow'
 
-const flows: ReadonlyMap<string, Flow> = new Map([exampleFlow].map((flow) => [flow.id, flow]))
+type AnyFlow = FlowDefinition<string, ComponentEnvironment, never>
 
-export const listFlows = (): readonly Flow[] => [...flows.values()]
+const flows: ReadonlyMap<string, AnyFlow> = new Map([addMedicationFlow].map((flow) => [flow.id, flow]))
 
-export const findFlow = (flowId: string): Flow | undefined => flows.get(flowId)
+export const listFlows = (): readonly AnyFlow[] => [...flows.values()]
 
-export const hasScreen = (flow: Flow, screenId: string) => flow.screens.some((screen) => screen.id === screenId)
+export const findFlow = (flowId: string): AnyFlow | undefined => flows.get(flowId)
+
+export const hasScreen = (flow: AnyFlow, screenId: string) => Object.hasOwn(flow.screens, screenId)
