@@ -87,6 +87,48 @@ export const en = {
         },
       },
     },
+    scPet001: {
+      description: 'Create a pod for your cat by name, then add pet structure from a suggested template.',
+      home: {
+        addPod: 'Add Pod',
+        maybeLater: 'Maybe later',
+        message:
+          'A Pod is a private little room for any info — your kid, a trip, a project. Fill it with info, files, and notes and start collaborating. Every Pod you create or receive from others is automatically organized into Tellipod categories.',
+        title: 'Create your first Pod',
+        userInitial: 'A',
+        welcome: 'Welcome, Alice',
+      },
+      newPod: {
+        category: 'Category',
+        chooseCategory: 'Choose category',
+        create: 'Create Pod',
+        created: 'Pod created',
+        description:
+          'A digital room for one part of your life. You’ll invite people and add things once this Pod is created.',
+        name: 'Pod name',
+        role: 'Your role in this Pod',
+        title: 'New Pod',
+      },
+      pod: {
+        addForm: 'Add form',
+        attachments: 'Attachments',
+        emptyMessage: 'Forms help you hold this pod’s information.',
+        emptyTitle: 'You have no forms yet.',
+        forms: 'Forms',
+        members: 'Members',
+        subpods: 'Subpods',
+        tabs: {
+          chat: 'Chat',
+          info: 'Info',
+          notes: 'Notes',
+        },
+      },
+      suggestion: {
+        notNow: 'Not now',
+        useTemplate: 'Use template',
+      },
+      title: 'Create Ginger',
+    },
   },
   home: {
     assignedVariant: 'Assigned variant (dev only): {{variant}}',
@@ -109,6 +151,22 @@ export const en = {
     title: 'Page not found',
   },
   pods: {
+    catalog: {
+      forms: {
+        pet: 'Pet information',
+      },
+      suggestions: {
+        pets: {
+          message: 'Add a Pet template to keep medical, care and feeding information organized.',
+          title: 'Is {{name}} a pet?',
+        },
+      },
+      templates: {
+        pets: {
+          structure: 'Pet information',
+        },
+      },
+    },
     ginger: {
       categories: {
         attachments: 'Attachments',

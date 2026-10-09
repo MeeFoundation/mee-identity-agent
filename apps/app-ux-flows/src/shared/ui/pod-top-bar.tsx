@@ -2,9 +2,12 @@ import { Fragment, type ReactNode } from 'react'
 import { ChevronLeft, ChevronRight, type Icon, ThreeDotsVertical } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
+// A pod without a photo shows the first letter of its name instead.
+type PodAvatar = { src: string } | { letter: string }
+
 type PodTopBarProps = {
   title: string
-  avatarSrc: string
+  avatar: PodAvatar
   breadcrumb: readonly string[]
   breadcrumbIcon?: Icon
   // Ends the breadcrumb with a chevron, as on sub-pods that link back to their parent.
@@ -19,7 +22,7 @@ const iconButtonClassName =
 
 export const PodTopBar = ({
   title,
-  avatarSrc,
+  avatar,
   breadcrumb,
   breadcrumbIcon: BreadcrumbIcon,
   breadcrumbTrailingChevron = false,
@@ -37,7 +40,22 @@ export const PodTopBar = ({
             <ChevronLeft aria-hidden className="text-gray-700" size={24} />
           </button>
           <div className="flex min-w-0 flex-1 items-center gap-3">
-            <img alt="" className="size-12 shrink-0 rounded-full object-cover" height={48} src={avatarSrc} width={48} />
+            {'src' in avatar ? (
+              <img
+                alt=""
+                className="size-12 shrink-0 rounded-full object-cover"
+                height={48}
+                src={avatar.src}
+                width={48}
+              />
+            ) : (
+              <span
+                aria-hidden
+                className="flex size-12 shrink-0 items-center justify-center rounded-full bg-brand-50 font-medium text-brand-700 text-lg"
+              >
+                {avatar.letter}
+              </span>
+            )}
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">
               <h1 className="truncate font-medium text-base text-gray-900">{title}</h1>
               <p className="flex h-4 items-center gap-1 text-brand-700 text-xs">

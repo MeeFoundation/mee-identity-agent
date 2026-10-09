@@ -28,7 +28,7 @@ export const MedicalView = () => {
     <PodScreen
       topBar={
         <PodTopBar
-          avatarSrc={pod.avatarSrc}
+          avatar={{ src: pod.avatarSrc }}
           breadcrumb={[pod.name]}
           breadcrumbIcon={Hearts}
           breadcrumbTrailingChevron

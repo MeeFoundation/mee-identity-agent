@@ -18,13 +18,12 @@ A Flow SHALL be a self-contained interactive UX scenario consisting of one or mo
 
 A Flow MAY additionally declare:
 - a human-readable description,
-- a design reference for any of its screens: the name of the Figma frame the screen implements and that frame's URL.
+- a design reference for any of its screens: the name of the Figma frame the screen implements and that frame's URL,
+- a display code that identifies it, for example `EXP-PET-002` for an experiment or `SC-PET-001` for a research scenario shown as a showcase.
 
-An experiment MAY additionally declare:
-- variants and a variant selection mode, as defined by the `app-ux-flows/flow-variants` capability,
-- a display code that identifies it, for example `EXP-PET-002`.
+An experiment MAY additionally declare variants and a variant selection mode, as defined by the `app-ux-flows/flow-variants` capability.
 
-A showcase SHALL NOT declare variants, a variant selection mode, a default variant or a display code. Declaring any of them on a showcase SHALL fail type checking.
+A showcase SHALL NOT declare variants, a variant selection mode or a default variant. Declaring any of them on a showcase SHALL fail type checking.
 
 The title and description SHALL be shown through i18next. Display codes and Figma frame names are design identifiers. They SHALL be shown verbatim and are not translated. A flow SHALL NOT declare a design link for the flow as a whole.
 
@@ -59,8 +58,12 @@ A screen id MAY be declared as unavailable in the base flow so that only variant
 - **THEN** `pnpm check-types` reports an error
 
 #### Scenario: Showcase cannot have variants
-- **WHEN** a showcase definition declares variants, a variant selection mode, a default variant or a display code
+- **WHEN** a showcase definition declares variants, a variant selection mode or a default variant
 - **THEN** `pnpm check-types` reports an error
+
+#### Scenario: Showcase with a display code
+- **WHEN** a showcase definition declares the display code `SC-PET-001`
+- **THEN** `pnpm check-types` passes, and the development flow catalogue shows `SC-PET-001` verbatim for that showcase
 
 ### Requirement: Flow Registry
 The application SHALL maintain a registry of all available flows, mapping each flow id to its flow definition. The registry SHALL be the single source of truth for which flows exist, used both to list flows on the home page and to resolve a flow by id from a URL.

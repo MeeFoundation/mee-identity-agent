@@ -41,7 +41,7 @@ Screens that variant B shares with A unchanged SHALL keep A's references.
 - **THEN** the Info tab is shown in variant B, whatever the stored assignment
 
 ### Requirement: Pod fixture and server-provided medication record
-A run SHALL start from a pod fixture and a medication record. The pod fixture is the pet pod "Ginger": avatar photo, breadcrumb "Pets > Care & Feeding", and one member. The medication record stands for data that already exists on the server and is passed into the flow. Its shape SHALL follow the Tellipod Pets ontology's `pets:Medication`:
+A run SHALL start from a pod fixture and a medication record. The pod fixture is the pet pod "Ginger": avatar photo, breadcrumb "Pets", and one member. The breadcrumb names only the `podcat:Pets` category, because Ginger is itself a Pets pod; Care & Feeding and Medical are sub-pods of Ginger, not its parents. The medication record stands for data that already exists on the server and is passed into the flow. Its shape SHALL follow the Tellipod Pets ontology's `pets:Medication`:
 - one or more active ingredients, each an ontology term with IRI and label (ChEBI),
 - an optional brand name,
 - an optional manufacturer,
@@ -68,6 +68,10 @@ At run start the Medication form SHALL NOT yet be added to the pod. No screen SH
 #### Scenario: Supplied record
 - **WHEN** a run starts with a supplied record whose brand name is "Baytril" and the participant adds the Medication form
 - **THEN** the form shows "Baytril" as the brand name
+
+#### Scenario: Ginger breadcrumb
+- **WHEN** a participant opens `ginger-notes`
+- **THEN** the pod top bar's breadcrumb reads "Pets" and nothing after it
 
 ### Requirement: Pod tabs
 `ginger-notes`, `ginger-info` and `medication-added` SHALL show the pod top bar with three tabs: Notes, Chat and Info. The bar has a back control, the Ginger avatar, the title "Ginger", the breadcrumb and a menu control. Activating Notes SHALL show `ginger-notes`. Activating Info SHALL show `ginger-info`. Activating Chat, the menu control or the back control SHALL do nothing. The tab for the current screen SHALL be shown as selected. On `medication-added` that is Info.

@@ -32,6 +32,8 @@ export type FlowKind = 'experiment' | 'showcase'
 
 type FlowBase<S extends string, C extends ComponentEnvironment, I extends object> = {
   id: string
+  // Design identifier such as `EXP-PET-002` or `SC-PET-001`, shown verbatim.
+  code?: string
   titleKey: string
   descriptionKey?: string
   initialScreen: NoInfer<S>
@@ -45,8 +47,6 @@ type FlowBase<S extends string, C extends ComponentEnvironment, I extends object
 
 type ExperimentDefinition<S extends string, C extends ComponentEnvironment, I extends object> = FlowBase<S, C, I> & {
   kind: 'experiment'
-  // Design identifier such as `EXP-PET-002`, shown verbatim.
-  code?: string
   variants?: Readonly<Record<string, VariantDefinition<NoInfer<S>, NoInfer<C>, NoInfer<I>>>>
   variantSelection?: VariantSelection
   // Explicit selection falls back to this variant, or to the first variant key when omitted.
@@ -56,7 +56,6 @@ type ExperimentDefinition<S extends string, C extends ComponentEnvironment, I ex
 // `never` members keep these fields readable on the union while forbidding them on showcases.
 type ShowcaseDefinition<S extends string, C extends ComponentEnvironment, I extends object> = FlowBase<S, C, I> & {
   kind: 'showcase'
-  code?: never
   variants?: never
   variantSelection?: never
   defaultVariant?: never

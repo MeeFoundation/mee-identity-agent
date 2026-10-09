@@ -15,16 +15,15 @@ const base = {
 }
 
 describe('defineFlow typing', () => {
-  it('requires a kind and forbids variants and codes on showcases at compile time', () => {
+  it('requires a kind and forbids variants on showcases at compile time', () => {
     const experiment = defineFlow({ ...base, code: 'EXP-1', kind: 'experiment', variants: { a: { nameKey: 'a' } } })
     const showcase = defineFlow({ ...base, kind: 'showcase' })
+    const researchScenario = defineFlow({ ...base, code: 'SC-PET-001', kind: 'showcase' })
 
     // @ts-expect-error a flow must declare its kind
     defineFlow({ ...base })
     // @ts-expect-error showcases cannot declare variants
     defineFlow({ ...base, kind: 'showcase', variants: { a: { nameKey: 'a' } } })
-    // @ts-expect-error showcases cannot declare a display code
-    defineFlow({ ...base, code: 'SHW-1', kind: 'showcase' })
     // @ts-expect-error showcases cannot declare a variant selection mode
     defineFlow({ ...base, kind: 'showcase', variantSelection: 'automatic' })
     // @ts-expect-error showcases cannot declare a default variant
@@ -32,5 +31,6 @@ describe('defineFlow typing', () => {
 
     expect(experiment.kind).toBe('experiment')
     expect(showcase.kind).toBe('showcase')
+    expect(researchScenario.code).toBe('SC-PET-001')
   })
 })

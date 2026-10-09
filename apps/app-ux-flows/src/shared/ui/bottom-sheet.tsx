@@ -1,4 +1,4 @@
-import { type ReactNode, useRef } from 'react'
+import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useOverlayContainer } from '@/shared/lib/overlay-container'
@@ -20,25 +20,35 @@ type BottomSheetProps = {
   onDismiss: () => void
 }
 
-// Stays open while rendered: the flow shows it as its own screen and dismissing it navigates away.
+// Shown by the flow as its own screen: it slides up once mounted, and on dismiss slides down before the flow navigates away.
 export const BottomSheet = ({ title, description, children, onDismiss }: BottomSheetProps) => {
   const { t } = useTranslation()
   const container = useOverlayContainer()
   const popupRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+
+  // Mounting closed and opening on the next frame gives the open transition a starting point.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setOpen(true))
+    return () => cancelAnimationFrame(frame)
+  }, [])
 
   return (
     <Dialog
-      onOpenChange={(open) => {
-        if (!open) onDismiss()
+      onOpenChange={(next) => {
+        if (!next) setOpen(false)
       }}
-      open
+      onOpenChangeComplete={(isOpen) => {
+        if (!isOpen) onDismiss()
+      }}
+      open={open}
     >
       <DialogPortal container={container}>
-        <DialogBackdrop />
+        <DialogBackdrop className="bg-gray-950/40 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0" />
         <DialogPopup
+          className="absolute inset-x-0 bottom-0 flex max-h-full flex-col overflow-y-auto rounded-t-3xl bg-white pb-[calc(0.5rem+var(--home-indicator-h))] shadow-sheet transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full"
           initialFocus={popupRef}
           ref={popupRef}
-          className="absolute inset-x-0 bottom-0 flex max-h-full flex-col overflow-y-auto rounded-t-3xl bg-white pb-[calc(0.5rem+var(--home-indicator-h))] shadow-sheet transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full"
         >
           <div aria-hidden className="flex h-4 shrink-0 justify-center pt-[5px]">
             <div className="h-1 w-15 rounded-full bg-gray-200" />
