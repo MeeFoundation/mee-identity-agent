@@ -27,6 +27,24 @@ export const en = {
       description: 'Tell Telli about a medication in the pod chat and add it as a form in one tap.',
       title: 'Add medication from chat',
     },
+    expDemo001: {
+      description:
+        'Demo only: shows how an A/B test works when the variants differ by one component, the empty state card.',
+      forms: {
+        addMedication: 'Add medication',
+      },
+      title: 'A/B demo: empty state call to action',
+      variants: {
+        a: {
+          description: 'The standard empty state card with a link-style action.',
+          name: 'A · Control',
+        },
+        b: {
+          description: 'A highlighted empty state card with an icon and a filled primary button.',
+          name: 'B · Prominent call to action',
+        },
+      },
+    },
     expPet002: {
       addForm: {
         description: {

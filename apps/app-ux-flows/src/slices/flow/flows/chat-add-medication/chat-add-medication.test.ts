@@ -17,7 +17,7 @@ describe('chat-add-medication showcase', () => {
     expect(chatAddMedicationFlow.variants).toBeUndefined()
     expect(chatAddMedicationFlow.code).toBeUndefined()
     expect(findFlow('chat-add-medication')).toBe(chatAddMedicationFlow)
-    expect(listFlows().map((flow) => flow.id)).toEqual(['exp-pet-002', 'chat-add-medication'])
+    expect(listFlows().map((flow) => flow.id)).toEqual(['exp-pet-002', 'chat-add-medication', 'exp-demo-001'])
   })
 
   it('starts with an empty chat and the medication not yet added', () => {
