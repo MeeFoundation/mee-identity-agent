@@ -18,6 +18,7 @@ const experimentFlow = defineFlow<'home' | 'extra', Record<string, never>, objec
   designFrames: { home: homeFrame },
   id: 'exp-9',
   initialScreen: 'home',
+  kind: 'experiment',
   screens: { extra: null, home: HomeScreen },
   titleKey: 'exp9.title',
   variants: {
@@ -37,6 +38,7 @@ const plainFlow = defineFlow<'home', Record<string, never>, object>({
   createStore: () => createStore(),
   id: 'plain',
   initialScreen: 'home',
+  kind: 'experiment',
   screens: { home: HomeScreen },
   titleKey: 'plain.title',
 })

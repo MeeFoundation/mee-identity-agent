@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest'
 
 import type { AnalyticsEvent } from '@/shared/analytics/analytics-event'
 
-import { createFlowRunTracker, type FlowRunTrackerOptions, type RunnerState } from './flow-run-tracker'
+import {
+  createFlowRunTracker,
+  type FlowRunTrackerOptions,
+  type RunnerState,
+  selectFlowRunTracker,
+} from './flow-run-tracker'
 import { createRunStorage, type RunStorage } from './run-storage'
 
 const createMemoryStorage = (): RunStorage => {
@@ -326,5 +331,34 @@ describe('flow run tracker', () => {
     tracker.end()
 
     expect(storage.read('exp-pet-002')).toBeNull()
+  })
+})
+
+describe('selectFlowRunTracker', () => {
+  it('never creates a tracker for a showcase, so nothing is recorded or stored', () => {
+    const { create, events, storage } = createHarness()
+    let created = 0
+
+    const tracker = selectFlowRunTracker(false, () => {
+      created += 1
+      return create({ flowId: 'chat-add-medication' })
+    })
+    tracker.sync(state('ginger-notes'))
+    tracker.track('chat', 'message_sent')
+    tracker.sync(state('medication-added', { completed: true }))
+    tracker.restart('medication-added', 'ginger-notes')
+    tracker.end()
+
+    expect(created).toBe(0)
+    expect(events).toEqual([])
+    expect(storage.read('chat-add-medication')).toBeNull()
+  })
+
+  it('creates the real tracker for an experiment', () => {
+    const { create, events } = createHarness()
+
+    selectFlowRunTracker(true, create).sync(state('ginger-notes'))
+
+    expect(names(events)).toEqual(['flow_started:ginger-notes', 'screen_viewed:ginger-notes'])
   })
 })

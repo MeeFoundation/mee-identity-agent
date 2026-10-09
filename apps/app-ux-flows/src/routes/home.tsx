@@ -51,6 +51,7 @@ export const homeRoute = createRoute({
       catalogue: import.meta.env.DEV ? listFlowCatalogue(flow) : null,
       descriptionKey: flow.descriptionKey ?? null,
       id: flow.id,
+      kind: flow.kind,
       titleKey: flow.titleKey,
       variantChoices: listVariantChoices(flow),
     })),

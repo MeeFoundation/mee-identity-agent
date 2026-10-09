@@ -16,7 +16,11 @@ export default defineConfig({
       '@/slices': fromSrc('slices'),
     },
   },
-  server:{ 
+  server:{
     port: 5179,
-  }
+  },
+  test: {
+    // Keeps a local Matomo setup in .env.local from loading the browser-only adapter in Node.
+    env: { VITE_MATOMO_URL: '' },
+  },
 })

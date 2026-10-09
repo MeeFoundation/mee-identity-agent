@@ -2,16 +2,10 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { Hearts } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
+import { MedicationFormCard } from '../../../pods/ginger/components/medication-form-card'
+import { medicationFormAddedAtom, podAtom } from '../../../pods/ginger/model'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import {
-  type ExpPet002Components,
-  type ExpPet002Events,
-  type ExpPet002ScreenId,
-  medicationFormAddedAtom,
-  podAtom,
-  sheetOriginAtom,
-} from '../model'
-import { MedicationFormCard } from './medication-form-card'
+import { type ExpPet002Components, type ExpPet002Events, type ExpPet002ScreenId, sheetOriginAtom } from '../model'
 
 const noop = () => {}
 
@@ -50,9 +44,8 @@ export const MedicalView = () => {
           <MedicationFormCard />
         ) : (
           <EmptyStateCard
-            actionLabel={t('flows.expPet002.medical.addMedication')}
+            action={{ label: t('flows.expPet002.medical.addMedication'), onAction: openAddForm }}
             message={t('flows.expPet002.medical.emptyMessage', { name: pod.name })}
-            onAction={openAddForm}
             title={t('flows.expPet002.medical.emptyTitle')}
           />
         )}

@@ -1,24 +1,14 @@
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/shared/ui/button'
-import type { FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
 
-import { FlowCatalogue } from './flow-catalogue'
+import { FlowCard, type FlowLauncher } from './flow-card'
+import { groupFlowsByKind } from './group-flows'
 
-type VariantChoice = {
-  id: string
-  nameKey: string
-  descriptionKey?: string
-}
-
-type FlowLauncher = {
-  id: string
-  titleKey: string
-  descriptionKey: string | null
-  variantChoices: readonly VariantChoice[] | null
-  assignedVariantId: string | null
-  catalogue: FlowCatalogueData | null
-}
+const sectionTitleKeys = {
+  experiment: 'home.sections.experiments',
+  showcase: 'home.sections.showcases',
+} as const
 
 type HomePageProps = {
   flows: readonly FlowLauncher[]
@@ -41,51 +31,26 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession, screenHref, on
           </Button>
         </div>
       </header>
-      <ul className="mx-auto grid max-w-5xl gap-4 px-6 py-8 sm:grid-cols-2 lg:grid-cols-3">
-        {flows.map((flow) => (
-          <li className="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5" key={flow.id}>
-            <div className="flex flex-col gap-1">
-              <h2 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h2>
-              {flow.descriptionKey && <p className="text-muted-foreground text-sm">{t(flow.descriptionKey)}</p>}
-            </div>
-            {flow.variantChoices ? (
-              <div className="flex flex-col gap-3">
-                <p className="text-muted-foreground text-sm">{t('home.chooseVariant')}</p>
-                <ul className="flex flex-col gap-3">
-                  {flow.variantChoices.map((choice) => (
-                    <li className="flex flex-col gap-1" key={choice.id}>
-                      <Button onClick={() => onStartFlow(flow.id, choice.id)} variant="outlined">
-                        {t(choice.nameKey)}
-                      </Button>
-                      {choice.descriptionKey && (
-                        <span className="text-muted-foreground text-xs">{t(choice.descriptionKey)}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : (
-              <Button className="self-start" onClick={() => onStartFlow(flow.id)}>
-                {t('home.start')}
-              </Button>
-            )}
-            {flow.catalogue ? (
-              <FlowCatalogue
-                assignedVariantId={flow.assignedVariantId}
-                catalogue={flow.catalogue}
-                onOpenScreen={onOpenScreen}
-                screenHref={screenHref}
-              />
-            ) : (
-              flow.assignedVariantId && (
-                <small className="text-muted-foreground text-xs">
-                  {t('home.assignedVariant', { variant: flow.assignedVariantId })}
-                </small>
-              )
-            )}
-          </li>
+      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-8">
+        {groupFlowsByKind(flows).map((section) => (
+          <section aria-labelledby={`flows-${section.kind}`} className="flex flex-col gap-4" key={section.kind}>
+            <h2 className="font-semibold text-gray-900 text-xl" id={`flows-${section.kind}`}>
+              {t(sectionTitleKeys[section.kind])}
+            </h2>
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {section.flows.map((flow) => (
+                <FlowCard
+                  flow={flow}
+                  key={flow.id}
+                  onOpenScreen={onOpenScreen}
+                  onStartFlow={onStartFlow}
+                  screenHref={screenHref}
+                />
+              ))}
+            </ul>
+          </section>
         ))}
-      </ul>
+      </div>
     </main>
   )
 }

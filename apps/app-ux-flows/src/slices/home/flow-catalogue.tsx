@@ -29,10 +29,10 @@ export const FlowCatalogue = ({ catalogue, assignedVariantId, screenHref, onOpen
         {catalogue.variants.map((variant) => (
           <section className="flex flex-col gap-2" key={variant.variantId ?? ''}>
             <header className="flex flex-col gap-0.5">
-              <h3 className="font-semibold text-gray-900">
+              <h4 className="font-semibold text-gray-900">
                 {variant.code && <span className="mr-2 font-mono text-xs">{variant.code}</span>}
                 {variant.nameKey ? t(variant.nameKey) : t('home.catalogue.baseFlow')}
-              </h3>
+              </h4>
               {variant.descriptionKey && <p className="text-muted-foreground text-xs">{t(variant.descriptionKey)}</p>}
             </header>
             <ul className="flex flex-col gap-1.5">

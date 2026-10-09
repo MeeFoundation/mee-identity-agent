@@ -53,6 +53,7 @@ export const FlowRunner = <S extends string, C extends ComponentEnvironment, I e
   const tracker = useFlowRunAnalytics({
     completed: run.status === 'completed',
     completionViewShowing: showCompletionView,
+    enabled: flow.kind === 'experiment',
     flowId: flow.flowId,
     runKey: run.id,
     screenId,

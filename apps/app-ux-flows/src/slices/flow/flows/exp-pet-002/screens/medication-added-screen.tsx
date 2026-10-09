@@ -1,9 +1,9 @@
 import { useSetAtom } from 'jotai'
 import { useLayoutEffect } from 'react'
 
+import { addMedicationFormAtom } from '../../../pods/ginger/model'
 import { useFlowNavigation } from '../../../runtime/flow-context'
 import { PodInfoView } from '../components/pod-info-view'
-import { addMedicationFormAtom } from '../model'
 
 export const MedicationAddedScreen = () => {
   const addMedicationForm = useSetAtom(addMedicationFormAtom)

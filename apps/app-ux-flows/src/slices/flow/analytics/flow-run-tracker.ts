@@ -180,3 +180,11 @@ export const createFlowRunTracker = (options: FlowRunTrackerOptions): FlowRunTra
     },
   }
 }
+
+const ignore = () => {}
+
+const disabledFlowRunTracker: FlowRunTracker = { end: ignore, restart: ignore, sync: ignore, track: ignore }
+
+// Showcases are not tracked: no run id, no stored run and no events, so the real tracker is never created.
+export const selectFlowRunTracker = (enabled: boolean, create: () => FlowRunTracker): FlowRunTracker =>
+  enabled ? create() : disabledFlowRunTracker

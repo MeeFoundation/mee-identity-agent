@@ -4,7 +4,7 @@ import type { VariantSource } from '@/shared/analytics/analytics-event'
 import { useAnalytics } from '@/shared/analytics/analytics-provider'
 import { createRandomId } from '@/shared/analytics/random-id'
 
-import { createFlowRunTracker } from './flow-run-tracker'
+import { createFlowRunTracker, selectFlowRunTracker } from './flow-run-tracker'
 import { browserRunStorage } from './run-storage'
 
 const entryPath = typeof window === 'undefined' ? '' : window.location.pathname
@@ -31,6 +31,8 @@ const warnInDev = (message: string) => {
 }
 
 type FlowRunAnalyticsInput = {
+  // Fixed for the runner's lifetime, because the runner is remounted per flow.
+  enabled: boolean
   flowId: string
   variantId: string | null
   variantSource: VariantSource
@@ -41,6 +43,7 @@ type FlowRunAnalyticsInput = {
 }
 
 export const useFlowRunAnalytics = ({
+  enabled,
   flowId,
   variantId,
   variantSource,
@@ -51,19 +54,21 @@ export const useFlowRunAnalytics = ({
 }: FlowRunAnalyticsInput) => {
   const sink = useAnalytics()
   const [tracker] = useState(() =>
-    createFlowRunTracker({
-      consumeFirstMount,
-      createId: createRandomId,
-      entryPath,
-      flowId,
-      navigationType: readNavigationType(),
-      now: Date.now,
-      sink,
-      storage: browserRunStorage,
-      variantId,
-      variantSource,
-      warn: warnInDev,
-    }),
+    selectFlowRunTracker(enabled, () =>
+      createFlowRunTracker({
+        consumeFirstMount,
+        createId: createRandomId,
+        entryPath,
+        flowId,
+        navigationType: readNavigationType(),
+        now: Date.now,
+        sink,
+        storage: browserRunStorage,
+        variantId,
+        variantSource,
+        warn: warnInDev,
+      }),
+    ),
   )
 
   useEffect(() => {

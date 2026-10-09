@@ -12,6 +12,7 @@ const baseFlow = defineFlow<'home', Record<string, never>, object>({
   createStore: () => createJotaiStore(),
   id: 'fixture',
   initialScreen: 'home',
+  kind: 'experiment',
   screens: { home: HomeScreen },
   titleKey: 'fixture.title',
 })

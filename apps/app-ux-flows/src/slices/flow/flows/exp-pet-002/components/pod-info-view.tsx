@@ -1,22 +1,18 @@
 import { useAtomValue, useSetAtom } from 'jotai'
-import { Diagram3, FolderPlus, Paperclip, People } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
+import { GingerCategoryRows } from '../../../pods/ginger/components/ginger-category-rows'
+import { GingerFormsSection } from '../../../pods/ginger/components/ginger-forms-section'
+import { addMedicationFormAtom, medicationFormAddedAtom } from '../../../pods/ginger/model'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import {
-  addMedicationFormAtom,
   type ExpPet002Components,
   type ExpPet002Events,
   type ExpPet002ScreenId,
-  medicationFormAddedAtom,
-  podAtom,
   sheetOriginAtom,
   showAiSuggestionAtom,
 } from '../model'
-import { GingerTopBar } from './ginger-top-bar'
-import { MedicationFormCard } from './medication-form-card'
-
-const noop = () => {}
+import { ExpPet002TopBar } from './exp-pet-002-top-bar'
 
 type PodInfoViewProps = {
   // `medication-added` shows the added form even before its effect has updated the run state.
@@ -25,11 +21,9 @@ type PodInfoViewProps = {
 
 export const PodInfoView = ({ medicationFormAdded: forcedAdded = false }: PodInfoViewProps) => {
   const { t } = useTranslation()
-  const { AiSuggestion, CardWithAction, CategoryRow, Divider, EmptyStateCard, PodScreen, SectionLabel } =
-    useFlowComponents<ExpPet002Components>()
+  const { AiSuggestion, Divider, PodScreen } = useFlowComponents<ExpPet002Components>()
   const { goToScreen } = useFlowNavigation<ExpPet002ScreenId>()
   const { track } = useFlowAnalytics<ExpPet002Events>()
-  const pod = useAtomValue(podAtom)
   const medicationFormAdded = useAtomValue(medicationFormAddedAtom) || forcedAdded
   const showAiSuggestion = useAtomValue(showAiSuggestionAtom)
   const addMedicationForm = useSetAtom(addMedicationFormAtom)
@@ -53,7 +47,7 @@ export const PodInfoView = ({ medicationFormAdded: forcedAdded = false }: PodInf
   }
 
   return (
-    <PodScreen topBar={<GingerTopBar tab="info" />}>
+    <PodScreen topBar={<ExpPet002TopBar tab="info" />}>
       <div className="flex flex-col gap-3">
         {showAiSuggestion && !medicationFormAdded && (
           <div className="pt-2">
@@ -64,36 +58,12 @@ export const PodInfoView = ({ medicationFormAdded: forcedAdded = false }: PodInf
             />
           </div>
         )}
-        <section className="flex flex-col gap-3">
-          <SectionLabel>{t('flows.expPet002.forms.title')}</SectionLabel>
-          {medicationFormAdded ? (
-            <CardWithAction
-              actionIcon={FolderPlus}
-              actionLabel={t('flows.expPet002.forms.createForm')}
-              actionTone="tertiary"
-              onAction={noop}
-            >
-              <MedicationFormCard />
-            </CardWithAction>
-          ) : (
-            <EmptyStateCard
-              actionLabel={t('flows.expPet002.forms.addForm')}
-              message={t('flows.expPet002.forms.emptyMessage')}
-              onAction={openAddForm}
-              title={t('flows.expPet002.forms.emptyTitle')}
-            />
-          )}
-        </section>
-        <Divider />
-        <CategoryRow count={0} icon={Paperclip} label={t('flows.expPet002.categories.medical')} onClick={openMedical} />
-        <CategoryRow count={0} icon={Paperclip} label={t('flows.expPet002.categories.attachments')} onClick={noop} />
-        <CategoryRow count={0} icon={Diagram3} label={t('flows.expPet002.categories.subpods')} onClick={noop} />
-        <CategoryRow
-          count={pod.memberCount}
-          icon={People}
-          label={t('flows.expPet002.categories.members')}
-          onClick={noop}
+        <GingerFormsSection
+          emptyAction={{ label: t('flows.expPet002.forms.addForm'), onAction: openAddForm }}
+          medicationFormAdded={medicationFormAdded}
         />
+        <Divider />
+        <GingerCategoryRows onOpenMedical={openMedical} />
       </div>
     </PodScreen>
   )

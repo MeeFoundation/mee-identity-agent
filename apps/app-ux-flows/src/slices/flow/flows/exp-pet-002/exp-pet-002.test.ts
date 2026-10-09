@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import { resolveFlow } from '../../runtime/resolve-flow'
-import { expPet002Flow } from './flow'
 import {
   addMedicationFormAtom,
   gingerMedication,
@@ -10,8 +8,10 @@ import {
   medicationAtom,
   medicationFormAddedAtom,
   podAtom,
-  showAiSuggestionAtom,
-} from './model'
+} from '../../pods/ginger/model'
+import { resolveFlow } from '../../runtime/resolve-flow'
+import { expPet002Flow } from './flow'
+import { showAiSuggestionAtom } from './model'
 
 const baytril: MedicationRecord = { ...gingerMedication, brandName: 'Baytril' }
 

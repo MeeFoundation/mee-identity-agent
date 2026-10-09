@@ -1,7 +1,15 @@
-import type { ComponentEnvironment, DesignFrame, FlowDefinition, FlowStore, ScreenComponent } from './define-flow'
+import type {
+  ComponentEnvironment,
+  DesignFrame,
+  FlowDefinition,
+  FlowKind,
+  FlowStore,
+  ScreenComponent,
+} from './define-flow'
 
 export type ResolvedFlow<S extends string, C extends ComponentEnvironment, I extends object> = {
   flowId: string
+  kind: FlowKind
   variantId: string | null
   code: string | null
   variantCode: string | null
@@ -60,6 +68,7 @@ const createResolvedFlow = <S extends string, C extends ComponentEnvironment, I 
     designFrames: { ...flow.designFrames, ...variant?.designFrames },
     flowId: flow.id,
     initialScreen: flow.initialScreen,
+    kind: flow.kind,
     screens,
     titleKey: flow.titleKey,
     variantCode: variant?.code ?? null,

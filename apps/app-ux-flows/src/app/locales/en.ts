@@ -12,6 +12,21 @@ export const en = {
     },
   },
   flows: {
+    chatAddMedication: {
+      chat: {
+        addMedication: 'Add medication?',
+        placeholder: 'Message Telli...',
+        send: 'Send',
+        sending: 'Sending…',
+        sent: 'Sent',
+        telliReply: 'Got it — I can add this to Ginger’s medications.',
+        threadLabel: 'Conversation with Telli',
+        typing: 'Telli is typing',
+        userMessage: 'Ginger needs Clavamox twice a day',
+      },
+      description: 'Tell Telli about a medication in the pod chat and add it as a form in one tap.',
+      title: 'Add medication from chat',
+    },
     expPet002: {
       addForm: {
         description: {
@@ -31,20 +46,9 @@ export const en = {
         addMedication: 'Add medication',
         caption: 'AI Suggestion',
       },
-      categories: {
-        attachments: 'Attachments',
-        medical: 'Medical',
-        members: 'Members',
-        subpods: 'Subpods',
-      },
       description: 'Compares adding a pet medication through manual entry points with a one-tap AI suggestion.',
       forms: {
-        addContactInfo: 'Add contact info',
         addForm: 'Add form',
-        createForm: 'Create form',
-        emptyMessage: 'Forms help you hold this pod’s info.',
-        emptyTitle: 'You have no forms yet',
-        title: 'Forms',
       },
       medical: {
         addMedication: 'Add medication',
@@ -52,6 +56,54 @@ export const en = {
         emptyTitle: 'No medications yet',
         sectionTitle: 'Medications',
         title: 'Medical',
+      },
+      title: 'Medication entry point',
+      variants: {
+        a: {
+          description: 'Manual entry points: Add form and the Medical category.',
+          name: 'Manual entry',
+        },
+        b: {
+          description: 'Manual entry points plus a one-tap AI suggestion.',
+          name: 'AI suggestion',
+        },
+      },
+    },
+  },
+  home: {
+    assignedVariant: 'Assigned variant (dev only): {{variant}}',
+    catalogue: {
+      baseFlow: 'Base flow',
+      noFrame: 'No Figma frame',
+      title: 'Flow catalogue (dev only)',
+    },
+    chooseVariant: 'Choose version:',
+    newSession: 'Start new test session',
+    sections: {
+      experiments: 'Experiments',
+      showcases: 'Showcases',
+    },
+    start: 'Start',
+    title: 'UX Flows',
+  },
+  notFound: {
+    backHome: 'Back to all flows',
+    title: 'Page not found',
+  },
+  pods: {
+    ginger: {
+      categories: {
+        attachments: 'Attachments',
+        medical: 'Medical',
+        members: 'Members',
+        subpods: 'Subpods',
+      },
+      forms: {
+        addContactInfo: 'Add contact info',
+        createForm: 'Create form',
+        emptyMessage: 'Forms help you hold this pod’s info.',
+        emptyTitle: 'You have no forms yet',
+        title: 'Forms',
       },
       medication: {
         fields: {
@@ -95,34 +147,7 @@ export const en = {
         info: 'Info',
         notes: 'Notes',
       },
-      title: 'Medication entry point',
-      variants: {
-        a: {
-          description: 'Manual entry points: Add form and the Medical category.',
-          name: 'Manual entry',
-        },
-        b: {
-          description: 'Manual entry points plus a one-tap AI suggestion.',
-          name: 'AI suggestion',
-        },
-      },
     },
-  },
-  home: {
-    assignedVariant: 'Assigned variant (dev only): {{variant}}',
-    catalogue: {
-      baseFlow: 'Base flow',
-      noFrame: 'No Figma frame',
-      title: 'Experiment catalogue (dev only)',
-    },
-    chooseVariant: 'Choose version:',
-    newSession: 'Start new test session',
-    start: 'Start',
-    title: 'UX Flows',
-  },
-  notFound: {
-    backHome: 'Back to all flows',
-    title: 'Page not found',
   },
   ui: {
     bottomSheet: {

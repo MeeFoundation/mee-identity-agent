@@ -3,17 +3,19 @@ import { createStore as createJotaiStore } from 'jotai'
 import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
-import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
-  type ExpPet002Components,
-  type ExpPet002InitialState,
-  type ExpPet002ScreenId,
   gingerMedication,
   gingerPod,
   medicationAtom,
   medicationFormAddedAtom,
   noteTextAtom,
   podAtom,
+} from '../../pods/ginger/model'
+import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
+import {
+  type ExpPet002Components,
+  type ExpPet002InitialState,
+  type ExpPet002ScreenId,
   sheetOriginAtom,
   showAiSuggestionAtom,
 } from './model'
@@ -51,6 +53,7 @@ export const expPet002Flow = defineFlow<ExpPet002ScreenId, ExpPet002Components, 
   },
   id: 'exp-pet-002',
   initialScreen: 'ginger-notes',
+  kind: 'experiment',
   screens: {
     'add-form': AddFormScreen,
     'ginger-info': GingerInfoScreen,

@@ -1,16 +1,11 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
 
+import { addMedicationFormAtom } from '../../../pods/ginger/model'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { MedicalView } from '../components/medical-view'
 import { PodInfoView } from '../components/pod-info-view'
-import {
-  addMedicationFormAtom,
-  type ExpPet002Components,
-  type ExpPet002Events,
-  type ExpPet002ScreenId,
-  sheetOriginAtom,
-} from '../model'
+import { type ExpPet002Components, type ExpPet002Events, type ExpPet002ScreenId, sheetOriginAtom } from '../model'
 
 type FormTemplate = 'medication' | 'pet' | 'petCareAndFeeding' | 'contactInfo'
 

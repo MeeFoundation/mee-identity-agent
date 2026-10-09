@@ -33,6 +33,7 @@ const fixtureFlow = defineFlow<
   },
   id: 'fixture',
   initialScreen: 'home',
+  kind: 'experiment',
   screens: { explanation: null, form: FormScreen, home: HomeScreen },
   titleKey: 'fixture.title',
   variants: {
@@ -49,6 +50,7 @@ const noVariantFlow = defineFlow<'home', { Footer: typeof Footer }, FixtureState
   createStore: () => createJotaiStore(),
   id: 'plain',
   initialScreen: 'home',
+  kind: 'experiment',
   screens: { home: HomeScreen },
   titleKey: 'plain.title',
 })
@@ -61,6 +63,26 @@ describe('resolveFlow', () => {
     expect(resolved.variantId).toBeNull()
     expect(resolved.screens).toEqual({ home: HomeScreen })
     expect(resolved.components).toEqual({ Footer })
+    expect(resolved.kind).toBe('experiment')
+  })
+
+  it('resolves a showcase without a variant and exposes its kind', () => {
+    const showcase = defineFlow<'home', { Footer: typeof Footer }, FixtureState>({
+      components: { Footer },
+      createStore: () => createJotaiStore(),
+      id: 'showcase',
+      initialScreen: 'home',
+      kind: 'showcase',
+      screens: { home: HomeScreen },
+      titleKey: 'showcase.title',
+    })
+
+    const resolved = resolveFlow(showcase, null)
+
+    expect(resolved.kind).toBe('showcase')
+    expect(resolved.variantId).toBeNull()
+    expect(resolved.code).toBeNull()
+    expect(resolved.screens).toEqual({ home: HomeScreen })
   })
 
   it('resolves the control variant to the base screens and components without null screens', () => {
