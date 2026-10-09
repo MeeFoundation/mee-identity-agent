@@ -2,9 +2,10 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { Hearts } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
+import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import {
   type ExpPet002Components,
+  type ExpPet002Events,
   type ExpPet002ScreenId,
   medicationFormAddedAtom,
   podAtom,
@@ -18,11 +19,13 @@ export const MedicalView = () => {
   const { t } = useTranslation()
   const { EmptyStateCard, PodScreen, PodTopBar, SectionLabel } = useFlowComponents<ExpPet002Components>()
   const { back, goToScreen } = useFlowNavigation<ExpPet002ScreenId>()
+  const { track } = useFlowAnalytics<ExpPet002Events>()
   const pod = useAtomValue(podAtom)
   const medicationFormAdded = useAtomValue(medicationFormAddedAtom)
   const setSheetOrigin = useSetAtom(sheetOriginAtom)
 
   const openAddForm = () => {
+    track('add_form_clicked', { entry_point: 'medical_section' })
     setSheetOrigin('medical')
     goToScreen('add-form')
   }

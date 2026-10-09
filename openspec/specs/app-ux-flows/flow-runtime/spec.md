@@ -15,7 +15,15 @@ A Flow SHALL be a self-contained interactive UX scenario consisting of one or mo
 - the set of reusable building-block components its screens use,
 - how to build a fresh run state from optional initial state.
 
-A Flow MAY additionally declare variants and a variant selection mode, as defined by the `app-ux-flows/flow-variants` capability. A screen id MAY be declared as unavailable in the base flow so that only variants implement it. Each screen SHALL be an ordinary React component that can contain arbitrary markup and presentation logic. Screens SHALL NOT be described as declarative data (lists of component keys and props). Before a run starts, the flow SHALL be resolved for the run's active variant into one effective set of screens, components and initial state, and the run SHALL use only that resolved flow.
+A Flow MAY additionally declare:
+- variants and a variant selection mode, as defined by the `app-ux-flows/flow-variants` capability,
+- a display code that identifies it as an experiment, for example `EXP-PET-002`,
+- a human-readable description,
+- a design reference for any of its screens: the name of the Figma frame the screen implements and that frame's URL.
+
+The title and description SHALL be shown through i18next. Display codes and Figma frame names are design identifiers. They SHALL be shown verbatim and are not translated. A flow SHALL NOT declare a design link for the flow as a whole.
+
+A screen id MAY be declared as unavailable in the base flow so that only variants implement it. Each screen SHALL be an ordinary React component that can contain arbitrary markup and presentation logic. Screens SHALL NOT be described as declarative data (lists of component keys and props). Before a run starts, the flow SHALL be resolved for the run's active variant into one effective set of screens, components, initial state and screen design references, and the run SHALL use only that resolved flow.
 
 #### Scenario: Flow declares its screens
 - **WHEN** a flow definition is authored
@@ -37,6 +45,10 @@ A Flow MAY additionally declare variants and a variant selection mode, as define
 - **WHEN** a run of a flow with variants starts
 - **THEN** all of its screens, components and initial state come from the flow resolved for that run's variant
 
+#### Scenario: Screen design reference
+- **WHEN** a flow declares a design reference for one of its screens
+- **THEN** the resolved flow exposes that screen's Figma frame name and URL to the application, and screens do not need to know about it
+
 ### Requirement: Flow Registry
 The application SHALL maintain a registry of all available flows, mapping each flow id to its flow definition. The registry SHALL be the single source of truth for which flows exist, used both to list flows on the home page and to resolve a flow by id from a URL.
 
@@ -49,15 +61,35 @@ The application SHALL maintain a registry of all available flows, mapping each f
 - **THEN** the application shows a not-found state instead of starting a flow
 
 ### Requirement: Home page lists available flows
-The application's home page SHALL list every flow in the Flow Registry and SHALL let a participant start any listed flow. For a flow with explicit variant selection, the home page SHALL let the participant choose which variant to start. For a flow without variants or with automatic assignment, it SHALL offer a single start action and SHALL NOT show variant information to the participant. Development builds MAY additionally show the stored automatic assignments. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
+The application's home page SHALL list every flow in the Flow Registry and SHALL let a participant start any listed flow. Each flow SHALL show its title and, when it declares one, its description. For a flow with explicit variant selection, the home page SHALL let the participant choose which variant to start. For a flow without variants or with automatic assignment, it SHALL offer a single start action. In production builds it SHALL NOT show variant information to the participant. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
+
+Development builds SHALL additionally show, for each flow, an experiment catalogue:
+- the flow's display code, if any,
+- the stored automatic assignment, if any,
+- for each variant (or for the base flow when it has none), the variant's display code, name and description,
+- each screen available in that variant, with its screen id, its Figma frame name linked to the frame's URL when declared, and a link that opens that screen in that variant.
+
+Production builds SHALL NOT show the catalogue, display codes or Figma references.
 
 #### Scenario: Participant views the home page
 - **WHEN** a participant opens the application's root URL
-- **THEN** they see every registered flow's title and a way to start it
+- **THEN** they see every registered flow's title, its description when declared, and a way to start it
 
 #### Scenario: Participant starts a flow from the home page
 - **WHEN** a participant chooses a flow on the home page
 - **THEN** a new run of that flow starts from the flow's initial state for its resolved variant, and the participant is taken to its initial screen at `/flows/<flowId>/<initialScreenId>`, with `?variant=<variantId>` only when they chose a variant explicitly
+
+#### Scenario: Development catalogue
+- **WHEN** a development build shows the home page for flow `exp-pet-002`
+- **THEN** it shows `EXP-PET-002`, both variants with their codes `EXP-PET-002-A` and `EXP-PET-002-B`, and under each variant its screens with Figma frame names linking to Figma
+
+#### Scenario: Catalogue deep link
+- **WHEN** someone in a development build activates the catalogue link for screen `medical` of variant `a`
+- **THEN** `/flows/exp-pet-002/medical?variant=a` opens in a new run
+
+#### Scenario: Production hides the catalogue
+- **WHEN** a production build shows the home page
+- **THEN** no display code, variant, screen list or Figma reference is shown
 
 ### Requirement: Direct flow URL
 Each flow SHALL be reachable at `/flows/<flowId>`, and each of its screens at `/flows/<flowId>/<screenId>`, so a participant can open a flow or a specific screen directly. The screen id in the URL SHALL be the only source of truth for which screen is shown. Opening any flow URL when no run of that flow is active in the current page session SHALL start a new run from the flow's initial state. A screen SHALL render correctly with that initial state even if the participant never visited earlier screens.
@@ -188,12 +220,20 @@ A screen SHALL be able to move the participant to any screen of its own flow by 
 - **THEN** that transition is performed, because flows define transitions explicitly rather than by screen order
 
 ### Requirement: Explicit flow completion
-A screen SHALL be able to explicitly mark its run as complete. A completed run SHALL show the participant a completion view with options to restart the flow or return to the list of flows. Completion SHALL be observable by the application outside the flow's screens, so that a later change can record it.
+A screen SHALL be able to explicitly mark its run as complete. By default, a completed run SHALL show the participant a completion view with options to restart the flow or return to the list of flows. A screen MAY instead complete the run silently: the run is marked complete, but the current and later screens keep rendering normally and no completion view is shown. This is for flows whose end state is a real screen. A run SHALL be completed at most once. Later completion requests in the same run SHALL be ignored, whichever mode they use. Completion SHALL be observable by the application outside the flow's screens, so that it can be recorded.
 
 #### Scenario: Completing a run
 - **WHEN** a screen marks the run as complete
 - **THEN** the participant is shown the completion view and the application is notified once that this run completed
 
+#### Scenario: Completing a run silently
+- **WHEN** a screen marks the run as complete without the completion view
+- **THEN** the participant keeps seeing that screen and can keep navigating the flow, and the application is notified once that this run completed
+
+#### Scenario: Repeated completion is ignored
+- **WHEN** a run was already completed, silently or not, and a screen requests completion again
+- **THEN** the application is not notified again and the visible screen does not change
+
 #### Scenario: Completed run is not re-entered as in-progress
-- **WHEN** a participant uses browser back/forward, or opens another screen URL of the same flow, while the run is completed
+- **WHEN** a participant uses browser back/forward, or opens another screen URL of the same flow, while the run is completed with the completion view
 - **THEN** the completion view keeps being shown instead of an in-progress screen, until the run is restarted or a new run starts

@@ -7,7 +7,7 @@ Lets one flow in `app-ux-flows` carry several UX variants for A/B testing. A var
 ## Requirements
 
 ### Requirement: Flow variants
-A flow MAY declare a set of variants. Each variant SHALL have a stable identifier that is unique within its flow, is URL-safe (lowercase letters, digits and hyphens), and is never derived from its display text. Each variant SHALL have a human-readable name, and MAY have a description, both shown through i18next. A variant SHALL describe only how it differs from the base flow. That can be any combination of replacement building-block components, replacement screens, and initial-state values. Anything a variant does not override SHALL be taken from the base flow. A flow without variants SHALL behave exactly as before.
+A flow MAY declare a set of variants. Each variant SHALL have a stable identifier that is unique within its flow, is URL-safe (lowercase letters, digits and hyphens), and is never derived from its display text. Each variant SHALL have a human-readable name, and MAY have a description, both shown through i18next. A variant MAY have a display code, for example `EXP-PET-002-A`, shown verbatim and not translated. A variant SHALL describe only how it differs from the base flow. That can be any combination of replacement building-block components, replacement screens, initial-state values, and screen design references. Anything a variant does not override SHALL be taken from the base flow. A flow without variants SHALL behave exactly as before.
 
 #### Scenario: Flow without variants
 - **WHEN** a flow declares no variants
@@ -15,7 +15,11 @@ A flow MAY declare a set of variants. Each variant SHALL have a stable identifie
 
 #### Scenario: Variant inherits everything it does not override
 - **WHEN** a variant overrides only one building-block component
-- **THEN** a run of that variant uses the base flow's screens, initial state, store, navigation and every other component unchanged
+- **THEN** a run of that variant uses the base flow's screens, initial state, store, navigation, screen design references and every other component unchanged
+
+#### Scenario: Variant overrides a screen design reference
+- **WHEN** a variant declares its own Figma frame for a screen whose base flow declares a different frame
+- **THEN** the flow resolved for that variant references the variant's frame for that screen, and the base frame for every other screen
 
 #### Scenario: Every declared variant is consistent
 - **WHEN** the application's automated checks run
@@ -70,14 +74,14 @@ A variant SHALL be able to supply initial-state values using the flow's existing
 - **THEN** the run's medications are exactly the run-start list, not a combination of both
 
 ### Requirement: Variant selection mode
-A flow with variants SHALL declare how participants get a variant: explicit selection (the participant chooses the variant) or automatic assignment (the application assigns one and does not show the participant which one). A flow with variants that does not declare a mode SHALL use explicit selection.
+A flow with variants SHALL declare how participants get a variant: explicit selection (the participant chooses the variant) or automatic assignment (the application assigns one and does not show the participant which one). A flow with variants that does not declare a mode SHALL use explicit selection. Development builds MAY show variant information for automatic flows, as defined by the home page requirement of `app-ux-flows/flow-runtime`.
 
 #### Scenario: Explicit flow on the home page
 - **WHEN** a participant views the home page and a flow uses explicit selection
 - **THEN** they can choose any of the flow's variants by name and start the flow in the chosen variant
 
 #### Scenario: Automatic flow on the home page
-- **WHEN** a participant views the home page and a flow uses automatic assignment
+- **WHEN** a participant views the home page of a production build and a flow uses automatic assignment
 - **THEN** they see only a single start action for that flow, and no variant name or identifier is shown to them
 
 ### Requirement: Automatic variant assignment
@@ -166,11 +170,22 @@ Once a run is in a variant, every navigation within the flow SHALL keep that var
 - **THEN** a new run with the new variant's initial state is shown, and no data from the previous variant's run remains
 
 ### Requirement: Active variant available to runtime infrastructure
-For every run, the runtime SHALL know the flow id and the active variant id (or that there is none). Together with the current screen id and the run lifecycle (run started, screen shown, run completed), this SHALL be available where the flow is run, outside the screens, so an analytics integration can record it without changes to any screen. Screens SHALL NOT be given an API to read the active variant.
+For every run, the runtime SHALL know the flow id, the active variant id (or that there is none), and how the active variant was selected:
+- `url`: a valid `variant` URL parameter,
+- `stored`: an existing automatic assignment,
+- `assigned`: a new automatic assignment made for this run,
+- `default`: the explicit flow's default variant,
+- `none`: the flow has no variants.
+
+Together with the current screen id and the run lifecycle (run started, screen shown, run completed, run restarted), this SHALL be available where the flow is run, outside the screens, so analytics can record it without changes to any screen. Screens SHALL NOT be given an API to read the active variant or how it was selected.
 
 #### Scenario: Infrastructure observes the variant
 - **WHEN** a run of variant `prominent-action` of flow `add-medication` shows screen `medication-form`
 - **THEN** the code that runs the flow has `add-medication`, `prominent-action` and `medication-form` available without asking any screen
+
+#### Scenario: Infrastructure observes the selection source
+- **WHEN** a participant with no stored assignment opens an automatic flow, and later reopens it, and a reviewer opens it with `?variant=b`
+- **THEN** the runtime reports the sources `assigned`, `stored` and `url` respectively
 
 #### Scenario: Screens cannot branch on the variant id
 - **WHEN** a developer looks for a runtime hook that returns the active variant id for use inside a screen

@@ -76,7 +76,7 @@ describe('pickWeighted', () => {
 describe('selectVariant', () => {
   it('returns null for a flow without variants, ignoring any request', () => {
     const { store } = createMemoryAssignments()
-    expect(selectVariant(baseFlow, 'control', store)).toBeNull()
+    expect(selectVariant(baseFlow, 'control', store)).toEqual({ source: 'none', variantId: null })
   })
 
   it('uses a valid requested variant without writing an assignment', () => {
@@ -84,7 +84,7 @@ describe('selectVariant', () => {
     store.write(automaticFlow.id, 'alpha')
     writes.length = 0
 
-    expect(selectVariant(automaticFlow, 'beta', store)).toBe('beta')
+    expect(selectVariant(automaticFlow, 'beta', store)).toEqual({ source: 'url', variantId: 'beta' })
     expect(writes).toEqual([])
     expect(store.read(automaticFlow.id)).toBe('alpha')
   })
@@ -94,7 +94,10 @@ describe('selectVariant', () => {
     store.write(automaticFlow.id, 'beta')
     writes.length = 0
 
-    expect(selectVariant(automaticFlow, undefined, store, fixedRandom(0))).toBe('beta')
+    expect(selectVariant(automaticFlow, undefined, store, fixedRandom(0))).toEqual({
+      source: 'stored',
+      variantId: 'beta',
+    })
     expect(writes).toEqual([])
   })
 
@@ -103,7 +106,7 @@ describe('selectVariant', () => {
 
     const assigned = selectVariant(automaticFlow, undefined, store, fixedRandom(0.99))
 
-    expect(assigned).toBe('control')
+    expect(assigned).toEqual({ source: 'assigned', variantId: 'control' })
     expect(writes).toEqual([[automaticFlow.id, 'control']])
   })
 
@@ -112,7 +115,10 @@ describe('selectVariant', () => {
     store.write(automaticFlow.id, 'removed-variant')
     writes.length = 0
 
-    expect(selectVariant(automaticFlow, undefined, store, fixedRandom(0))).toBe('alpha')
+    expect(selectVariant(automaticFlow, undefined, store, fixedRandom(0))).toEqual({
+      source: 'assigned',
+      variantId: 'alpha',
+    })
     expect(writes).toEqual([[automaticFlow.id, 'alpha']])
   })
 
@@ -120,20 +126,23 @@ describe('selectVariant', () => {
     const { store } = createMemoryAssignments()
     store.write(automaticFlow.id, 'beta')
 
-    expect(selectVariant(automaticFlow, 'nope', store)).toBe('beta')
+    expect(selectVariant(automaticFlow, 'nope', store)).toEqual({ source: 'stored', variantId: 'beta' })
   })
 
   it('uses the default variant for an explicit flow without a request', () => {
     const { store, writes } = createMemoryAssignments()
 
-    expect(selectVariant(explicitFlow, undefined, store)).toBe('control')
+    expect(selectVariant(explicitFlow, undefined, store)).toEqual({ source: 'default', variantId: 'control' })
     expect(writes).toEqual([])
   })
 
   it('uses the first variant key when an explicit flow declares no default', () => {
     const { store } = createMemoryAssignments()
 
-    expect(selectVariant({ ...explicitFlow, defaultVariant: undefined }, undefined, store)).toBe('alpha')
+    expect(selectVariant({ ...explicitFlow, defaultVariant: undefined }, undefined, store)).toEqual({
+      source: 'default',
+      variantId: 'alpha',
+    })
   })
 })
 

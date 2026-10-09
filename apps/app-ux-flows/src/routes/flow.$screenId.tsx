@@ -4,20 +4,19 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/shared/ui/button'
-import { DeviceFrame } from '@/slices/device-frame/device-frame'
 
+import { validateFlowSearch } from './flow-search'
+import { rootRoute } from './root'
+import { DeviceFrame } from '@/slices/device-frame/device-frame'
 import { findFlow, hasScreen } from '@/slices/flow/registry'
 import { FlowRunner } from '@/slices/flow/runtime/flow-runner'
 import { resolveFlow } from '@/slices/flow/runtime/resolve-flow'
 import { browserAssignmentStore } from '@/slices/flow/variants/assignment-store'
 import { isVariantOf, selectVariant } from '@/slices/flow/variants/select-variant'
 
-import { validateFlowSearch } from './flow-search'
-import { rootRoute } from './root'
-
 const FlowScreenRoute = () => {
   const { t } = useTranslation()
-  const { flow } = flowScreenRoute.useLoaderData()
+  const { flow, variantSource } = flowScreenRoute.useLoaderData()
   const { screenId } = flowScreenRoute.useParams()
   const navigate = useNavigate()
   const router = useRouter()
@@ -71,6 +70,7 @@ const FlowScreenRoute = () => {
           key={`${flow.flowId}:${flow.variantId ?? ''}`}
           navigateToScreen={navigateToScreen}
           screenId={screenId}
+          variantSource={variantSource}
         />
       </DeviceFrame>
     </main>
@@ -91,7 +91,8 @@ export const flowScreenRoute = createRoute({
       })
     }
 
-    const flow = resolveFlow(definition, selectVariant(definition, search.variant, browserAssignmentStore))
+    const { variantId, source: variantSource } = selectVariant(definition, search.variant, browserAssignmentStore)
+    const flow = resolveFlow(definition, variantId)
 
     if (!hasScreen(flow, params.screenId)) {
       throw redirect({
@@ -102,11 +103,11 @@ export const flowScreenRoute = createRoute({
       })
     }
 
-    return { flow }
+    return { flow, variantSource }
   },
   component: FlowScreenRoute,
   getParentRoute: () => rootRoute,
-  loader: ({ context }) => ({ flow: context.flow }),
+  loader: ({ context }) => ({ flow: context.flow, variantSource: context.variantSource }),
   path: 'flows/$flowId/$screenId',
   validateSearch: validateFlowSearch,
 })

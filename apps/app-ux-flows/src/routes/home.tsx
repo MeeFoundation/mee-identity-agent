@@ -1,20 +1,25 @@
 import { createRoute, useNavigate, useRouter } from '@tanstack/react-router'
 
+import { useAnalytics } from '@/shared/analytics/analytics-provider'
+
+import { rootRoute } from './root'
+import { browserRunStorage } from '@/slices/flow/analytics/run-storage'
 import { listFlowCatalogue } from '@/slices/flow/catalogue'
 import { listFlows } from '@/slices/flow/registry'
 import { browserAssignmentStore } from '@/slices/flow/variants/assignment-store'
 import { listVariantChoices } from '@/slices/flow/variants/select-variant'
 import { HomePage } from '@/slices/home/home-page'
 
-import { rootRoute } from './root'
-
 const HomeRoute = () => {
   const { flows } = homeRoute.useLoaderData()
   const navigate = useNavigate()
   const router = useRouter()
+  const analytics = useAnalytics()
 
   const startNewSession = () => {
     browserAssignmentStore.clear()
+    browserRunStorage.clearAll()
+    analytics.startNewSession()
     void router.invalidate()
   }
 

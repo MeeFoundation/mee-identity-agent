@@ -9,6 +9,16 @@ export type ExpPet002ScreenId = 'ginger-notes' | 'ginger-info' | 'medical' | 'ad
 
 export type ExpPet002Components = DefaultComponents & PodComponents
 
+export type PodTab = 'notes' | 'chat' | 'info'
+
+export type ExpPet002Events = {
+  pod_tab_selected: { tab: PodTab }
+  medical_opened: undefined
+  add_form_clicked: { entry_point: 'forms_section' | 'medical_section' }
+  add_form_dismissed: undefined
+  medication_form_added: { method: 'add_form' | 'ai_suggestion' }
+}
+
 // Ontology terms keep their IRI next to the label so the record can be swapped for server data later.
 type OntologyTerm = {
   iri: string

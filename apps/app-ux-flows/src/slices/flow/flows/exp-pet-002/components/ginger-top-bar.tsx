@@ -2,10 +2,8 @@ import { useAtomValue } from 'jotai'
 import { Hearts } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { type ExpPet002Components, type ExpPet002ScreenId, podAtom } from '../model'
-
-type PodTab = 'notes' | 'chat' | 'info'
+import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
+import { type ExpPet002Components, type ExpPet002Events, type ExpPet002ScreenId, type PodTab, podAtom } from '../model'
 
 const noop = () => {}
 
@@ -17,9 +15,11 @@ export const GingerTopBar = ({ tab }: GingerTopBarProps) => {
   const { t } = useTranslation()
   const { PodTopBar, SegmentedTabs } = useFlowComponents<ExpPet002Components>()
   const { goToScreen } = useFlowNavigation<ExpPet002ScreenId>()
+  const { track } = useFlowAnalytics<ExpPet002Events>()
   const pod = useAtomValue(podAtom)
 
   const selectTab = (next: PodTab) => {
+    track('pod_tab_selected', { tab: next })
     if (next === 'notes') goToScreen('ginger-notes')
     if (next === 'info') goToScreen('ginger-info')
   }

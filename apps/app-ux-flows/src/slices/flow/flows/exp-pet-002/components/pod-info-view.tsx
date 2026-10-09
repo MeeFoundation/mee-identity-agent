@@ -2,10 +2,11 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { Diagram3, FolderPlus, Paperclip, People } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
+import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import {
   addMedicationFormAtom,
   type ExpPet002Components,
+  type ExpPet002Events,
   type ExpPet002ScreenId,
   medicationFormAddedAtom,
   podAtom,
@@ -27,18 +28,26 @@ export const PodInfoView = ({ medicationFormAdded: forcedAdded = false }: PodInf
   const { AiSuggestion, CardWithAction, CategoryRow, Divider, EmptyStateCard, PodScreen, SectionLabel } =
     useFlowComponents<ExpPet002Components>()
   const { goToScreen } = useFlowNavigation<ExpPet002ScreenId>()
+  const { track } = useFlowAnalytics<ExpPet002Events>()
   const pod = useAtomValue(podAtom)
   const medicationFormAdded = useAtomValue(medicationFormAddedAtom) || forcedAdded
   const showAiSuggestion = useAtomValue(showAiSuggestionAtom)
   const addMedicationForm = useSetAtom(addMedicationFormAtom)
   const setSheetOrigin = useSetAtom(sheetOriginAtom)
 
+  const openMedical = () => {
+    track('medical_opened')
+    goToScreen('medical')
+  }
+
   const openAddForm = () => {
+    track('add_form_clicked', { entry_point: 'forms_section' })
     setSheetOrigin('ginger-info')
     goToScreen('add-form')
   }
 
   const acceptSuggestion = () => {
+    track('medication_form_added', { method: 'ai_suggestion' })
     addMedicationForm()
     goToScreen('medication-added')
   }
@@ -76,12 +85,7 @@ export const PodInfoView = ({ medicationFormAdded: forcedAdded = false }: PodInf
           )}
         </section>
         <Divider />
-        <CategoryRow
-          count={0}
-          icon={Paperclip}
-          label={t('flows.expPet002.categories.medical')}
-          onClick={() => goToScreen('medical')}
-        />
+        <CategoryRow count={0} icon={Paperclip} label={t('flows.expPet002.categories.medical')} onClick={openMedical} />
         <CategoryRow count={0} icon={Paperclip} label={t('flows.expPet002.categories.attachments')} onClick={noop} />
         <CategoryRow count={0} icon={Diagram3} label={t('flows.expPet002.categories.subpods')} onClick={noop} />
         <CategoryRow
