@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import type { AnalyticsAdapter } from '@/shared/analytics/analytics-event'
 
-import { createAnalyticsAdapters, parseAnalyticsConfig } from './analytics'
+import { createAnalyticsAdapters, parseAnalyticsConfig, resolveAnalyticsEnv } from './analytics'
 
 const matomoEnv = {
   DEV: false,
@@ -74,5 +74,33 @@ describe('createAnalyticsAdapters', () => {
     expect(createAnalyticsAdapters(parseAnalyticsConfig({ ...matomoEnv, DEV: true }), () => fakeMatomo)).toHaveLength(2)
     expect(createAnalyticsAdapters(parseAnalyticsConfig(matomoEnv), () => fakeMatomo)).toEqual([fakeMatomo])
     expect(createAnalyticsAdapters(parseAnalyticsConfig({ ...matomoEnv, VITE_ANALYTICS_ENABLED: 'false' }))).toEqual([])
+  })
+})
+
+describe('resolveAnalyticsEnv', () => {
+  it('uses build-time values when there is no runtime config', () => {
+    expect(resolveAnalyticsEnv(matomoEnv, undefined)).toEqual(matomoEnv)
+    expect(resolveAnalyticsEnv(matomoEnv, {})).toEqual(matomoEnv)
+  })
+
+  it('lets a runtime value override the build-time value', () => {
+    const env = resolveAnalyticsEnv(matomoEnv, {
+      VITE_ANALYTICS_ENABLED: 'false',
+      VITE_MATOMO_URL: 'https://runtime.example.com/',
+    })
+    expect(env.VITE_MATOMO_URL).toBe('https://runtime.example.com/')
+    expect(parseAnalyticsConfig(env).enabled).toBe(false)
+  })
+
+  it('lets an empty runtime value override a set build-time value', () => {
+    expect(parseAnalyticsConfig(resolveAnalyticsEnv(matomoEnv, { VITE_MATOMO_URL: '' })).matomo).toBeNull()
+  })
+
+  it('ignores non-string runtime values and unknown keys', () => {
+    expect(resolveAnalyticsEnv(matomoEnv, { OTHER: 'x', VITE_MATOMO_SITE_ID: 9 })).toEqual(matomoEnv)
+  })
+
+  it('never takes DEV from the runtime config', () => {
+    expect(resolveAnalyticsEnv(matomoEnv, { DEV: 'true' }).DEV).toBe(false)
   })
 })

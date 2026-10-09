@@ -3,19 +3,19 @@ import { createConsoleAdapter } from '@/shared/analytics/console-adapter'
 import { createAnalytics } from '@/shared/analytics/fan-out'
 import { createMatomoAdapter, type MatomoConfig, type MatomoDimensionIds } from '@/shared/analytics/matomo-adapter'
 
-type AnalyticsEnv = Pick<
-  ImportMetaEnv,
-  | 'DEV'
-  | 'VITE_ANALYTICS_ENABLED'
-  | 'VITE_ANALYTICS_DEBUG'
-  | 'VITE_MATOMO_URL'
-  | 'VITE_MATOMO_SITE_ID'
-  | 'VITE_MATOMO_DIMENSION_FLOW_ID'
-  | 'VITE_MATOMO_DIMENSION_VARIANT_ID'
-  | 'VITE_MATOMO_DIMENSION_RUN_ID'
-  | 'VITE_MATOMO_DIMENSION_SCREEN_ID'
-  | 'VITE_MATOMO_DIMENSION_VARIANT_SOURCE'
->
+const runtimeConfigKeys = [
+  'VITE_ANALYTICS_ENABLED',
+  'VITE_ANALYTICS_DEBUG',
+  'VITE_MATOMO_URL',
+  'VITE_MATOMO_SITE_ID',
+  'VITE_MATOMO_DIMENSION_FLOW_ID',
+  'VITE_MATOMO_DIMENSION_VARIANT_ID',
+  'VITE_MATOMO_DIMENSION_RUN_ID',
+  'VITE_MATOMO_DIMENSION_SCREEN_ID',
+  'VITE_MATOMO_DIMENSION_VARIANT_SOURCE',
+] as const
+
+type AnalyticsEnv = Pick<ImportMetaEnv, 'DEV' | (typeof runtimeConfigKeys)[number]>
 
 export type AnalyticsConfig = {
   enabled: boolean
@@ -73,7 +73,22 @@ export const createAnalyticsAdapters = (
   return adapters
 }
 
-const analyticsConfig = parseAnalyticsConfig(import.meta.env)
+// A setting the deployment provides wins over the build-time value, even when it is empty.
+export const resolveAnalyticsEnv = (
+  buildEnv: AnalyticsEnv,
+  runtimeConfig: Readonly<Record<string, unknown>> | undefined,
+): AnalyticsEnv => {
+  const overrides: Partial<Record<(typeof runtimeConfigKeys)[number], string>> = {}
+  for (const key of runtimeConfigKeys) {
+    const value = runtimeConfig?.[key]
+    if (typeof value === 'string') overrides[key] = value
+  }
+  return { ...buildEnv, ...overrides }
+}
+
+const analyticsConfig = parseAnalyticsConfig(
+  resolveAnalyticsEnv(import.meta.env, typeof window === 'undefined' ? undefined : window.__UX_FLOWS_CONFIG__),
+)
 
 if (import.meta.env.DEV && analyticsConfig.invalid.length > 0) {
   console.warn('[Flow Analytics] Ignoring invalid integer values for', analyticsConfig.invalid.join(', '))

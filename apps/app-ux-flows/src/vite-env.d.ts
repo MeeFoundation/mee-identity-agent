@@ -15,3 +15,8 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
+interface Window {
+  // Written by the container at startup; see DEPLOYMENT.md.
+  readonly __UX_FLOWS_CONFIG__?: Readonly<Record<string, unknown>>
+}
