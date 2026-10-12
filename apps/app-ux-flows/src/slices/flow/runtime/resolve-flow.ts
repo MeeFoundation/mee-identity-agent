@@ -1,4 +1,5 @@
 import type {
+  AnyFlow,
   ComponentEnvironment,
   DesignFrame,
   FlowDefinition,
@@ -7,12 +8,25 @@ import type {
   ScreenComponent,
 } from './define-flow'
 
+export type CaseChoice = {
+  id: string
+  code: string
+  nameKey: string
+}
+
 export type ResolvedFlow<S extends string, C extends ComponentEnvironment, I extends object> = {
   flowId: string
   kind: FlowKind
   variantId: string | null
+  caseId: string | null
   code: string | null
   variantCode: string | null
+  caseCode: string | null
+  caseNameKey: string | null
+  // Every case of the flow in declaration order, empty when it has none.
+  cases: readonly CaseChoice[]
+  goalKey: string | null
+  hints: Partial<Record<S, string>>
   titleKey: string
   descriptionKey: string | null
   initialScreen: S
@@ -22,7 +36,25 @@ export type ResolvedFlow<S extends string, C extends ComponentEnvironment, I ext
   createStore(initialState?: I): FlowStore
 }
 
-const cache = new WeakMap<object, Map<string | null, unknown>>()
+const cache = new WeakMap<object, Map<string, unknown>>()
+
+export const listCases = (flow: AnyFlow): CaseChoice[] =>
+  Object.entries(flow.cases ?? {}).map(([id, { code, nameKey }]) => ({ code, id, nameKey }))
+
+export const isCaseOf = (flow: AnyFlow, caseId: string) => flow.cases !== undefined && Object.hasOwn(flow.cases, caseId)
+
+// Without a requested case, a flow with cases runs its first case.
+const effectiveCaseId = (flow: AnyFlow, caseId: string | null) => {
+  if (caseId === null) return Object.keys(flow.cases ?? {})[0] ?? null
+  if (!isCaseOf(flow, caseId)) throw new Error(`Flow "${flow.id}" has no case "${caseId}"`)
+  return caseId
+}
+
+// Later layers win field by field; with no layer at all the flow builds its own defaults.
+const mergeState = <I extends object>(...layers: (I | undefined)[]): I | undefined => {
+  const defined = layers.filter((layer) => layer !== undefined)
+  return defined.length === 0 ? undefined : Object.assign({}, ...defined)
+}
 
 const resolveScreens = <S extends string>(screens: Record<S, ScreenComponent | null>) => {
   const resolved: Partial<Record<S, ScreenComponent>> = {}
@@ -35,8 +67,9 @@ const resolveScreens = <S extends string>(screens: Record<S, ScreenComponent | n
 const createResolvedFlow = <S extends string, C extends ComponentEnvironment, I extends object>(
   flow: FlowDefinition<S, C, I>,
   variantId: string | null,
+  caseId: string | null,
 ): ResolvedFlow<S, C, I> => {
-  const { variants } = flow
+  const { variants, cases } = flow
   const hasVariants = variants !== undefined && Object.keys(variants).length > 0
 
   if (variantId === null && hasVariants) {
@@ -55,18 +88,22 @@ const createResolvedFlow = <S extends string, C extends ComponentEnvironment, I 
     )
   }
 
-  const variantState = variant?.initialState
+  const activeCase = caseId === null ? undefined : cases?.[caseId]
 
   return {
+    caseCode: activeCase?.code ?? null,
+    caseId,
+    caseNameKey: activeCase?.nameKey ?? null,
+    cases: listCases(flow),
     code: flow.code ?? null,
     components: { ...flow.components, ...variant?.components },
     createStore: (initialState) =>
-      flow.createStore(
-        variantState && initialState ? { ...variantState, ...initialState } : (initialState ?? variantState),
-      ),
+      flow.createStore(mergeState(variant?.initialState, activeCase?.initialState, initialState)),
     descriptionKey: flow.descriptionKey ?? null,
     designFrames: { ...flow.designFrames, ...variant?.designFrames },
     flowId: flow.id,
+    goalKey: activeCase?.goalKey ?? flow.goalKey ?? null,
+    hints: { ...flow.hints, ...activeCase?.hints },
     initialScreen: flow.initialScreen,
     kind: flow.kind,
     screens,
@@ -79,17 +116,21 @@ const createResolvedFlow = <S extends string, C extends ComponentEnvironment, I 
 export const resolveFlow = <S extends string, C extends ComponentEnvironment, I extends object>(
   flow: FlowDefinition<S, C, I>,
   variantId: string | null,
+  caseId: string | null = null,
 ): ResolvedFlow<S, C, I> => {
-  let byVariant = cache.get(flow)
-  if (!byVariant) {
-    byVariant = new Map()
-    cache.set(flow, byVariant)
+  let byKey = cache.get(flow)
+  if (!byKey) {
+    byKey = new Map()
+    cache.set(flow, byKey)
   }
 
-  const cached = byVariant.get(variantId)
+  const activeCaseId = effectiveCaseId(flow, caseId)
+  // JSON keeps `null` apart from an id spelled "null".
+  const key = JSON.stringify([variantId, activeCaseId])
+  const cached = byKey.get(key)
   if (cached) return cached as ResolvedFlow<S, C, I>
 
-  const resolved = createResolvedFlow(flow, variantId)
-  byVariant.set(variantId, resolved)
+  const resolved = createResolvedFlow(flow, variantId, activeCaseId)
+  byKey.set(key, resolved)
   return resolved
 }

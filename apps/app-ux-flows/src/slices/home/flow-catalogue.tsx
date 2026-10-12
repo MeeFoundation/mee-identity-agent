@@ -1,12 +1,18 @@
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import type { FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
+import type { CatalogueEntry, FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
+
+export type ScreenHref = (
+  flowId: string,
+  screenId: string,
+  entry: Pick<CatalogueEntry, 'variantId' | 'caseId'>,
+) => string
 
 type FlowCatalogueProps = {
   catalogue: FlowCatalogueData
   assignedVariantId: string | null
-  screenHref: (flowId: string, screenId: string, variantId: string | null) => string
+  screenHref: ScreenHref
   onOpenScreen: (href: string) => void
 }
 
@@ -26,18 +32,18 @@ export const FlowCatalogue = ({ catalogue, assignedVariantId, screenHref, onOpen
         {assignedVariantId && (
           <p className="text-muted-foreground text-xs">{t('home.assignedVariant', { variant: assignedVariantId })}</p>
         )}
-        {catalogue.variants.map((variant) => (
-          <section className="flex flex-col gap-2" key={variant.variantId ?? ''}>
+        {catalogue.entries.map((entry) => (
+          <section className="flex flex-col gap-2" key={`${entry.variantId ?? ''}:${entry.caseId ?? ''}`}>
             <header className="flex flex-col gap-0.5">
               <h4 className="font-semibold text-gray-900">
-                {variant.code && <span className="mr-2 font-mono text-xs">{variant.code}</span>}
-                {variant.nameKey ? t(variant.nameKey) : t('home.catalogue.baseFlow')}
+                {entry.code && <span className="mr-2 font-mono text-xs">{entry.code}</span>}
+                {entry.nameKey ? t(entry.nameKey) : t('home.catalogue.baseFlow')}
               </h4>
-              {variant.descriptionKey && <p className="text-muted-foreground text-xs">{t(variant.descriptionKey)}</p>}
+              {entry.descriptionKey && <p className="text-muted-foreground text-xs">{t(entry.descriptionKey)}</p>}
             </header>
             <ul className="flex flex-col gap-1.5">
-              {variant.screens.map((screen) => {
-                const href = screenHref(catalogue.flowId, screen.screenId, variant.variantId)
+              {entry.screens.map((screen) => {
+                const href = screenHref(catalogue.flowId, screen.screenId, entry)
 
                 return (
                   <li className="flex flex-col" key={screen.screenId}>

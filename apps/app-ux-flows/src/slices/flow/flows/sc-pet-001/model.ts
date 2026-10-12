@@ -1,5 +1,6 @@
 import { atom } from 'jotai'
 
+import type { ChatComponents } from '@/shared/ui/chat-components'
 import type { DefaultComponents } from '@/shared/ui/default-components'
 import type { PodComponents } from '@/shared/ui/pod-components'
 
@@ -7,13 +8,39 @@ import { podCategoryIris } from '../../pods/catalog/categories'
 import { applyTemplate, createPodFromTemplate, type PodInstance } from '../../pods/catalog/create-pod'
 import { findSuggestion, type TemplateSuggestion } from '../../pods/catalog/suggestions'
 
-export type ScPet001ScreenId = 'home' | 'new-pod' | 'pod-empty' | 'pod-template-suggested' | 'pod-template-applied'
+export type ScPet001ScreenId =
+  | 'home'
+  | 'telli'
+  | 'new-pod'
+  | 'pod-empty'
+  | 'pod-template-suggested'
+  | 'pod-template-applied'
 
-export type ScPet001Components = DefaultComponents & PodComponents
+export type ScPet001Components = DefaultComponents & PodComponents & ChatComponents
+
+// What Telli understood so far; each field is optional because a card may come before Telli knows it.
+type PodDraft = {
+  name?: string
+  category?: string
+}
+
+export type QuickAction = {
+  kind: 'create-pod'
+  draft: PodDraft
+}
+
+// One scripted exchange: the tester's prepared message, Telli's reply, and optionally a card on that reply.
+export type TelliTurn = {
+  userKey: string
+  replyKey: string
+  replyValues?: Record<string, string>
+  action?: QuickAction
+}
 
 export type ScPet001InitialState = {
   // The category whose template the pod suggests; `null` suggests nothing.
   suggestedTemplate?: string | null
+  conversation?: readonly TelliTurn[]
 }
 
 export type ScenarioState = {
@@ -43,6 +70,70 @@ export const suggestedTemplateAtom = atom<string | null>(DEFAULT_SUGGESTED_TEMPL
 
 export const suggestionDismissedAtom = atom(false)
 
+// Set per case through the initial state; the Telli screen plays whatever it holds.
+export const conversationAtom = atom<readonly TelliTurn[]>([])
+
+type TelliStage = 'idle' | 'sending' | 'thinking'
+
+// `turn` counts the finished turns; the stage belongs to the turn after them.
+export type TelliProgress = {
+  turn: number
+  stage: TelliStage
+}
+
+export const telliProgressAtom = atom<TelliProgress>({ stage: 'idle', turn: 0 })
+
+// The turn whose card opened the New Pod sheet, so only that card offers "Open pod" afterwards.
+export const usedActionTurnAtom = atom<number | null>(null)
+
+export type NewPodOrigin = 'home' | 'telli'
+
+export const newPodOriginAtom = atom<NewPodOrigin>('home')
+
+// Whether the sheet's category is the one a quick action provided.
+export const categoryFromTelliAtom = atom(false)
+
+const SEND_DELAY_MS = 800
+const TELLI_THINKING_MS = 2500
+
+// The timed steps after sending, as in `chat-add-medication`: "Sent" after 0.8 s, Telli's reply 2.5 s later.
+export const nextTelliStage = (progress: TelliProgress): { progress: TelliProgress; afterMs: number } | null => {
+  if (progress.stage === 'sending') return { afterMs: SEND_DELAY_MS, progress: { ...progress, stage: 'thinking' } }
+  if (progress.stage === 'thinking')
+    return { afterMs: TELLI_THINKING_MS, progress: { stage: 'idle', turn: progress.turn + 1 } }
+  return null
+}
+
+// The tester's next prepared message, if the conversation has one and Telli is not busy.
+export const nextUserMessageAtom = atom<TelliTurn | null>((get) => {
+  const progress = get(telliProgressAtom)
+  if (progress.stage !== 'idle') return null
+  return get(conversationAtom)[progress.turn] ?? null
+})
+
+export const sendNextMessageAtom = atom(null, (get, set) => {
+  if (!get(nextUserMessageAtom)) return
+  set(telliProgressAtom, { ...get(telliProgressAtom), stage: 'sending' })
+})
+
+export const openNewPodFromHomeAtom = atom(null, (_get, set) => set(newPodOriginAtom, 'home'))
+
+// Fills the sheet from one card's own draft: name and category replaced, role kept. Nothing once the pod exists.
+export const applyQuickActionAtom = atom(null, (get, set, turn: number) => {
+  const action = get(conversationAtom)[turn]?.action
+  if (get(createdPodAtom) || action?.kind !== 'create-pod') return
+  set(podNameAtom, action.draft.name ?? '')
+  set(chosenCategoryAtom, action.draft.category ?? null)
+  set(categoryFromTelliAtom, action.draft.category !== undefined)
+  set(newPodOriginAtom, 'telli')
+  set(usedActionTurnAtom, turn)
+})
+
+export const chooseCategoryAtom = atom(null, (_get, set, category: string | null) => {
+  set(chosenCategoryAtom, category)
+  set(categoryFromTelliAtom, false)
+})
+
 export const scenarioStateAtom = atom<ScenarioState>((get) => {
   const pod = get(createdPodAtom)
   return {
@@ -71,6 +162,16 @@ export const createPodAtom = atom(null, (get, set) => {
   const pod = createPodFromTemplate({ name, role: get(roleAtom) })
   const category = get(chosenCategoryAtom)
   set(createdPodAtom, category ? applyTemplate(pod, category) : pod)
+})
+
+// A card that already names the pod needs no sheet: the chat was the confirmation, so it creates the pod at once.
+export const canCreateFromDraft = (draft: PodDraft) => canCreatePod(draft.name ?? '')
+
+export const createPodFromQuickActionAtom = atom(null, (get, set, turn: number) => {
+  const action = get(conversationAtom)[turn]?.action
+  if (!action || !canCreateFromDraft(action.draft)) return
+  set(applyQuickActionAtom, turn)
+  set(createPodAtom)
 })
 
 // Pod screens call this, so a direct link still has a pod: generic Ginger, as if the tester had created her.

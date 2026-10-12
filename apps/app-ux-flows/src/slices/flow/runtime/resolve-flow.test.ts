@@ -187,4 +187,89 @@ describe('resolveFlow', () => {
     expect(resolveFlow(fixtureFlow, 'prominent')).toBe(resolveFlow(fixtureFlow, 'prominent'))
     expect(resolveFlow(fixtureFlow, 'prominent')).not.toBe(resolveFlow(fixtureFlow, 'control'))
   })
+
+  describe('cases', () => {
+    const casedFlow = defineFlow<'home' | 'form', { Footer: typeof Footer }, FixtureState>({
+      cases: {
+        first: { code: 'SC-1-A', nameKey: 'first.name' },
+        second: {
+          code: 'SC-1-B',
+          goalKey: 'second.goal',
+          hints: { form: 'second.form' },
+          initialState: { items: ['case'] },
+          nameKey: 'second.name',
+        },
+      },
+      components: { Footer },
+      createStore(initialState) {
+        const store = createJotaiStore()
+        store.set(itemsAtom, initialState?.items ?? ['fixture'])
+        store.set(labelAtom, initialState?.label ?? 'fixture')
+        return store
+      },
+      goalKey: 'base.goal',
+      hints: { form: 'base.form', home: 'base.home' },
+      id: 'cased',
+      initialScreen: 'home',
+      kind: 'showcase',
+      screens: { form: FormScreen, home: HomeScreen },
+      titleKey: 'cased.title',
+    })
+
+    it('runs the first declared case when none is requested', () => {
+      const resolved = resolveFlow(casedFlow, null)
+
+      expect(resolved.caseId).toBe('first')
+      expect(resolved.caseCode).toBe('SC-1-A')
+      expect(resolved.caseNameKey).toBe('first.name')
+      expect(resolved).toBe(resolveFlow(casedFlow, null, 'first'))
+    })
+
+    it('lists every case in declaration order', () => {
+      expect(resolveFlow(casedFlow, null, 'second').cases).toEqual([
+        { code: 'SC-1-A', id: 'first', nameKey: 'first.name' },
+        { code: 'SC-1-B', id: 'second', nameKey: 'second.name' },
+      ])
+      expect(resolveFlow(noVariantFlow, null).cases).toEqual([])
+    })
+
+    it('keeps the base goal and hints unless the case replaces them, hint by hint', () => {
+      const first = resolveFlow(casedFlow, null, 'first')
+      expect(first.goalKey).toBe('base.goal')
+      expect(first.hints).toEqual({ form: 'base.form', home: 'base.home' })
+
+      const second = resolveFlow(casedFlow, null, 'second')
+      expect(second.goalKey).toBe('second.goal')
+      expect(second.hints).toEqual({ form: 'second.form', home: 'base.home' })
+    })
+
+    it('resolves a flow without a goal, hints or cases to none', () => {
+      const resolved = resolveFlow(noVariantFlow, null)
+
+      expect(resolved.caseId).toBeNull()
+      expect(resolved.caseCode).toBeNull()
+      expect(resolved.goalKey).toBeNull()
+      expect(resolved.hints).toEqual({})
+    })
+
+    it('layers initial state as fixtures < case < run start', () => {
+      expect(resolveFlow(casedFlow, null, 'first').createStore().get(itemsAtom)).toEqual(['fixture'])
+
+      const second = resolveFlow(casedFlow, null, 'second')
+      expect(second.createStore().get(itemsAtom)).toEqual(['case'])
+      expect(second.createStore().get(labelAtom)).toBe('fixture')
+
+      const runStore = second.createStore({ label: 'run' })
+      expect(runStore.get(itemsAtom)).toEqual(['case'])
+      expect(runStore.get(labelAtom)).toBe('run')
+    })
+
+    it('caches each case separately and throws for an unknown case', () => {
+      expect(resolveFlow(casedFlow, null, 'second')).toBe(resolveFlow(casedFlow, null, 'second'))
+      expect(resolveFlow(casedFlow, null, 'second')).not.toBe(resolveFlow(casedFlow, null, 'first'))
+      expect(() => resolveFlow(casedFlow, null, 'missing')).toThrow()
+      expect(() => resolveFlow(casedFlow, null, 'constructor')).toThrow()
+      expect(() => resolveFlow(noVariantFlow, null, 'first')).toThrow()
+    })
+  })
 })

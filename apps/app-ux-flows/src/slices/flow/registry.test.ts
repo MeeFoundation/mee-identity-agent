@@ -46,6 +46,23 @@ describe('flow registry', () => {
       expect(Object.keys(flow.variants ?? {})).toContain(flow.defaultVariant)
     })
 
+    it('declares URL-safe case ids with unique display codes when it has cases', () => {
+      if (flow.cases === undefined) return
+
+      const cases = Object.entries(flow.cases)
+      expect(cases.length).toBeGreaterThan(0)
+      for (const [caseId] of cases) expect(caseId).toMatch(variantIdPattern)
+      const codes = cases.map(([, { code }]) => code)
+      expect(new Set(codes).size).toBe(codes.length)
+    })
+
+    it.each(Object.keys(flow.cases ?? {}))('resolves case %s with its initial screen', (caseId) => {
+      const resolved = resolveFlow(flow, null, caseId)
+
+      expect(resolved.caseId).toBe(caseId)
+      expect(hasScreen(resolved, resolved.initialScreen)).toBe(true)
+    })
+
     it.each(listVariantIds(flow.variants))('resolves variant %s with its initial screen', (variantId) => {
       const resolved = resolveFlow(flow, variantId)
 

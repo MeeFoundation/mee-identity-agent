@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/shared/ui/button'
 
-import { FlowCard, type FlowLauncher } from './flow-card'
+import { FlowCard, type FlowLauncher, type FlowStartChoice } from './flow-card'
+import type { ScreenHref } from './flow-catalogue'
 import { groupFlowsByKind } from './group-flows'
 
 const sectionTitleKeys = {
@@ -12,9 +13,9 @@ const sectionTitleKeys = {
 
 type HomePageProps = {
   flows: readonly FlowLauncher[]
-  onStartFlow: (flowId: string, variantId?: string) => void
+  onStartFlow: (flowId: string, choice?: FlowStartChoice) => void
   onStartNewSession: () => void
-  screenHref: (flowId: string, screenId: string, variantId: string | null) => string
+  screenHref: ScreenHref
   onOpenScreen: (href: string) => void
 }
 

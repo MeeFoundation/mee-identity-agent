@@ -34,7 +34,8 @@ export const FormCard = ({ icon: FormIcon, title, children, footer }: FormCardPr
 type FieldRowProps = {
   label: string
   value: string
-  onEdit: () => void
+  // Without it the row is read-only and shows no edit button.
+  onEdit?: () => void
 }
 
 export const FieldRow = ({ label, value, onEdit }: FieldRowProps) => {
@@ -46,14 +47,16 @@ export const FieldRow = ({ label, value, onEdit }: FieldRowProps) => {
         <dt className="-mb-0.5 text-gray-600 text-xs">{label}</dt>
         <dd className="font-medium text-base text-gray-800">{value}</dd>
       </div>
-      <button
-        aria-label={t('ui.formCard.edit', { field: label })}
-        className="-m-2 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg outline-none transition-colors hover:bg-gray-100 focus-visible:ring-3 focus-visible:ring-ring"
-        onClick={onEdit}
-        type="button"
-      >
-        <Pencil aria-hidden className="text-gray-700" size={16} />
-      </button>
+      {onEdit && (
+        <button
+          aria-label={t('ui.formCard.edit', { field: label })}
+          className="-m-2 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg outline-none transition-colors hover:bg-gray-100 focus-visible:ring-3 focus-visible:ring-ring"
+          onClick={onEdit}
+          type="button"
+        >
+          <Pencil aria-hidden className="text-gray-700" size={16} />
+        </button>
+      )}
     </div>
   )
 }

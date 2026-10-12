@@ -33,6 +33,22 @@ const experimentFlow = defineFlow<'home' | 'extra', Record<string, never>, objec
   },
 })
 
+const casedFlow = defineFlow<'home', Record<string, never>, object>({
+  cases: {
+    a: { code: 'SC-9-A', nameKey: 'sc9.a' },
+    b: { code: 'SC-9-B', descriptionKey: 'sc9.b.description', nameKey: 'sc9.b' },
+  },
+  code: 'SC-9',
+  components: {},
+  createStore: () => createStore(),
+  designFrames: { home: homeFrame },
+  id: 'sc-9',
+  initialScreen: 'home',
+  kind: 'showcase',
+  screens: { home: HomeScreen },
+  titleKey: 'sc9.title',
+})
+
 const plainFlow = defineFlow<'home', Record<string, never>, object>({
   components: {},
   createStore: () => createStore(),
@@ -47,9 +63,9 @@ describe('listFlowCatalogue', () => {
   it('lists every variant with its codes, keys, available screens and frames', () => {
     expect(listFlowCatalogue(experimentFlow)).toEqual({
       code: 'EXP-9',
-      flowId: 'exp-9',
-      variants: [
+      entries: [
         {
+          caseId: null,
           code: 'EXP-9-A',
           descriptionKey: null,
           nameKey: 'exp9.a',
@@ -57,6 +73,7 @@ describe('listFlowCatalogue', () => {
           variantId: 'a',
         },
         {
+          caseId: null,
           code: 'EXP-9-B',
           descriptionKey: 'exp9.b.description',
           nameKey: 'exp9.b',
@@ -67,15 +84,16 @@ describe('listFlowCatalogue', () => {
           variantId: 'b',
         },
       ],
+      flowId: 'exp-9',
     })
   })
 
   it('lists the base flow as a single entry when the flow has no variants', () => {
     expect(listFlowCatalogue(plainFlow)).toEqual({
       code: null,
-      flowId: 'plain',
-      variants: [
+      entries: [
         {
+          caseId: null,
           code: null,
           descriptionKey: null,
           nameKey: null,
@@ -83,6 +101,32 @@ describe('listFlowCatalogue', () => {
           variantId: null,
         },
       ],
+      flowId: 'plain',
+    })
+  })
+
+  it('lists every case of a showcase with its code, keys and screens', () => {
+    expect(listFlowCatalogue(casedFlow)).toEqual({
+      code: 'SC-9',
+      entries: [
+        {
+          caseId: 'a',
+          code: 'SC-9-A',
+          descriptionKey: null,
+          nameKey: 'sc9.a',
+          screens: [{ frame: homeFrame, screenId: 'home' }],
+          variantId: null,
+        },
+        {
+          caseId: 'b',
+          code: 'SC-9-B',
+          descriptionKey: 'sc9.b.description',
+          nameKey: 'sc9.b',
+          screens: [{ frame: homeFrame, screenId: 'home' }],
+          variantId: null,
+        },
+      ],
+      flowId: 'sc-9',
     })
   })
 })

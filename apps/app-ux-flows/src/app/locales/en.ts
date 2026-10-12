@@ -1,5 +1,17 @@
 export const en = {
   flow: {
+    briefing: {
+      close: 'Close',
+      goal: 'Goal',
+      goalReached: 'Goal reached',
+      onThisScreen: 'On this screen',
+      reachedCase: 'You reached the goal of this case.',
+      reachedFlow: 'You reached the goal of this flow.',
+      start: 'Start',
+      startOver: 'Start over',
+      tryCase: 'Try case {{code}}',
+      yourGoal: 'Your goal',
+    },
     chrome: {
       allFlows: 'Back to all flows',
       variant: 'Variant (dev only): {{variant}}',
@@ -87,8 +99,87 @@ export const en = {
         },
       },
     },
+    expPet003: {
+      description: 'Compares how Medical shows Ginger’s medication on the Info tab when you only need to check it.',
+      home: {
+        pods: 'Pods',
+        userInitial: 'A',
+        welcome: 'Welcome, Alice',
+      },
+      info: {
+        forms: 'Forms',
+        medical: 'Medical',
+      },
+      medical: {
+        medications: 'Medications',
+        title: 'Medical',
+      },
+      medication: {
+        add: 'Add medication',
+        preview: '{{name}} · {{frequency}}',
+        started: 'Started {{date}}',
+        summary: '{{dose}} · {{frequency}}',
+      },
+      title: 'Check current medication',
+      variants: {
+        a: {
+          description: 'Info shows a Medical row; the medication is listed on the Medical screen.',
+          name: 'Medical row',
+        },
+        b: {
+          description: 'The Medical row also previews the medication’s name and frequency.',
+          name: 'Medical row with preview',
+        },
+        c: {
+          description: 'Info lists the medication in a Medical section, with no Medical screen.',
+          name: 'Medical inline',
+        },
+      },
+    },
     scPet001: {
+      cases: {
+        a: {
+          goal: 'Create a pod for your cat Ginger using the Add Pod button.',
+          hints: {
+            home: 'Start a new pod from the Home screen.',
+            newPod: 'Name the pod and create it.',
+          },
+          name: 'With the Add Pod button',
+        },
+        b: {
+          goal: 'Ask Telli to create a pod for your new cat, Ginger.',
+          hints: {
+            home: 'Open Ask Telli from the bottom bar.',
+            newPod: 'Check what Telli filled in, then create the pod.',
+          },
+          messages: {
+            reply: 'Here’s a pod for Ginger. Check the details and create it.',
+            user: '@Telli create new pet Ginger',
+          },
+          name: 'With Telli, one message',
+        },
+        c: {
+          goal: 'Tell Telli about your new pet and let it help you create Ginger’s pod.',
+          hints: {
+            home: 'Open Ask Telli from the bottom bar.',
+            newPod: 'Check what Telli filled in, then create the pod.',
+          },
+          messages: {
+            firstReply: 'Congrats! What’s its name?',
+            firstUser: '@Telli I have a new pet!',
+            secondReply: 'What a beautiful name! Shall I create a pod for Ginger?',
+            secondUser: 'It’s Ginger',
+          },
+          name: 'With Telli, a conversation',
+        },
+      },
       description: 'Create a pod for your cat by name, then add pet structure from a suggested template.',
+      goal: 'Create a pod for your cat Ginger.',
+      hints: {
+        podEmpty: 'Take a look — the app may suggest something.',
+        podTemplateSuggested: 'Decide whether to use the Pet template.',
+        telli: 'Send the message, then use Telli’s card when you’re ready.',
+      },
       home: {
         addPod: 'Add Pod',
         maybeLater: 'Maybe later',
@@ -107,6 +198,7 @@ export const en = {
           'A digital room for one part of your life. You’ll invite people and add things once this Pod is created.',
         name: 'Pod name',
         role: 'Your role in this Pod',
+        suggestedByTelli: 'Suggested by Telli from your chat',
         title: 'New Pod',
       },
       pod: {
@@ -127,6 +219,21 @@ export const en = {
         notNow: 'Not now',
         useTemplate: 'Use template',
       },
+      telli: {
+        category: 'Category',
+        createPod: 'Create pod',
+        greeting: 'Hey! I am @Telli, tag me whenever you need help.',
+        newPod: 'New pod',
+        openPod: 'Open pod',
+        placeholder: 'Write your message. Tag @Telli for help...',
+        podCreated: 'Pod created',
+        send: 'Send',
+        sending: 'Sending…',
+        sent: 'Sent',
+        thinking: '@Telli is thinking',
+        threadLabel: 'Conversation with Telli',
+        title: 'Telli',
+      },
       title: 'Create Ginger',
     },
   },
@@ -137,6 +244,7 @@ export const en = {
       noFrame: 'No Figma frame',
       title: 'Flow catalogue (dev only)',
     },
+    chooseCase: 'Choose a case:',
     chooseVariant: 'Choose version:',
     newSession: 'Start new test session',
     sections: {
@@ -226,11 +334,18 @@ export const en = {
     },
   },
   ui: {
+    appTabBar: {
+      home: 'Home',
+      label: 'Main',
+      navigation: 'Navigation',
+      telli: 'Ask Telli',
+    },
     bottomSheet: {
       close: 'Close',
     },
     categoryRow: {
       label: '{{label}}, {{count}}',
+      labelWithPreview: '{{label}}, {{count}}, {{preview}}',
     },
     formCard: {
       edit: 'Edit {{field}}',

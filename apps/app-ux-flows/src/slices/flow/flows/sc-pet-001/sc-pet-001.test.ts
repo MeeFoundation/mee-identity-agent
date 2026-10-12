@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
+import { en } from '@/app/locales/en'
+
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { categoriesWithStructure } from '../../pods/catalog/templates'
 import { findFlow, listFlows } from '../../registry'
@@ -7,17 +9,46 @@ import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPet001Flow } from './flow'
 import {
   activeSuggestionAtom,
+  applyQuickActionAtom,
   applySuggestedTemplateAtom,
+  categoryFromTelliAtom,
+  chooseCategoryAtom,
   chosenCategoryAtom,
+  conversationAtom,
   createdPodAtom,
   createPodAtom,
+  createPodFromQuickActionAtom,
   dismissSuggestionAtom,
   ensurePodAtom,
+  newPodOriginAtom,
+  nextTelliStage,
+  nextUserMessageAtom,
   podNameAtom,
   roleAtom,
   scenarioStateAtom,
+  sendNextMessageAtom,
   shouldOfferSuggestionAtom,
+  telliProgressAtom,
+  usedActionTurnAtom,
 } from './model'
+
+// Resolves an i18next key such as `flows.scPet001.goal` against the English strings.
+const translate = (key: string): unknown =>
+  key.split('.').reduce<unknown>((node, part) => (node as Record<string, unknown> | undefined)?.[part], en)
+
+const caseRun = (caseId: string) => resolveFlow(scPet001Flow, null, caseId).createStore()
+
+// Plays turns to completion without timers, as the Telli screen does after each delay.
+const playTurns = (store: ReturnType<typeof caseRun>, turns: number) => {
+  for (let played = 0; played < turns; played++) {
+    store.set(sendNextMessageAtom)
+    let next = nextTelliStage(store.get(telliProgressAtom))
+    while (next) {
+      store.set(telliProgressAtom, next.progress)
+      next = nextTelliStage(next.progress)
+    }
+  }
+}
 
 const newRun = (initialState?: Parameters<typeof scPet001Flow.createStore>[0]) =>
   resolveFlow(scPet001Flow, null).createStore(initialState)
@@ -31,13 +62,62 @@ const runWithPod = (name: string, category: string | null = null) => {
 }
 
 describe('SC-PET-001 Create Ginger', () => {
-  it('is a registered showcase with the code SC-PET-001 and no variants, listed last', () => {
+  it('is a registered showcase with the code SC-PET-001, cases instead of variants, listed last', () => {
     expect(scPet001Flow.kind).toBe('showcase')
     expect(scPet001Flow.code).toBe('SC-PET-001')
     expect(scPet001Flow.variants).toBeUndefined()
     expect(scPet001Flow.initialScreen).toBe('home')
     expect(findFlow('sc-pet-001')).toBe(scPet001Flow)
     expect(listFlows().at(-1)).toBe(scPet001Flow)
+    expect(resolveFlow(scPet001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
+      ['a', 'SC-PET-001-A'],
+      ['b', 'SC-PET-001-B'],
+      ['c', 'SC-PET-001-C'],
+    ])
+  })
+
+  it('briefs every case with its own goal, translated, and per-case hints for home and new-pod', () => {
+    const goals = new Set<string>()
+    for (const { id } of resolveFlow(scPet001Flow, null).cases) {
+      const resolved = resolveFlow(scPet001Flow, null, id)
+      expect(resolved.goalKey).not.toBe('flows.scPet001.goal')
+      expect(typeof translate(resolved.goalKey ?? '')).toBe('string')
+      expect(typeof translate(resolved.caseNameKey ?? '')).toBe('string')
+      goals.add(resolved.goalKey ?? '')
+
+      expect(Object.keys(resolved.hints).sort()).toEqual([
+        'home',
+        'new-pod',
+        'pod-empty',
+        'pod-template-suggested',
+        'telli',
+      ])
+      for (const hintKey of Object.values(resolved.hints)) expect(typeof translate(hintKey ?? '')).toBe('string')
+    }
+    expect(goals.size).toBe(3)
+    expect(translate(resolveFlow(scPet001Flow, null, 'b').hints.home ?? '')).toBe('Open Ask Telli from the bottom bar.')
+  })
+
+  it('gives each case its own conversation, with every message translated', () => {
+    expect(caseRun('a').get(conversationAtom)).toEqual([])
+
+    const b = caseRun('b').get(conversationAtom)
+    expect(b.map((turn) => turn.action?.draft)).toEqual([{ category: podCategoryIris.pets, name: 'Ginger' }])
+
+    const c = caseRun('c').get(conversationAtom)
+    expect(c.map((turn) => turn.action?.draft)).toEqual([
+      { category: podCategoryIris.pets },
+      { category: podCategoryIris.pets, name: 'Ginger' },
+    ])
+
+    for (const turn of [...b, ...c]) {
+      expect(typeof translate(turn.userKey)).toBe('string')
+      expect(typeof translate(turn.replyKey)).toBe('string')
+    }
+  })
+
+  it('references the Telli chat design frame', () => {
+    expect(resolveFlow(scPet001Flow, null).designFrames.telli?.name).toBe('Pod / Chat - 5')
   })
 
   it('starts with no name, role, category, pod or template', () => {
@@ -137,6 +217,107 @@ describe('SC-PET-001 Create Ginger', () => {
     const created = runWithPod('Luna')
     created.set(ensurePodAtom)
     expect(created.get(createdPodAtom)?.name).toBe('Luna')
+  })
+
+  describe('Telli conversation', () => {
+    it('sends only when idle and a next message exists', () => {
+      const a = caseRun('a')
+      a.set(sendNextMessageAtom)
+      expect(a.get(telliProgressAtom)).toEqual({ stage: 'idle', turn: 0 })
+
+      const b = caseRun('b')
+      b.set(sendNextMessageAtom)
+      expect(b.get(telliProgressAtom)).toEqual({ stage: 'sending', turn: 0 })
+      b.set(telliProgressAtom, { stage: 'thinking', turn: 0 })
+      b.set(sendNextMessageAtom)
+      expect(b.get(telliProgressAtom)).toEqual({ stage: 'thinking', turn: 0 })
+    })
+
+    it('moves from sending to thinking to the reply in order, then waits', () => {
+      expect(nextTelliStage({ stage: 'idle', turn: 0 })).toBeNull()
+      expect(nextTelliStage({ stage: 'sending', turn: 1 })).toEqual({
+        afterMs: 800,
+        progress: { stage: 'thinking', turn: 1 },
+      })
+      expect(nextTelliStage({ stage: 'thinking', turn: 1 })).toEqual({
+        afterMs: 2500,
+        progress: { stage: 'idle', turn: 2 },
+      })
+    })
+
+    it('prepares the next message after each reply, and none at the end', () => {
+      const store = caseRun('c')
+      expect(store.get(nextUserMessageAtom)?.userKey).toBe('flows.scPet001.cases.c.messages.firstUser')
+      playTurns(store, 1)
+      expect(store.get(nextUserMessageAtom)?.userKey).toBe('flows.scPet001.cases.c.messages.secondUser')
+      playTurns(store, 1)
+      expect(store.get(telliProgressAtom)).toEqual({ stage: 'idle', turn: 2 })
+      expect(store.get(nextUserMessageAtom)).toBeNull()
+    })
+
+    it('fills the sheet from each card’s own draft and keeps the role', () => {
+      const store = caseRun('c')
+      playTurns(store, 2)
+      store.set(roleAtom, 'Owner')
+      store.set(podNameAtom, 'Typed')
+
+      store.set(applyQuickActionAtom, 0)
+      expect(store.get(podNameAtom)).toBe('')
+      expect(store.get(chosenCategoryAtom)).toBe(podCategoryIris.pets)
+      expect(store.get(roleAtom)).toBe('Owner')
+      expect(store.get(categoryFromTelliAtom)).toBe(true)
+      expect(store.get(newPodOriginAtom)).toBe('telli')
+      expect(store.get(usedActionTurnAtom)).toBe(0)
+
+      store.set(applyQuickActionAtom, 1)
+      expect(store.get(podNameAtom)).toBe('Ginger')
+      expect(store.get(usedActionTurnAtom)).toBe(1)
+    })
+
+    it('drops the Telli caption once the category is changed', () => {
+      const store = caseRun('b')
+      playTurns(store, 1)
+      store.set(applyQuickActionAtom, 0)
+      store.set(chooseCategoryAtom, null)
+
+      expect(store.get(categoryFromTelliAtom)).toBe(false)
+      expect(store.get(chosenCategoryAtom)).toBeNull()
+    })
+
+    it('creates the pod straight from a card that names it, keeping the role', () => {
+      const store = caseRun('b')
+      playTurns(store, 1)
+      store.set(roleAtom, 'Owner')
+      store.set(createPodFromQuickActionAtom, 0)
+
+      expect(store.get(createdPodAtom)).toMatchObject({
+        category: podCategoryIris.pets,
+        creatorRole: 'Owner',
+        name: 'Ginger',
+      })
+      expect(store.get(usedActionTurnAtom)).toBe(0)
+    })
+
+    it('creates nothing straight from a card without a name', () => {
+      const store = caseRun('c')
+      playTurns(store, 1)
+      store.set(createPodFromQuickActionAtom, 0)
+
+      expect(store.get(createdPodAtom)).toBeNull()
+      expect(store.get(usedActionTurnAtom)).toBeNull()
+    })
+
+    it('applies no quick action once the pod exists', () => {
+      const store = caseRun('c')
+      playTurns(store, 2)
+      store.set(applyQuickActionAtom, 1)
+      store.set(createPodAtom)
+      store.set(applyQuickActionAtom, 0)
+
+      expect(store.get(usedActionTurnAtom)).toBe(1)
+      expect(store.get(podNameAtom)).toBe('Ginger')
+      expect(store.get(createdPodAtom)).toMatchObject({ category: podCategoryIris.pets, name: 'Ginger' })
+    })
   })
 
   it('creates and templates Ginger when the result is opened directly', () => {

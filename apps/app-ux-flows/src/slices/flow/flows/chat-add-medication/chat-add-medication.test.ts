@@ -19,6 +19,7 @@ describe('chat-add-medication showcase', () => {
     expect(findFlow('chat-add-medication')).toBe(chatAddMedicationFlow)
     expect(listFlows().map((flow) => flow.id)).toEqual([
       'exp-pet-002',
+      'exp-pet-003',
       'chat-add-medication',
       'exp-demo-001',
       'sc-pet-001',

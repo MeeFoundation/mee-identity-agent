@@ -33,4 +33,28 @@ describe('defineFlow typing', () => {
     expect(showcase.kind).toBe('showcase')
     expect(researchScenario.code).toBe('SC-PET-001')
   })
+
+  it('lets showcases declare cases, goals and hints, and forbids cases on experiments', () => {
+    const showcase = defineFlow({
+      ...base,
+      cases: {
+        a: { code: 'SC-1-A', goalKey: 'a.goal', hints: { home: 'a.home' }, nameKey: 'a' },
+        b: { code: 'SC-1-B', nameKey: 'b' },
+      },
+      goalKey: 'fixture.goal',
+      hints: { home: 'fixture.home' },
+      kind: 'showcase',
+    })
+    const experimentWithGoal = defineFlow({ ...base, goalKey: 'fixture.goal', kind: 'experiment' })
+
+    // @ts-expect-error experiments cannot declare cases
+    defineFlow({ ...base, cases: { a: { code: 'EXP-1-A', nameKey: 'a' } }, kind: 'experiment' })
+    // @ts-expect-error a case needs a display code
+    defineFlow({ ...base, cases: { a: { nameKey: 'a' } }, kind: 'showcase' })
+    // @ts-expect-error hints name the flow's own screens
+    defineFlow({ ...base, hints: { missing: 'fixture.missing' }, kind: 'showcase' })
+
+    expect(Object.keys(showcase.cases ?? {})).toEqual(['a', 'b'])
+    expect(experimentWithGoal.goalKey).toBe('fixture.goal')
+  })
 })

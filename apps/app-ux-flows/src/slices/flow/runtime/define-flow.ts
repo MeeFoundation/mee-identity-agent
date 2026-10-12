@@ -25,6 +25,19 @@ type VariantDefinition<S extends string, C extends ComponentEnvironment, I exten
   designFrames?: DesignFrames<S>
 }
 
+type Hints<S extends string> = Partial<Record<S, string>>
+
+// A task the tester is told to carry out; it shares every screen and differs only in its briefing and starting data.
+type CaseDefinition<S extends string, I extends object> = {
+  // Design identifier such as `SC-PET-001-B`, shown verbatim.
+  code: string
+  nameKey: string
+  descriptionKey?: string
+  goalKey?: string
+  hints?: Hints<S>
+  initialState?: I
+}
+
 type VariantSelection = 'explicit' | 'automatic'
 
 // An experiment is studied with participants and may compare variants; a showcase demonstrates one UX and is not tracked.
@@ -41,6 +54,8 @@ type FlowBase<S extends string, C extends ComponentEnvironment, I extends object
   screens: Record<S, ScreenComponent | null>
   components: C
   designFrames?: DesignFrames<NoInfer<S>>
+  goalKey?: string
+  hints?: Hints<NoInfer<S>>
   // Method syntax keeps concrete flows assignable to the registry's erased flow type.
   createStore(initialState?: I): FlowStore
 }
@@ -51,6 +66,7 @@ type ExperimentDefinition<S extends string, C extends ComponentEnvironment, I ex
   variantSelection?: VariantSelection
   // Explicit selection falls back to this variant, or to the first variant key when omitted.
   defaultVariant?: string
+  cases?: never
 }
 
 // `never` members keep these fields readable on the union while forbidding them on showcases.
@@ -59,6 +75,7 @@ type ShowcaseDefinition<S extends string, C extends ComponentEnvironment, I exte
   variants?: never
   variantSelection?: never
   defaultVariant?: never
+  cases?: Readonly<Record<string, CaseDefinition<NoInfer<S>, NoInfer<I>>>>
 }
 
 export type FlowDefinition<S extends string, C extends ComponentEnvironment, I extends object> =

@@ -27,13 +27,36 @@ const formatStartDate = (startDate: string, language: string) => {
   )
 }
 
+const formatDose = (dosage: MedicationRecord['dosage'], language: string) => {
+  const value = new Intl.NumberFormat(language).format(dosage.value)
+  return dosage.unit ? `${value} ${dosage.unit.symbol}` : value
+}
+
+// The brand a pet owner knows the medication by, or its ingredients when it has none.
+const medicationName = (record: MedicationRecord) =>
+  record.brandName ?? record.activeIngredients.map((ingredient) => ingredient.label).join(', ')
+
+export type MedicationSummary = {
+  name: string
+  dose: string
+  frequency: string
+  startDate?: string
+}
+
+// What a list shows of a medication before its details are opened.
+export const toMedicationSummary = (record: MedicationRecord, t: TFunction, language: string): MedicationSummary => ({
+  dose: formatDose(record.dosage, language),
+  frequency: formatFrequency(record.frequencyPerDay, t),
+  name: medicationName(record),
+  ...(record.startDate ? { startDate: formatStartDate(record.startDate, language) } : {}),
+})
+
 export const toMedicationFieldRows = (
   record: MedicationRecord,
   t: TFunction,
   language: string,
 ): MedicationFieldRow[] => {
   const label = (id: MedicationFieldRow['id']) => t(`pods.ginger.medication.fields.${id}`)
-  const dose = new Intl.NumberFormat(language).format(record.dosage.value)
 
   const rows: (MedicationFieldRow | null)[] = [
     {
@@ -46,7 +69,7 @@ export const toMedicationFieldRows = (
     {
       id: 'dose',
       label: label('dose'),
-      value: record.dosage.unit ? `${dose} ${record.dosage.unit.symbol}` : dose,
+      value: formatDose(record.dosage, language),
     },
     record.doseForm ? { id: 'doseForm', label: label('doseForm'), value: record.doseForm.label } : null,
     { id: 'frequency', label: label('frequency'), value: formatFrequency(record.frequencyPerDay, t) },
