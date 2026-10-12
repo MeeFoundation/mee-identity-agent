@@ -94,13 +94,27 @@ type ButtonProps = VariantProps<typeof buttonVariants> & {
   onClick: () => void
   disabled?: boolean
   className?: string
+  title?: string
+  'aria-describedby'?: string
 }
 
-export const Button = ({ children, onClick, disabled = false, size, variant, tone, className }: ButtonProps) => (
+export const Button = ({
+  children,
+  onClick,
+  disabled = false,
+  size,
+  variant,
+  tone,
+  className,
+  title,
+  'aria-describedby': ariaDescribedBy,
+}: ButtonProps) => (
   <ButtonPrimitive
+    aria-describedby={ariaDescribedBy}
     className={cn(buttonVariants({ size, tone, variant }), className)}
     disabled={disabled}
     onClick={onClick}
+    title={title}
     type="button"
   >
     {children}

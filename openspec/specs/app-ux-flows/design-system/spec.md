@@ -100,20 +100,31 @@ The shared components SHALL keep the props that flows already pass to them: Butt
 ### Requirement: Styled home page
 The home page SHALL use the design system:
 - a page header with the app title
-- one section per flow kind that has flows, "Experiments" first and "Showcases" second, each with a section heading
-- one card per registered flow inside its section, showing the flow's title, its description when declared, and its start or variant-choice actions as design-system Buttons
-- in development builds, the flow's catalogue inside its card
+- one section per flow kind that has flows, "Showcases" first and "Experiments" second, each with a section heading that shows its flow count
+- inside each section, one dense list row per registered flow, separated by dividers within one bordered surface rather than drawn as separate cards
+- in each row: the flow's display code in development builds, its title, its description when declared, shortened to a single line, and its start, variant-choice or case-choice actions as small design-system Buttons laid out side by side
+- in development builds, the flow's catalogue inside its row, collapsed until opened
 - the "Start new test session" action as a design-system Button
+
+At widths where the actions do not fit beside the title, they SHALL wrap below it inside the same row, without horizontal scrolling. The full description SHALL be available on demand when it is shortened.
 
 The home page SHALL NOT be drawn inside the device frame. It SHALL keep the variant visibility rules of the flow runtime: variant choice only for explicit flows, and variant information and the catalogue only in development builds.
 
 #### Scenario: Home page shows flow cards
 - **WHEN** a participant opens the home page
-- **THEN** each registered flow appears as a card in its kind's section, with its title, description and start actions, styled with the design system, and the page is not wrapped in a device frame
+- **THEN** each registered flow appears as a row in its kind's section, with its title, a one-line description and its start actions, styled with the design system, and the page is not wrapped in a device frame
+
+#### Scenario: Rows stay compact
+- **WHEN** a development build shows a flow with three variants and a catalogue
+- **THEN** its row, with the catalogue collapsed, is no taller than two lines of text plus the actions, and the variant descriptions are not shown until requested
+
+#### Scenario: Narrow screens
+- **WHEN** the home page is shown 375 pixels wide
+- **THEN** each row's actions wrap below its title and the page does not scroll horizontally
 
 #### Scenario: Automatic flow card hides variant information
 - **WHEN** a production build shows the home page and a flow uses automatic variant assignment
-- **THEN** that flow's card shows a single start action and no variant names, assignment or catalogue
+- **THEN** that flow's row shows a single start action and no variant names, assignment or catalogue
 
 ### Requirement: Pod top bar component
 The shared pod top bar SHALL follow the Tellipod app's `home-topbar` design:
@@ -136,6 +147,8 @@ It MAY contain a tab bar below this row. Each control SHALL be a button with an 
 ### Requirement: Segmented tabs component
 The shared segmented tabs SHALL show two or more equal-width tabs in a rounded track, with the selected tab raised on a white surface. Exactly one tab SHALL be selected, as decided by the flow. Activating a tab SHALL report that tab to the flow. The tabs SHALL be operable with the keyboard, and SHALL expose the tab role and selected state to assistive technology.
 
+The flow SHALL be able to mark any tab with a dot, meaning something is waiting on that tab. The dot SHALL be drawn beside the tab's label in the primary action colour and SHALL be announced to assistive technology as part of the tab's name. A tab without a mark SHALL look as it does today.
+
 #### Scenario: Activating a tab
 - **WHEN** a participant activates a tab that is not selected
 - **THEN** the flow is told which tab was activated
@@ -143,6 +156,10 @@ The shared segmented tabs SHALL show two or more equal-width tabs in a rounded t
 #### Scenario: Keyboard navigation
 - **WHEN** a tab has keyboard focus and the participant presses the right arrow key
 - **THEN** focus moves to the next tab
+
+#### Scenario: Marked tab
+- **WHEN** the flow marks the Info tab
+- **THEN** a dot is shown beside "Info", assistive technology announces that something new is waiting there, and the other tabs are unchanged
 
 ### Requirement: Info list components
 The design system SHALL provide the Info list building blocks of the Tellipod app:
@@ -302,3 +319,30 @@ The conversation SHALL be anchored to the bottom of the content area, so the new
 #### Scenario: Empty composer does not send
 - **WHEN** the composer is empty and the participant activates the send button
 - **THEN** the flow's send action does not run
+
+### Requirement: App tab bar component
+The design system SHALL provide the Tellipod app tab bar, following the Figma component `bottom-menu`. It is a rounded bar pinned to the bottom of the screen, above the home indicator, with three tabs: Home, Ask Telli and Navigation. Each tab has an icon and a label, and the active tab is highlighted. The flow SHALL decide which tab is active and what activating each tab does. Screens SHALL opt into the bar; it SHALL NOT be shown on screens that do not render it. The bar SHALL be announced as navigation, and the active tab as the current page.
+
+#### Scenario: Active tab
+- **WHEN** a screen renders the tab bar with Ask Telli active
+- **THEN** Ask Telli is highlighted and announced as the current page, and Home and Navigation are not
+
+#### Scenario: Tab activation runs the flow's action
+- **WHEN** a participant activates the Home tab
+- **THEN** the flow's Home action runs
+
+### Requirement: Chat action card component
+The design system SHALL provide a chat action card, following the cards Telli embeds in its replies in the Figma pod chat ("Pod / Chat - 5"). It is placed inside a Telli message, below Telli's text, and shows:
+- an icon or a letter avatar with a title;
+- zero or more rows, each with a small muted label and a value;
+- one full-width action button.
+
+The flow SHALL decide the title, the rows, the action's label and what it does, and SHALL be able to show the action as unavailable. A card MAY instead show a status line and a different action, for example once the action has been carried out.
+
+#### Scenario: Card shows what Telli understood
+- **WHEN** a Telli message carries a card with the title "Ginger", the rows Category "Pets" and the action "Create pod"
+- **THEN** the card is shown inside Telli's message with the letter avatar "G", the title "Ginger", the label "Category" above "Pets", and a "Create pod" button
+
+#### Scenario: Unavailable action
+- **WHEN** the flow marks a card's action as unavailable
+- **THEN** the button is shown as unavailable and activating it does nothing

@@ -38,21 +38,21 @@ describe('exp-pet-003 flow', () => {
     }
   })
 
-  it('starts on Home with Ginger, her medication, and pods opening on Info', () => {
+  it('starts on Home with Ginger, her medication, and pods opening on Notes', () => {
     const flow = resolveFlow(expPet003Flow, 'a')
     const store = flow.createStore()
 
     expect(flow.initialScreen).toBe('home')
     expect(store.get(podAtom)).toBe(gingerPod)
     expect(store.get(medicationAtom)).toBe(gingerMedication)
-    expect(store.get(podOpensOnAtom)).toBe('info')
+    expect(store.get(podOpensOnAtom)).toBe('notes')
   })
 
   it('uses a medication record and opening tab supplied when the run starts, keeping the variant', () => {
-    const store = resolveFlow(expPet003Flow, 'c').createStore({ medication: metacam, podOpensOn: 'notes' })
+    const store = resolveFlow(expPet003Flow, 'c').createStore({ medication: metacam, podOpensOn: 'info' })
 
     expect(store.get(medicationAtom)).toBe(metacam)
-    expect(store.get(podOpensOnAtom)).toBe('notes')
+    expect(store.get(podOpensOnAtom)).toBe('info')
     expect(store.get(medicalPresentationAtom)).toBe('inline')
   })
 

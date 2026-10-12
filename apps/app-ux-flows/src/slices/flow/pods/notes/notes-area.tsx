@@ -20,7 +20,7 @@ import {
 } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { noteTextAtom } from '../model'
+import { noteTextAtom } from './model'
 
 const toolbarGroups = [
   [

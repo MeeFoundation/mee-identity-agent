@@ -2,8 +2,8 @@ import { useTranslation } from 'react-i18next'
 
 import { Button } from '@/shared/ui/button'
 
-import { FlowCard, type FlowLauncher, type FlowStartChoice } from './flow-card'
 import type { ScreenHref } from './flow-catalogue'
+import { type FlowLauncher, FlowRow, type FlowStartChoice } from './flow-row'
 import { groupFlowsByKind } from './group-flows'
 
 const sectionTitleKeys = {
@@ -32,15 +32,15 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession, screenHref, on
           </Button>
         </div>
       </header>
-      <div className="mx-auto flex max-w-5xl flex-col gap-8 px-6 py-8">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6 sm:px-6">
         {groupFlowsByKind(flows).map((section) => (
-          <section aria-labelledby={`flows-${section.kind}`} className="flex flex-col gap-4" key={section.kind}>
-            <h2 className="font-semibold text-gray-900 text-xl" id={`flows-${section.kind}`}>
-              {t(sectionTitleKeys[section.kind])}
+          <section aria-labelledby={`flows-${section.kind}`} className="flex flex-col gap-3" key={section.kind}>
+            <h2 className="font-semibold text-gray-900 text-lg" id={`flows-${section.kind}`}>
+              {t(sectionTitleKeys[section.kind], { count: section.flows.length })}
             </h2>
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
               {section.flows.map((flow) => (
-                <FlowCard
+                <FlowRow
                   flow={flow}
                   key={flow.id}
                   onOpenScreen={onOpenScreen}

@@ -4,7 +4,7 @@ import { podCategoryIris } from './categories'
 import { applyTemplate, createPodFromTemplate } from './create-pod'
 import { shapeIris } from './templates'
 
-const createGinger = () => createPodFromTemplate({ name: '  Ginger ', role: 'Owner' })
+const createGinger = () => createPodFromTemplate({ name: '  Ginger ' })
 
 describe('createPodFromTemplate', () => {
   it('creates a generic pod without a category, breadcrumb or forms', () => {
@@ -12,7 +12,6 @@ describe('createPodFromTemplate', () => {
       avatarLetter: 'G',
       breadcrumb: [],
       category: null,
-      creatorRole: 'Owner',
       forms: [],
       memberCount: 1,
       name: 'Ginger',
@@ -20,7 +19,7 @@ describe('createPodFromTemplate', () => {
   })
 
   it('creates a Pets pod from its template with one empty Pet profile form', () => {
-    expect(createPodFromTemplate({ category: podCategoryIris.pets, name: 'Ginger', role: 'Owner' })).toMatchObject({
+    expect(createPodFromTemplate({ category: podCategoryIris.pets, name: 'Ginger' })).toMatchObject({
       breadcrumb: ['Pets'],
       category: podCategoryIris.pets,
       forms: [{ shape: shapeIris.pet }],
@@ -28,9 +27,10 @@ describe('createPodFromTemplate', () => {
   })
 
   it('uses the taxonomy path as the breadcrumb of a sub-category pod', () => {
-    expect(
-      createPodFromTemplate({ category: podCategoryIris.petsMedical, name: 'Medical', role: '' }).breadcrumb,
-    ).toEqual(['Pets', 'Medical'])
+    expect(createPodFromTemplate({ category: podCategoryIris.petsMedical, name: 'Medical' }).breadcrumb).toEqual([
+      'Pets',
+      'Medical',
+    ])
   })
 
   it('gives every pod its own id', () => {
@@ -38,11 +38,11 @@ describe('createPodFromTemplate', () => {
   })
 
   it('uppercases the first letter of the name for the avatar', () => {
-    expect(createPodFromTemplate({ name: 'luna', role: '' }).avatarLetter).toBe('L')
+    expect(createPodFromTemplate({ name: 'luna' }).avatarLetter).toBe('L')
   })
 
   it('rejects a category outside the catalog', () => {
-    expect(() => createPodFromTemplate({ category: 'urn:unknown', name: 'X', role: '' })).toThrow()
+    expect(() => createPodFromTemplate({ category: 'urn:unknown', name: 'X' })).toThrow()
   })
 })
 
@@ -65,7 +65,7 @@ describe('applyTemplate', () => {
   })
 
   it('does not duplicate a form the pod already has', () => {
-    const pet = createPodFromTemplate({ category: podCategoryIris.pets, name: 'Ginger', role: '' })
+    const pet = createPodFromTemplate({ category: podCategoryIris.pets, name: 'Ginger' })
     const recategorised = applyTemplate({ ...pet, category: null }, podCategoryIris.pets)
 
     expect(recategorised.forms).toEqual([{ shape: shapeIris.pet }])

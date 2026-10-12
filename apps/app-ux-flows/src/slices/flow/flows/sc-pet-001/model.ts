@@ -12,6 +12,7 @@ export type ScPet001ScreenId =
   | 'home'
   | 'telli'
   | 'new-pod'
+  | 'pod-notes'
   | 'pod-empty'
   | 'pod-template-suggested'
   | 'pod-template-applied'
@@ -57,8 +58,6 @@ export const canCreatePod = (name: string) => name.trim() !== ''
 
 // The New Pod sheet's fields as entered; the created pod keeps its own trimmed copies.
 export const podNameAtom = atom('')
-
-export const roleAtom = atom('')
 
 // The sheet's optional category; `null` creates a generic pod.
 export const chosenCategoryAtom = atom<string | null>(null)
@@ -118,7 +117,7 @@ export const sendNextMessageAtom = atom(null, (get, set) => {
 
 export const openNewPodFromHomeAtom = atom(null, (_get, set) => set(newPodOriginAtom, 'home'))
 
-// Fills the sheet from one card's own draft: name and category replaced, role kept. Nothing once the pod exists.
+// Fills the sheet from one card's own draft: name and category replaced. Nothing once the pod exists.
 export const applyQuickActionAtom = atom(null, (get, set, turn: number) => {
   const action = get(conversationAtom)[turn]?.action
   if (get(createdPodAtom) || action?.kind !== 'create-pod') return
@@ -155,11 +154,24 @@ export const shouldOfferSuggestionAtom = atom(
   (get) => get(activeSuggestionAtom) !== null && !get(suggestionDismissedAtom),
 )
 
+// Set once the pod has been on screen long enough for the suggestion to arrive; it then waits on the Info tab.
+export const suggestionReadyAtom = atom(false)
+
+export const infoHasDotAtom = atom((get) => get(suggestionReadyAtom) && get(shouldOfferSuggestionAtom))
+
+type PodInfoScreenId = Extract<ScPet001ScreenId, 'pod-empty' | 'pod-template-suggested' | 'pod-template-applied'>
+
+// What the Info tab shows for the pod as it is now.
+export const podInfoScreenAtom = atom<PodInfoScreenId>((get) => {
+  if (get(createdPodAtom)?.category) return 'pod-template-applied'
+  return get(infoHasDotAtom) ? 'pod-template-suggested' : 'pod-empty'
+})
+
 // Creates at most one pod per run. A chosen category is applied through its template, as if suggested later.
 export const createPodAtom = atom(null, (get, set) => {
   const name = get(podNameAtom)
   if (get(createdPodAtom) || !canCreatePod(name)) return
-  const pod = createPodFromTemplate({ name, role: get(roleAtom) })
+  const pod = createPodFromTemplate({ name })
   const category = get(chosenCategoryAtom)
   set(createdPodAtom, category ? applyTemplate(pod, category) : pod)
 })

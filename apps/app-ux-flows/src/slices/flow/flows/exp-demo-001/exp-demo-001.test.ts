@@ -14,6 +14,15 @@ describe('exp-demo-001 flow', () => {
     expect(expDemo001Flow.defaultVariant).toBe('a')
   })
 
+  it('opens the pod on its Notes tab in both variants', () => {
+    for (const variantId of ['a', 'b']) {
+      const flow = resolveFlow(expDemo001Flow, variantId)
+
+      expect(flow.initialScreen).toBe('ginger-notes')
+      expect(Object.keys(flow.screens).sort()).toEqual(['ginger-info', 'ginger-notes', 'medication-added'])
+    }
+  })
+
   it('uses the standard empty state card in variant a', () => {
     expect(resolveFlow(expDemo001Flow, 'a').components.EmptyStateCard).toBe(EmptyStateCard)
   })

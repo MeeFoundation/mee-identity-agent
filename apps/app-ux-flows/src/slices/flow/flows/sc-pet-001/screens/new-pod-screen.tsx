@@ -14,7 +14,6 @@ import {
   createPodAtom,
   newPodOriginAtom,
   podNameAtom,
-  roleAtom,
   type ScPet001Components,
   type ScPet001ScreenId,
 } from '../model'
@@ -27,7 +26,6 @@ export const NewPodScreen = () => {
   const { BottomSheet, Button, SelectField, TextField } = useFlowComponents<ScPet001Components>()
   const { back, goToScreen } = useFlowNavigation<ScPet001ScreenId>()
   const [podName, setPodName] = useAtom(podNameAtom)
-  const [role, setRole] = useAtom(roleAtom)
   const category = useAtomValue(chosenCategoryAtom)
   const chooseCategory = useSetAtom(chooseCategoryAtom)
   const categoryFromTelli = useAtomValue(categoryFromTelliAtom)
@@ -37,7 +35,7 @@ export const NewPodScreen = () => {
 
   const create = () => {
     createPod()
-    goToScreen(category ? 'pod-template-applied' : 'pod-empty')
+    goToScreen('pod-notes')
   }
 
   return (
@@ -50,7 +48,6 @@ export const NewPodScreen = () => {
       >
         <div className="flex flex-col gap-4">
           <TextField label={t('flows.scPet001.newPod.name')} onChange={setPodName} value={podName} />
-          <TextField label={t('flows.scPet001.newPod.role')} onChange={setRole} value={role} />
           <SelectField<string>
             label={t('flows.scPet001.newPod.category')}
             onChange={(next) => chooseCategory(next === NO_CATEGORY ? null : next)}

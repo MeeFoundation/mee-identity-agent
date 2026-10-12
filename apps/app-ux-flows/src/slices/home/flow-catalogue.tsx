@@ -23,12 +23,11 @@ export const FlowCatalogue = ({ catalogue, assignedVariantId, screenHref, onOpen
   const { t } = useTranslation()
 
   return (
-    <details className="group rounded-xl border border-gray-200 border-dashed bg-gray-50 text-sm">
-      <summary className="cursor-pointer select-none px-3 py-2 font-medium text-gray-700 outline-none focus-visible:ring-3 focus-visible:ring-ring">
+    <details className="group text-sm">
+      <summary className="w-fit cursor-pointer select-none rounded-md text-gray-500 text-xs outline-none hover:text-gray-700 focus-visible:ring-3 focus-visible:ring-ring">
         {t('home.catalogue.title')}
-        {catalogue.code && <span className="ml-2 font-mono text-gray-500 text-xs">{catalogue.code}</span>}
       </summary>
-      <div className="flex flex-col gap-4 border-gray-200 border-t border-dashed px-3 py-3">
+      <div className="mt-2 flex flex-col gap-4 rounded-xl border border-gray-200 border-dashed bg-gray-50 px-3 py-3">
         {assignedVariantId && (
           <p className="text-muted-foreground text-xs">{t('home.assignedVariant', { variant: assignedVariantId })}</p>
         )}

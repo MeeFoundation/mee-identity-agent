@@ -3,18 +3,13 @@ import { createStore as createJotaiStore } from 'jotai'
 import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
-import {
-  gingerMedication,
-  gingerPod,
-  medicationAtom,
-  medicationFormAddedAtom,
-  noteTextAtom,
-  podAtom,
-} from '../../pods/ginger/model'
+import { gingerMedication, gingerPod, medicationAtom, medicationFormAddedAtom, podAtom } from '../../pods/ginger/model'
+import { noteTextAtom } from '../../pods/notes/model'
 import { defineFlow } from '../../runtime/define-flow'
 import { ProminentEmptyStateCard } from './components/prominent-empty-state-card'
 import type { ExpDemo001Components, ExpDemo001InitialState, ExpDemo001ScreenId } from './model'
 import { GingerInfoScreen } from './screens/ginger-info-screen'
+import { GingerNotesScreen } from './screens/ginger-notes-screen'
 import { MedicationAddedScreen } from './screens/medication-added-screen'
 
 export const expDemo001Flow = defineFlow<ExpDemo001ScreenId, ExpDemo001Components, ExpDemo001InitialState>({
@@ -31,10 +26,11 @@ export const expDemo001Flow = defineFlow<ExpDemo001ScreenId, ExpDemo001Component
   defaultVariant: 'a',
   descriptionKey: 'flows.expDemo001.description',
   id: 'exp-demo-001',
-  initialScreen: 'ginger-info',
+  initialScreen: 'ginger-notes',
   kind: 'experiment',
   screens: {
     'ginger-info': GingerInfoScreen,
+    'ginger-notes': GingerNotesScreen,
     'medication-added': MedicationAddedScreen,
   },
   titleKey: 'flows.expDemo001.title',

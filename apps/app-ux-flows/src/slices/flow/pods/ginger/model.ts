@@ -70,7 +70,5 @@ export const medicationAtom = atom<MedicationRecord>(gingerMedication)
 
 export const medicationFormAddedAtom = atom(false)
 
-export const noteTextAtom = atom('')
-
 // Idempotent, so returning to a screen that adds the form and adding again never duplicates it.
 export const addMedicationFormAtom = atom(null, (_get, set) => set(medicationFormAddedAtom, true))

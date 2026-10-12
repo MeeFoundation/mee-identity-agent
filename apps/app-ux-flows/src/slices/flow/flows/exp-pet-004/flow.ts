@@ -3,7 +3,8 @@ import { createStore as createJotaiStore } from 'jotai'
 import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
-import { gingerPod, medicationAtom, noteTextAtom, podAtom } from '../../pods/ginger/model'
+import { gingerPod, medicationAtom, podAtom } from '../../pods/ginger/model'
+import { noteTextAtom } from '../../pods/notes/model'
 import { defineFlow } from '../../runtime/define-flow'
 import {
   apoquelMedication,

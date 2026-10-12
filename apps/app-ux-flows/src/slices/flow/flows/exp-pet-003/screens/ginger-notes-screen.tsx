@@ -1,4 +1,4 @@
-import { NotesArea } from '../../../pods/ginger/components/notes-area'
+import { NotesArea } from '../../../pods/notes/notes-area'
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { ExpPet003TopBar } from '../components/exp-pet-003-top-bar'
 import type { ExpPet003Components } from '../model'

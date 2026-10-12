@@ -15,3 +15,10 @@ matomo-stop:
 # Start the app-ux-flows dev server
 ux-flows:
     pnpm --filter app-ux-flows dev
+
+# Run lint, type check, tests and knip
+check:
+    pnpm lint
+    pnpm check-types
+    pnpm --filter app-ux-flows test
+    pnpm --filter app-ux-flows knip

@@ -3,12 +3,10 @@ import { useTranslation } from 'react-i18next'
 
 import { GingerCategoryRows } from '../../../pods/ginger/components/ginger-category-rows'
 import { GingerFormsSection } from '../../../pods/ginger/components/ginger-forms-section'
-import { GingerTopBar } from '../../../pods/ginger/components/ginger-top-bar'
 import { addMedicationFormAtom, medicationFormAddedAtom } from '../../../pods/ginger/model'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import type { ExpDemo001Components, ExpDemo001Events, ExpDemo001ScreenId } from '../model'
-
-const noop = () => {}
+import { DemoTopBar } from './demo-top-bar'
 
 type DemoInfoViewProps = {
   // `medication-added` shows the added form even before its effect has updated the run state.
@@ -30,7 +28,7 @@ export const DemoInfoView = ({ medicationFormAdded: forcedAdded = false }: DemoI
   }
 
   return (
-    <PodScreen topBar={<GingerTopBar onTabSelect={noop} tab="info" />}>
+    <PodScreen topBar={<DemoTopBar tab="info" />}>
       <div className="flex flex-col gap-3">
         <GingerFormsSection
           emptyAction={{ label: t('flows.expDemo001.forms.addMedication'), onAction: addMedication }}

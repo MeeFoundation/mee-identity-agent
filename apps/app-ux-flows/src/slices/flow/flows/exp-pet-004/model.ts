@@ -31,7 +31,7 @@ export type MedicationFieldId = MedicationFieldRow['id']
 // Every field but the schedule: editable in place, but saving one does not complete the task.
 export type OtherMedicationField = Exclude<MedicationFieldId, 'frequency'>
 
-export type MenuScreen = 'ginger-notes' | 'ginger-info' | 'medical' | 'medication'
+type MenuScreen = 'ginger-notes' | 'ginger-info' | 'medical' | 'medication'
 
 export const SCHEDULE_FREQUENCIES = ['1', '2', '3'] as const
 

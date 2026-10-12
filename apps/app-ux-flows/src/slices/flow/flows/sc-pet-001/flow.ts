@@ -5,6 +5,7 @@ import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
 import { podCategoryIris } from '../../pods/catalog/categories'
+import { noteTextAtom } from '../../pods/notes/model'
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
   categoryFromTelliAtom,
@@ -14,12 +15,12 @@ import {
   DEFAULT_SUGGESTED_TEMPLATE,
   newPodOriginAtom,
   podNameAtom,
-  roleAtom,
   type ScPet001Components,
   type ScPet001InitialState,
   type ScPet001ScreenId,
   suggestedTemplateAtom,
   suggestionDismissedAtom,
+  suggestionReadyAtom,
   type TelliTurn,
   telliProgressAtom,
   usedActionTurnAtom,
@@ -27,6 +28,7 @@ import {
 import { HomeScreen } from './screens/home-screen'
 import { NewPodScreen } from './screens/new-pod-screen'
 import { PodEmptyScreen } from './screens/pod-empty-screen'
+import { PodNotesScreen } from './screens/pod-notes-screen'
 import { PodTemplateAppliedScreen } from './screens/pod-template-applied-screen'
 import { PodTemplateSuggestedScreen } from './screens/pod-template-suggested-screen'
 import { TelliScreen } from './screens/telli-screen'
@@ -93,7 +95,6 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
   createStore(initialState) {
     const store = createJotaiStore()
     store.set(podNameAtom, '')
-    store.set(roleAtom, '')
     store.set(chosenCategoryAtom, null)
     store.set(createdPodAtom, null)
     // `null` is a deliberate "suggest nothing", so only a missing value falls back to the default.
@@ -102,6 +103,8 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
       initialState?.suggestedTemplate === undefined ? DEFAULT_SUGGESTED_TEMPLATE : initialState.suggestedTemplate,
     )
     store.set(suggestionDismissedAtom, false)
+    store.set(suggestionReadyAtom, false)
+    store.set(noteTextAtom, '')
     store.set(conversationAtom, initialState?.conversation ?? [])
     store.set(telliProgressAtom, { stage: 'idle', turn: 0 })
     store.set(usedActionTurnAtom, null)
@@ -119,6 +122,7 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
   goalKey: 'flows.scPet001.goal',
   hints: {
     'pod-empty': 'flows.scPet001.hints.podEmpty',
+    'pod-notes': 'flows.scPet001.hints.podNotes',
     'pod-template-suggested': 'flows.scPet001.hints.podTemplateSuggested',
     telli: 'flows.scPet001.hints.telli',
   },
@@ -129,6 +133,7 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
     home: HomeScreen,
     'new-pod': NewPodScreen,
     'pod-empty': PodEmptyScreen,
+    'pod-notes': PodNotesScreen,
     'pod-template-applied': PodTemplateAppliedScreen,
     'pod-template-suggested': PodTemplateSuggestedScreen,
     telli: TelliScreen,

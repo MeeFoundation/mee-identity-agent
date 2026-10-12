@@ -5,9 +5,9 @@ type FlowSection<F> = {
   flows: readonly F[]
 }
 
-const sectionOrder: readonly FlowKind[] = ['experiment', 'showcase']
+const sectionOrder: readonly FlowKind[] = ['showcase', 'experiment']
 
-// Experiments first, then showcases; registry order within a section, and no empty sections.
+// Showcases first, then experiments; registry order within a section, and no empty sections.
 export const groupFlowsByKind = <F extends { kind: FlowKind }>(flows: readonly F[]): FlowSection<F>[] =>
   sectionOrder
     .map((kind) => ({ flows: flows.filter((flow) => flow.kind === kind), kind }))

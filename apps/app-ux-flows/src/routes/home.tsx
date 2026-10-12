@@ -10,7 +10,7 @@ import { listFlows } from '@/slices/flow/registry'
 import { listCases } from '@/slices/flow/runtime/resolve-flow'
 import { browserAssignmentStore } from '@/slices/flow/variants/assignment-store'
 import { listVariantChoices } from '@/slices/flow/variants/select-variant'
-import type { FlowStartChoice } from '@/slices/home/flow-card'
+import type { FlowStartChoice } from '@/slices/home/flow-row'
 import { HomePage } from '@/slices/home/home-page'
 
 const toSearch = (choice?: FlowStartChoice): FlowSearch => ({

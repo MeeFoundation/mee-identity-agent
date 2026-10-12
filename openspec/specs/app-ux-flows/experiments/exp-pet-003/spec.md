@@ -85,23 +85,23 @@ Wherever a screen lists the medication before its details are opened, it SHALL b
 `home` SHALL show a greeting, a "Pods" section label and one pod row for Ginger, with Ginger's avatar, the title "Ginger" and the breadcrumb "Pets". The app tab bar SHALL be shown with Home active. Activating the Ginger row SHALL open Ginger on the tab the run starts pods on. Activating the Ask Telli or Navigation tab SHALL be recorded and SHALL do nothing else. Activating Home SHALL do nothing.
 
 #### Scenario: Open Ginger
-- **WHEN** a participant on `home` activates the Ginger row in a run that starts pods on the Info tab
-- **THEN** `ginger-info` is shown
+- **WHEN** a participant on `home` activates the Ginger row in a run that starts pods on the Notes tab
+- **THEN** `ginger-notes` is shown
 
 #### Scenario: Ask Telli is inert
 - **WHEN** a participant on `home` activates Ask Telli
 - **THEN** `home` stays shown
 
-### Requirement: Pod opening tab
-The flow's initial state SHALL be able to choose whether opening Ginger from Home shows the Info tab or the Notes tab. When it does not choose, Ginger SHALL open on the Info tab. All variants SHALL share this setting.
+### Requirement: Pod opening tab with Notes by default
+The flow's initial state SHALL be able to choose whether opening Ginger from Home shows the Info tab or the Notes tab. When it does not choose, Ginger SHALL open on the Notes tab. All variants SHALL share this setting.
 
-#### Scenario: Default opens Info
+#### Scenario: Default opens Notes
 - **WHEN** a run starts without choosing a tab and the participant opens Ginger from Home
-- **THEN** `ginger-info` is shown
-
-#### Scenario: Opening on Notes
-- **WHEN** a run is started with pods opening on the Notes tab and the participant opens Ginger from Home
 - **THEN** `ginger-notes` is shown
+
+#### Scenario: Opening on Info
+- **WHEN** a run is started with pods opening on the Info tab and the participant opens Ginger from Home
+- **THEN** `ginger-info` is shown
 
 ### Requirement: Ginger tabs
 `ginger-notes` and `ginger-info` SHALL show the pod top bar with a back control, the Ginger avatar, the title "Ginger", the breadcrumb "Pets", a menu control and three tabs: Notes, Chat and Info. The tab for the current screen SHALL be shown as selected. Activating Notes SHALL show `ginger-notes`. Activating Info SHALL show `ginger-info`. Activating Chat SHALL be recorded and SHALL do nothing else. The back control SHALL show `home`. The breadcrumb and the menu control SHALL do nothing. `ginger-notes` SHALL show the pod's empty note area and formatting toolbar, as in EXP-PET-002. Text typed there SHALL be kept for the rest of the run and has no other effect.

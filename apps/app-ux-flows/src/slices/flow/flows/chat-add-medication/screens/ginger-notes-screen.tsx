@@ -1,4 +1,4 @@
-import { NotesArea } from '../../../pods/ginger/components/notes-area'
+import { NotesArea } from '../../../pods/notes/notes-area'
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { ShowcaseTopBar } from '../components/showcase-top-bar'
 import type { ChatAddMedicationComponents } from '../model'

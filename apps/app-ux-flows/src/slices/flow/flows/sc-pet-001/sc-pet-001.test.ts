@@ -20,14 +20,16 @@ import {
   createPodFromQuickActionAtom,
   dismissSuggestionAtom,
   ensurePodAtom,
+  infoHasDotAtom,
   newPodOriginAtom,
   nextTelliStage,
   nextUserMessageAtom,
+  podInfoScreenAtom,
   podNameAtom,
-  roleAtom,
   scenarioStateAtom,
   sendNextMessageAtom,
   shouldOfferSuggestionAtom,
+  suggestionReadyAtom,
   telliProgressAtom,
   usedActionTurnAtom,
 } from './model'
@@ -89,6 +91,7 @@ describe('SC-PET-001 Create Ginger', () => {
         'home',
         'new-pod',
         'pod-empty',
+        'pod-notes',
         'pod-template-suggested',
         'telli',
       ])
@@ -116,15 +119,37 @@ describe('SC-PET-001 Create Ginger', () => {
     }
   })
 
+  it('declares the Notes tab the pod opens on, with its hint and no design frame', () => {
+    const flow = resolveFlow(scPet001Flow, null, 'a')
+
+    expect(Object.keys(flow.screens)).toContain('pod-notes')
+    expect(flow.designFrames['pod-notes']).toBeUndefined()
+    expect(translate(flow.hints['pod-notes'] ?? '')).toBe(
+      'Look around the pod — a dot shows where something is waiting.',
+    )
+  })
+
+  it('creates generic Ginger for a direct link to the Notes tab, with Info leading to the empty pod', () => {
+    const store = newRun()
+    store.set(ensurePodAtom)
+
+    expect(store.get(createdPodAtom)).toMatchObject({ category: null, name: 'Ginger' })
+    expect(store.get(podInfoScreenAtom)).toBe('pod-empty')
+    expect(store.get(shouldOfferSuggestionAtom)).toBe(true)
+  })
+
+  it('starts each run with the suggestion not yet ready', () => {
+    expect(newRun().get(suggestionReadyAtom)).toBe(false)
+  })
+
   it('references the Telli chat design frame', () => {
     expect(resolveFlow(scPet001Flow, null).designFrames.telli?.name).toBe('Pod / Chat - 5')
   })
 
-  it('starts with no name, role, category, pod or template', () => {
+  it('starts with no name, category, pod or template', () => {
     const store = newRun()
 
     expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: false, podCreated: false, podName: '' })
-    expect(store.get(roleAtom)).toBe('')
     expect(store.get(chosenCategoryAtom)).toBeNull()
   })
 
@@ -138,7 +163,6 @@ describe('SC-PET-001 Create Ginger', () => {
 
   it('creates one generic pod by name when no category is chosen', () => {
     const store = runWithPod(' Ginger ')
-    store.set(roleAtom, 'Owner')
     const pod = store.get(createdPodAtom)
     store.set(podNameAtom, 'Other')
     store.set(createPodAtom)
@@ -148,13 +172,8 @@ describe('SC-PET-001 Create Ginger', () => {
     expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: false, podCreated: true, podName: 'Ginger' })
   })
 
-  it('keeps the entered role on the pod', () => {
-    const store = newRun()
-    store.set(podNameAtom, 'Ginger')
-    store.set(roleAtom, ' Owner ')
-    store.set(createPodAtom)
-
-    expect(store.get(createdPodAtom)?.creatorRole).toBe('Owner')
+  it('records no creator role on the pod', () => {
+    expect(runWithPod('Ginger').get(createdPodAtom)).not.toHaveProperty('creatorRole')
   })
 
   it('creates the pod with the Pet structure straight away when Pets is chosen', () => {
@@ -208,6 +227,47 @@ describe('SC-PET-001 Create Ginger', () => {
     expect(store.get(shouldOfferSuggestionAtom)).toBe(false)
   })
 
+  it('marks the Info tab only once the suggestion is ready, and routes Info to it', () => {
+    const store = runWithPod('Ginger')
+    expect(store.get(infoHasDotAtom)).toBe(false)
+    expect(store.get(podInfoScreenAtom)).toBe('pod-empty')
+
+    store.set(suggestionReadyAtom, true)
+    expect(store.get(infoHasDotAtom)).toBe(true)
+    expect(store.get(podInfoScreenAtom)).toBe('pod-template-suggested')
+  })
+
+  it('clears the dot and the suggestion route once the suggestion is dismissed', () => {
+    const store = runWithPod('Ginger')
+    store.set(suggestionReadyAtom, true)
+    store.set(dismissSuggestionAtom)
+
+    expect(store.get(infoHasDotAtom)).toBe(false)
+    expect(store.get(podInfoScreenAtom)).toBe('pod-empty')
+  })
+
+  it('routes Info to the Pet structure once the template is applied, without a dot', () => {
+    const suggested = runWithPod('Ginger')
+    suggested.set(suggestionReadyAtom, true)
+    suggested.set(applySuggestedTemplateAtom)
+    const upFront = runWithPod('Ginger', podCategoryIris.pets)
+
+    for (const store of [suggested, upFront]) {
+      expect(store.get(infoHasDotAtom)).toBe(false)
+      expect(store.get(podInfoScreenAtom)).toBe('pod-template-applied')
+    }
+  })
+
+  it('never marks Info when the run suggests no template', () => {
+    const store = newRun({ suggestedTemplate: null })
+    store.set(podNameAtom, 'Ginger')
+    store.set(createPodAtom)
+    store.set(suggestionReadyAtom, true)
+
+    expect(store.get(infoHasDotAtom)).toBe(false)
+    expect(store.get(podInfoScreenAtom)).toBe('pod-empty')
+  })
+
   it('creates generic Ginger for a direct link, and only when no pod exists', () => {
     const direct = newRun()
     direct.set(chosenCategoryAtom, podCategoryIris.pets)
@@ -255,16 +315,14 @@ describe('SC-PET-001 Create Ginger', () => {
       expect(store.get(nextUserMessageAtom)).toBeNull()
     })
 
-    it('fills the sheet from each card’s own draft and keeps the role', () => {
+    it('fills the sheet from each card’s own draft', () => {
       const store = caseRun('c')
       playTurns(store, 2)
-      store.set(roleAtom, 'Owner')
       store.set(podNameAtom, 'Typed')
 
       store.set(applyQuickActionAtom, 0)
       expect(store.get(podNameAtom)).toBe('')
       expect(store.get(chosenCategoryAtom)).toBe(podCategoryIris.pets)
-      expect(store.get(roleAtom)).toBe('Owner')
       expect(store.get(categoryFromTelliAtom)).toBe(true)
       expect(store.get(newPodOriginAtom)).toBe('telli')
       expect(store.get(usedActionTurnAtom)).toBe(0)
@@ -284,15 +342,13 @@ describe('SC-PET-001 Create Ginger', () => {
       expect(store.get(chosenCategoryAtom)).toBeNull()
     })
 
-    it('creates the pod straight from a card that names it, keeping the role', () => {
+    it('creates the pod straight from a card that names it', () => {
       const store = caseRun('b')
       playTurns(store, 1)
-      store.set(roleAtom, 'Owner')
       store.set(createPodFromQuickActionAtom, 0)
 
       expect(store.get(createdPodAtom)).toMatchObject({
         category: podCategoryIris.pets,
-        creatorRole: 'Owner',
         name: 'Ginger',
       })
       expect(store.get(usedActionTurnAtom)).toBe(0)

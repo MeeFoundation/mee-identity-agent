@@ -208,6 +208,7 @@ export const en = {
       goal: 'Create a pod for your cat Ginger.',
       hints: {
         podEmpty: 'Take a look — the app may suggest something.',
+        podNotes: 'Look around the pod — a dot shows where something is waiting.',
         podTemplateSuggested: 'Decide whether to use the Pet template.',
         telli: 'Send the message, then use Telli’s card when you’re ready.',
       },
@@ -228,7 +229,6 @@ export const en = {
         description:
           'A digital room for one part of your life. You’ll invite people and add things once this Pod is created.',
         name: 'Pod name',
-        role: 'Your role in this Pod',
         suggestedByTelli: 'Suggested by Telli from your chat',
         title: 'New Pod',
       },
@@ -273,14 +273,12 @@ export const en = {
     catalogue: {
       baseFlow: 'Base flow',
       noFrame: 'No Figma frame',
-      title: 'Flow catalogue (dev only)',
+      title: 'Screens (dev only)',
     },
-    chooseCase: 'Choose a case:',
-    chooseVariant: 'Choose version:',
     newSession: 'Start new test session',
     sections: {
-      experiments: 'Experiments',
-      showcases: 'Showcases',
+      experiments: 'Experiments ({{count}})',
+      showcases: 'Showcases ({{count}})',
     },
     start: 'Start',
     title: 'UX Flows',
@@ -398,6 +396,9 @@ export const en = {
     podTopBar: {
       back: 'Back',
       menu: 'More options',
+    },
+    segmentedTabs: {
+      dot: 'new',
     },
   },
 }

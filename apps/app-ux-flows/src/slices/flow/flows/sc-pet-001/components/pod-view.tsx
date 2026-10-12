@@ -5,14 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { narrowerCategories } from '../../../pods/catalog/categories'
 import type { PodInstance } from '../../../pods/catalog/create-pod'
 import { findTemplate, formLabelKey } from '../../../pods/catalog/templates'
-import { categoryIcon } from '../../../pods/category-icons'
-import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import type { ScPet001Components, ScPet001ScreenId } from '../model'
+import { useFlowComponents } from '../../../runtime/flow-context'
+import type { ScPet001Components } from '../model'
 import { CategoryCell } from './category-cell'
+import { PodHeader } from './pod-header'
 
 const noop = () => {}
-
-type PodTab = 'notes' | 'chat' | 'info'
 
 type PodViewProps = {
   pod: PodInstance
@@ -23,37 +21,12 @@ type PodViewProps = {
 // A pod's Info tab, driven only by the pod record: its template decides which structure is shown.
 export const PodView = ({ pod, suggestion }: PodViewProps) => {
   const { t } = useTranslation()
-  const { CategoryRow, Divider, EmptyStateCard, PodScreen, PodTopBar, SectionLabel, SegmentedTabs } =
-    useFlowComponents<ScPet001Components>()
-  const { goToScreen } = useFlowNavigation<ScPet001ScreenId>()
+  const { CategoryRow, Divider, EmptyStateCard, PodScreen, SectionLabel } = useFlowComponents<ScPet001Components>()
   const structureLabelKey = pod.category ? findTemplate(pod.category)?.structureLabelKey : undefined
   const subpods = pod.category ? narrowerCategories(pod.category) : []
 
   return (
-    <PodScreen
-      topBar={
-        <PodTopBar
-          avatar={{ letter: pod.avatarLetter }}
-          breadcrumb={pod.breadcrumb}
-          breadcrumbIcon={pod.category ? categoryIcon(pod.category) : undefined}
-          // Home, not history: going back in history would reopen the New Pod sheet the pod came from.
-          onBack={() => goToScreen('home')}
-          onMenu={noop}
-          tabs={
-            <SegmentedTabs<PodTab>
-              items={[
-                { label: t('flows.scPet001.pod.tabs.notes'), value: 'notes' },
-                { label: t('flows.scPet001.pod.tabs.chat'), value: 'chat' },
-                { label: t('flows.scPet001.pod.tabs.info'), value: 'info' },
-              ]}
-              onSelect={noop}
-              value="info"
-            />
-          }
-          title={pod.name}
-        />
-      }
-    >
+    <PodScreen topBar={<PodHeader pod={pod} tab="info" />}>
       <div className="flex flex-col gap-3">
         {suggestion}
         {structureLabelKey ? (

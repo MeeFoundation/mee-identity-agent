@@ -1,6 +1,6 @@
 import type { GingerPodComponents, MedicationRecord, Pod } from '../../pods/ginger/model'
 
-export type ExpDemo001ScreenId = 'ginger-info' | 'medication-added'
+export type ExpDemo001ScreenId = 'ginger-notes' | 'ginger-info' | 'medication-added'
 
 export type ExpDemo001Components = GingerPodComponents
 

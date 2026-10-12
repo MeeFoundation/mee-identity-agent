@@ -19,11 +19,12 @@ A Flow SHALL be a self-contained interactive UX scenario consisting of one or mo
 A Flow MAY additionally declare:
 - a human-readable description,
 - a design reference for any of its screens: the name of the Figma frame the screen implements and that frame's URL,
-- a display code that identifies it, for example `EXP-PET-002` for an experiment or `SC-PET-001` for a research scenario shown as a showcase.
+- a display code that identifies it, for example `EXP-PET-002` for an experiment or `SC-PET-001` for a research scenario shown as a showcase,
+- a goal and per-screen hints, as defined by the `app-ux-flows/flow-briefing` capability.
 
 An experiment MAY additionally declare variants and a variant selection mode, as defined by the `app-ux-flows/flow-variants` capability.
 
-A showcase SHALL NOT declare variants, a variant selection mode or a default variant. Declaring any of them on a showcase SHALL fail type checking.
+A showcase SHALL NOT declare variants, a variant selection mode or a default variant. Declaring any of them on a showcase SHALL fail type checking. A showcase MAY instead declare cases, as defined in "Showcase cases". Cases are not variants: a variant is an alternative design compared in a study, a case is a task the tester is told to carry out. An experiment SHALL NOT declare cases; declaring them SHALL fail type checking.
 
 The title and description SHALL be shown through i18next. Display codes and Figma frame names are design identifiers. They SHALL be shown verbatim and are not translated. A flow SHALL NOT declare a design link for the flow as a whole.
 
@@ -65,6 +66,14 @@ A screen id MAY be declared as unavailable in the base flow so that only variant
 - **WHEN** a showcase definition declares the display code `SC-PET-001`
 - **THEN** `pnpm check-types` passes, and the development flow catalogue shows `SC-PET-001` verbatim for that showcase
 
+#### Scenario: Showcase with cases
+- **WHEN** a showcase definition declares cases, each with a code, a name and a goal
+- **THEN** `pnpm check-types` passes
+
+#### Scenario: Experiment cannot have cases
+- **WHEN** an experiment definition declares cases
+- **THEN** `pnpm check-types` reports an error
+
 ### Requirement: Flow Registry
 The application SHALL maintain a registry of all available flows, mapping each flow id to its flow definition. The registry SHALL be the single source of truth for which flows exist, used both to list flows on the home page and to resolve a flow by id from a URL.
 
@@ -77,13 +86,17 @@ The application SHALL maintain a registry of all available flows, mapping each f
 - **THEN** the application shows a not-found state instead of starting a flow
 
 ### Requirement: Home page lists available flows
-The application's home page SHALL list every flow in the Flow Registry and SHALL let a participant start any listed flow. Flows SHALL be grouped by kind into an "Experiments" section followed by a "Showcases" section, each with a translated heading. A section with no flows SHALL NOT be shown. Within a section, flows keep their registry order. Each flow SHALL show its title and, when it declares one, its description. For a flow with explicit variant selection, the home page SHALL let the participant choose which variant to start. For a flow without variants or with automatic assignment, it SHALL offer a single start action. Showcases SHALL be listed in both development and production builds. In production builds the home page SHALL NOT show variant information to the participant. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
+The application's home page SHALL list every flow in the Flow Registry and SHALL let a participant start any listed flow. Flows SHALL be grouped by kind into a "Showcases" section followed by an "Experiments" section. Each section SHALL have a translated heading that shows how many flows it holds. A section with no flows SHALL NOT be shown. Within a section, flows keep their registry order. Each flow SHALL show its title and, when it declares one, its description.
 
-Development builds SHALL additionally show, for each flow, a catalogue:
+For a flow with explicit variant selection, the home page SHALL let the participant choose which variant to start, with one start action per variant showing the variant's name. For a showcase with cases, it SHALL let the participant choose which case to start, with one start action per case showing the case's code and name. A variant's or case's description SHALL be available on demand from its start action, for example on hover or focus, rather than always shown. For any other flow, it SHALL offer a single start action.
+
+Showcases SHALL be listed in both development and production builds. In production builds the home page SHALL NOT show variant information to the participant. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
+
+Development builds SHALL additionally show, for each flow, a catalogue, collapsed until opened:
 - the flow's display code, if any,
 - the stored automatic assignment, if any,
-- for each variant (or for the base flow when it has none), the variant's display code, name and description,
-- each screen available in that variant, with its screen id, its Figma frame name linked to the frame's URL when declared, and a link that opens that screen in that variant.
+- for each variant or case (or for the base flow when it has neither), its display code, name and description,
+- each screen available in that variant or case, with its screen id, its Figma frame name linked to the frame's URL when declared, and a link that opens that screen in that variant or case.
 
 Production builds SHALL NOT show the catalogue, display codes or Figma references.
 
@@ -93,7 +106,11 @@ Production builds SHALL NOT show the catalogue, display codes or Figma reference
 
 #### Scenario: Flows are grouped by kind
 - **WHEN** the registry holds the experiment `exp-pet-002` and the showcase `chat-add-medication`
-- **THEN** `exp-pet-002` is listed under "Experiments" and `chat-add-medication` under "Showcases", with Experiments shown first
+- **THEN** `chat-add-medication` is listed under "Showcases" and `exp-pet-002` under "Experiments", with Showcases shown first
+
+#### Scenario: Section heading shows its count
+- **WHEN** the registry holds two showcases and four experiments
+- **THEN** the headings read "Showcases (2)" and "Experiments (4)"
 
 #### Scenario: Empty section is hidden
 - **WHEN** the registry holds no showcase
@@ -101,15 +118,23 @@ Production builds SHALL NOT show the catalogue, display codes or Figma reference
 
 #### Scenario: Showcases in production
 - **WHEN** a production build shows the home page
-- **THEN** the "Showcases" section lists every registered showcase with its title, description and a single start action
+- **THEN** the "Showcases" section lists every registered showcase with its title, description and its start actions
+
+#### Scenario: Variant description on demand
+- **WHEN** a participant hovers over or focuses the start action of variant `b` of `exp-demo-001`
+- **THEN** the variant's description is shown, and it is not shown otherwise
 
 #### Scenario: Participant starts a flow from the home page
 - **WHEN** a participant chooses a flow on the home page
-- **THEN** a new run of that flow starts from the flow's initial state for its resolved variant, and the participant is taken to its initial screen at `/flows/<flowId>/<initialScreenId>`, with `?variant=<variantId>` only when they chose a variant explicitly
+- **THEN** a new run of that flow starts from the flow's initial state for its resolved variant or case, and the participant is taken to its initial screen at `/flows/<flowId>/<initialScreenId>`, with `?variant=<variantId>` only when they chose a variant explicitly, and `?case=<caseId>` when they chose a case
 
 #### Scenario: Development catalogue
-- **WHEN** a development build shows the home page for flow `exp-pet-002`
+- **WHEN** a development build shows the home page for flow `exp-pet-002` and the developer opens its catalogue
 - **THEN** it shows `EXP-PET-002`, both variants with their codes `EXP-PET-002-A` and `EXP-PET-002-B`, and under each variant its screens with Figma frame names linking to Figma
+
+#### Scenario: Catalogue starts collapsed
+- **WHEN** a development build shows the home page
+- **THEN** every flow's catalogue is collapsed, and opening one does not open the others
 
 #### Scenario: Showcase catalogue
 - **WHEN** a development build shows the home page for showcase `chat-add-medication`
@@ -122,6 +147,10 @@ Production builds SHALL NOT show the catalogue, display codes or Figma reference
 #### Scenario: Production hides the catalogue
 - **WHEN** a production build shows the home page
 - **THEN** no display code, variant, screen list or Figma reference is shown
+
+#### Scenario: Choose a case
+- **WHEN** a participant views the home page and showcase `sc-pet-001` has cases
+- **THEN** its row offers "SC-PET-001-A", "SC-PET-001-B" and "SC-PET-001-C" with their names, and choosing B opens `/flows/sc-pet-001/home?case=b`
 
 ### Requirement: Direct flow URL
 Each flow SHALL be reachable at `/flows/<flowId>`, and each of its screens at `/flows/<flowId>/<screenId>`, so a participant can open a flow or a specific screen directly. The screen id in the URL SHALL be the only source of truth for which screen is shown. Opening any flow URL when no run of that flow is active in the current page session SHALL start a new run from the flow's initial state. A screen SHALL render correctly with that initial state even if the participant never visited earlier screens.
@@ -269,3 +298,31 @@ A screen SHALL be able to explicitly mark its run as complete. By default, a com
 #### Scenario: Completed run is not re-entered as in-progress
 - **WHEN** a participant uses browser back/forward, or opens another screen URL of the same flow, while the run is completed with the completion view
 - **THEN** the completion view keeps being shown instead of an in-progress screen, until the run is restarted or a new run starts
+
+### Requirement: Showcase cases
+A showcase MAY declare cases. Each case SHALL have:
+- a stable, URL-safe identifier unique within its showcase, never derived from its display text;
+- a display code, for example `SC-PET-001-B`, shown verbatim;
+- a name, shown through i18next.
+
+A case MAY declare a goal and per-screen hints (see `app-ux-flows/flow-briefing`), and initial-state values that override the showcase's defaults. Every case SHALL share the showcase's screens, components and initial screen. A case SHALL differ only in what the tester is told and in its starting data.
+
+A case is always chosen by the participant; it is never assigned and never stored. The active case SHALL be:
+- the case named by the `case` query parameter, when it names one of the showcase's cases;
+- otherwise the showcase's first case in declaration order.
+
+When the parameter names no case of the showcase, or the flow has no cases, it SHALL be removed from the URL with a replace navigation, and the case SHALL be chosen as if it had not been present. A run SHALL keep its case through navigation and restart, and the `case` parameter SHALL be kept on every screen URL of the run. Screens SHALL NOT read the parameter.
+
+Showcases stay untracked whatever their case.
+
+#### Scenario: Open a case by URL
+- **WHEN** someone opens `/flows/sc-pet-001/telli?case=c`
+- **THEN** `telli` is shown in case C, with case C's starting data
+
+#### Scenario: Showcase opened without a case
+- **WHEN** someone opens `/flows/sc-pet-001/home` without a `case` parameter
+- **THEN** the run uses the first case, `a`
+
+#### Scenario: Unknown case in the URL
+- **WHEN** someone opens a showcase URL with `?case=<unknownId>`
+- **THEN** the URL is replaced with the same path without the parameter, and the run uses the first case

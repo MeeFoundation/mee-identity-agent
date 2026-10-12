@@ -33,7 +33,7 @@ export type ExpPet003InitialState = {
 
 export const DEFAULT_MEDICAL_PRESENTATION: MedicalPresentation = 'row'
 
-export const DEFAULT_POD_OPENING_TAB: PodOpeningTab = 'info'
+export const DEFAULT_POD_OPENING_TAB: PodOpeningTab = 'notes'
 
 export const medicalPresentationAtom = atom<MedicalPresentation>(DEFAULT_MEDICAL_PRESENTATION)
 

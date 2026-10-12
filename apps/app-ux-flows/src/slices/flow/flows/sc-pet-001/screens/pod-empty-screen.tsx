@@ -4,21 +4,20 @@ import { useEffect } from 'react'
 import { useFlowNavigation } from '../../../runtime/flow-context'
 import { PodView } from '../components/pod-view'
 import { usePod } from '../components/use-pod'
-import { type ScPet001ScreenId, shouldOfferSuggestionAtom } from '../model'
-
-// Long enough to take in the generic pod before the suggestion replaces it.
-const SUGGESTION_DELAY_MS = 1500
+import { useSuggestionTimer } from '../components/use-suggestion-timer'
+import { infoHasDotAtom, type ScPet001ScreenId } from '../model'
 
 export const PodEmptyScreen = () => {
   const pod = usePod()
-  const shouldOfferSuggestion = useAtomValue(shouldOfferSuggestionAtom)
+  const suggestionReady = useAtomValue(infoHasDotAtom)
   const { goToScreen } = useFlowNavigation<ScPet001ScreenId>()
 
+  useSuggestionTimer()
+
+  // Once the suggestion is ready it takes this screen's place.
   useEffect(() => {
-    if (!shouldOfferSuggestion) return
-    const timer = setTimeout(() => goToScreen('pod-template-suggested'), SUGGESTION_DELAY_MS)
-    return () => clearTimeout(timer)
-  }, [shouldOfferSuggestion, goToScreen])
+    if (suggestionReady) goToScreen('pod-template-suggested')
+  }, [suggestionReady, goToScreen])
 
   return pod ? <PodView pod={pod} /> : null
 }

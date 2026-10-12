@@ -39,7 +39,7 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
       return
     }
     createPodFromQuickAction(turn)
-    goToScreen(category ? 'pod-template-applied' : 'pod-empty')
+    goToScreen('pod-notes')
   }
 
   const cardAction = !pod
@@ -47,7 +47,7 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
     : usedTurn === turn
       ? {
           label: t('flows.scPet001.telli.openPod'),
-          onAction: () => goToScreen(pod.category ? 'pod-template-applied' : 'pod-empty'),
+          onAction: () => goToScreen('pod-notes'),
         }
       : { disabled: true, label: t('flows.scPet001.telli.createPod'), onAction: () => {} }
 
