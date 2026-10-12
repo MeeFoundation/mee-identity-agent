@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/shared/ui/button'
 
 import type { ComponentEnvironment } from '../runtime/define-flow'
-import type { ResolvedFlow } from '../runtime/resolve-flow'
+import type { ResolvedFlow, ResolvedNote } from '../runtime/resolve-flow'
 
 export type BriefingFlow = Pick<
   ResolvedFlow<string, ComponentEnvironment, object>,
-  'titleKey' | 'caseId' | 'caseCode' | 'caseNameKey' | 'cases' | 'goalKey' | 'hints'
+  'titleKey' | 'caseId' | 'caseCode' | 'caseNameKey' | 'cases' | 'goalKey' | 'hints' | 'notes'
 >
 
 type BriefingRun = {
@@ -42,6 +42,28 @@ const BriefingSection = ({ title, children }: { title: string; children: string 
   </section>
 )
 
+const NotesGroup = ({ title, note }: { title: string; note: ResolvedNote | null | undefined }) => {
+  const { t } = useTranslation()
+  if (!note || (!note.aboutKey && note.questionKeys.length === 0)) return null
+
+  return (
+    <section className="flex flex-col gap-2 border-gray-200 border-t pt-4">
+      <h2 className="font-semibold text-gray-500 text-xs uppercase tracking-wide">{title}</h2>
+      {note.aboutKey && <p className="text-gray-900">{t(note.aboutKey)}</p>}
+      {note.questionKeys.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <h3 className="font-medium text-gray-700">{t('flow.briefing.openQuestions')}</h3>
+          <ul className="flex list-disc flex-col gap-1 pl-5 text-gray-900">
+            {note.questionKeys.map((questionKey) => (
+              <li key={questionKey}>{t(questionKey)}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
+
 // What the side panel and the phone-width overlay both show.
 export const BriefingContent = ({ flow, screenId, run, onTryCase }: BriefingProps) => {
   const { t } = useTranslation()
@@ -75,6 +97,9 @@ export const BriefingContent = ({ flow, screenId, run, onTryCase }: BriefingProp
               </Button>
             ))}
       </div>
+      <NotesGroup note={flow.notes.screens[screenId]} title={t('flow.briefing.thisScreen')} />
+      <NotesGroup note={flow.notes.case} title={t('flow.briefing.thisCase')} />
+      <NotesGroup note={flow.notes.flow} title={t('flow.briefing.thisFlow')} />
     </div>
   )
 }

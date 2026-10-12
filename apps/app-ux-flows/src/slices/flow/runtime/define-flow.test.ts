@@ -57,4 +57,30 @@ describe('defineFlow typing', () => {
     expect(Object.keys(showcase.cases ?? {})).toEqual(['a', 'b'])
     expect(experimentWithGoal.goalKey).toBe('fixture.goal')
   })
+
+  it('lets showcases and their cases declare explanations and questions, and forbids them on experiments', () => {
+    const showcase = defineFlow({
+      ...base,
+      cases: {
+        a: {
+          code: 'SC-1-A',
+          nameKey: 'a',
+          questionKeys: ['a.question'],
+          screenNotes: { home: { aboutKey: 'a.home.about', questionKeys: ['a.home.question'] } },
+        },
+      },
+      kind: 'showcase',
+      questionKeys: ['fixture.question'],
+      screenNotes: { home: { aboutKey: 'fixture.home.about' } },
+    })
+
+    // @ts-expect-error experiments cannot declare open questions
+    defineFlow({ ...base, kind: 'experiment', questionKeys: ['fixture.question'] })
+    // @ts-expect-error experiments cannot declare screen explanations
+    defineFlow({ ...base, kind: 'experiment', screenNotes: { home: { aboutKey: 'fixture.home.about' } } })
+    // @ts-expect-error screen notes name the flow's own screens
+    defineFlow({ ...base, kind: 'showcase', screenNotes: { missing: { aboutKey: 'fixture.missing' } } })
+
+    expect(showcase.questionKeys).toEqual(['fixture.question'])
+  })
 })

@@ -38,9 +38,11 @@ type FieldRowProps = {
   onEdit?: () => void
   // Shown in place of the value while the field is being edited; it carries its own visible label.
   editor?: ReactNode
+  // A short marker after the label, such as "NEW".
+  badge?: string
 }
 
-export const FieldRow = ({ label, value, onEdit, editor }: FieldRowProps) => {
+export const FieldRow = ({ label, value, onEdit, editor, badge }: FieldRowProps) => {
   const { t } = useTranslation()
 
   if (editor)
@@ -54,7 +56,14 @@ export const FieldRow = ({ label, value, onEdit, editor }: FieldRowProps) => {
   return (
     <div className="flex items-center gap-3 py-3 pr-2">
       <div className="flex min-w-0 flex-1 flex-col">
-        <dt className="-mb-0.5 text-gray-600 text-xs">{label}</dt>
+        <dt className="-mb-0.5 flex items-center gap-1.5 text-gray-600 text-xs">
+          {label}
+          {badge && (
+            <span className="rounded-full bg-error-700 px-1.5 font-semibold text-[10px] text-white leading-4">
+              {badge}
+            </span>
+          )}
+        </dt>
         <dd className="font-medium text-base text-gray-800">{value}</dd>
       </div>
       {onEdit && (

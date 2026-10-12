@@ -264,6 +264,54 @@ describe('resolveFlow', () => {
       expect(runStore.get(labelAtom)).toBe('run')
     })
 
+    it('resolves explanations and questions, with case screen notes replacing explanations and adding questions', () => {
+      const notedFlow = defineFlow<'home' | 'form', { Footer: typeof Footer }, FixtureState>({
+        cases: {
+          first: { code: 'SC-2-A', nameKey: 'first.name' },
+          second: {
+            code: 'SC-2-B',
+            descriptionKey: 'second.description',
+            nameKey: 'second.name',
+            questionKeys: ['second.q1'],
+            screenNotes: {
+              form: { questionKeys: ['second.form.q1'] },
+              home: { aboutKey: 'second.home.about', questionKeys: ['second.home.q1'] },
+            },
+          },
+        },
+        components: { Footer },
+        createStore: () => createJotaiStore(),
+        descriptionKey: 'noted.description',
+        id: 'noted',
+        initialScreen: 'home',
+        kind: 'showcase',
+        questionKeys: ['noted.q1', 'noted.q2'],
+        screenNotes: { home: { aboutKey: 'noted.home.about', questionKeys: ['noted.home.q1', 'noted.home.q2'] } },
+        screens: { form: FormScreen, home: HomeScreen },
+        titleKey: 'noted.title',
+      })
+
+      const first = resolveFlow(notedFlow, null, 'first')
+      expect(first.notes.flow).toEqual({ aboutKey: 'noted.description', questionKeys: ['noted.q1', 'noted.q2'] })
+      expect(first.notes.case).toEqual({ aboutKey: null, questionKeys: [] })
+      expect(first.notes.screens).toEqual({
+        home: { aboutKey: 'noted.home.about', questionKeys: ['noted.home.q1', 'noted.home.q2'] },
+      })
+
+      const second = resolveFlow(notedFlow, null, 'second')
+      expect(second.notes.case).toEqual({ aboutKey: 'second.description', questionKeys: ['second.q1'] })
+      expect(second.notes.screens).toEqual({
+        form: { aboutKey: null, questionKeys: ['second.form.q1'] },
+        home: { aboutKey: 'second.home.about', questionKeys: ['noted.home.q1', 'noted.home.q2', 'second.home.q1'] },
+      })
+    })
+
+    it('resolves a flow without notes to empty notes', () => {
+      const resolved = resolveFlow(noVariantFlow, null)
+
+      expect(resolved.notes).toEqual({ case: null, flow: { aboutKey: null, questionKeys: [] }, screens: {} })
+    })
+
     it('caches each case separately and throws for an unknown case', () => {
       expect(resolveFlow(casedFlow, null, 'second')).toBe(resolveFlow(casedFlow, null, 'second'))
       expect(resolveFlow(casedFlow, null, 'second')).not.toBe(resolveFlow(casedFlow, null, 'first'))

@@ -27,6 +27,14 @@ type VariantDefinition<S extends string, C extends ComponentEnvironment, I exten
 
 type Hints<S extends string> = Partial<Record<S, string>>
 
+// What a screen is for and what reviewers should consider about it; shown with the briefing.
+export type ScreenNote = {
+  aboutKey?: string
+  questionKeys?: readonly string[]
+}
+
+type ScreenNotes<S extends string> = Partial<Record<S, ScreenNote>>
+
 // A task the tester is told to carry out; it shares every screen and differs only in its briefing and starting data.
 type CaseDefinition<S extends string, I extends object> = {
   // Design identifier such as `SC-PET-001-B`, shown verbatim.
@@ -36,6 +44,10 @@ type CaseDefinition<S extends string, I extends object> = {
   goalKey?: string
   hints?: Hints<S>
   initialState?: I
+  // Open questions about the case; its description is its explanation.
+  questionKeys?: readonly string[]
+  // A screen's explanation here replaces the flow's, and its questions follow the flow's.
+  screenNotes?: ScreenNotes<S>
 }
 
 type VariantSelection = 'explicit' | 'automatic'
@@ -67,6 +79,8 @@ type ExperimentDefinition<S extends string, C extends ComponentEnvironment, I ex
   // Explicit selection falls back to this variant, or to the first variant key when omitted.
   defaultVariant?: string
   cases?: never
+  questionKeys?: never
+  screenNotes?: never
 }
 
 // `never` members keep these fields readable on the union while forbidding them on showcases.
@@ -76,6 +90,9 @@ type ShowcaseDefinition<S extends string, C extends ComponentEnvironment, I exte
   variantSelection?: never
   defaultVariant?: never
   cases?: Readonly<Record<string, CaseDefinition<NoInfer<S>, NoInfer<I>>>>
+  // Open questions about the flow; its description is its explanation.
+  questionKeys?: readonly string[]
+  screenNotes?: ScreenNotes<NoInfer<S>>
 }
 
 export type FlowDefinition<S extends string, C extends ComponentEnvironment, I extends object> =

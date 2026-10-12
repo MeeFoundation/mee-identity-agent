@@ -70,7 +70,7 @@ describe('SC-PET-001 Create Ginger', () => {
     expect(scPet001Flow.variants).toBeUndefined()
     expect(scPet001Flow.initialScreen).toBe('home')
     expect(findFlow('sc-pet-001')).toBe(scPet001Flow)
-    expect(listFlows().at(-1)).toBe(scPet001Flow)
+    expect(listFlows().at(-2)).toBe(scPet001Flow)
     expect(resolveFlow(scPet001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PET-001-A'],
       ['b', 'SC-PET-001-B'],

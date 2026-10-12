@@ -5,10 +5,14 @@ export const en = {
       goal: 'Goal',
       goalReached: 'Goal reached',
       onThisScreen: 'On this screen',
+      openQuestions: 'Open questions',
       reachedCase: 'You reached the goal of this case.',
       reachedFlow: 'You reached the goal of this flow.',
       start: 'Start',
       startOver: 'Start over',
+      thisCase: 'This case',
+      thisFlow: 'This flow',
+      thisScreen: 'This screen',
       tryCase: 'Try case {{code}}',
       yourGoal: 'Your goal',
     },
@@ -267,6 +271,112 @@ export const en = {
       },
       title: 'Create Ginger',
     },
+    scPpl001: {
+      cases: {
+        a: {
+          description: "Sofia's Contact info is empty, so every recognised line is new.",
+          goal: "Add Sofia's email to her notes, then tidy the notes into her Contact info.",
+          name: 'New contact',
+        },
+        b: {
+          description:
+            "The note already links to Sofia's Contact info. A new line is added to that contact and disappears from the note.",
+          goal: 'Add a line "Sofia email: …" to her notes, then tidy it into her Contact info.',
+          name: 'Update through the link',
+          questions: {
+            nameNeeded:
+              'Does a line need Sofia\'s name ("Sofia email: …") to be added to her contact? What about "email: …" alone?',
+          },
+          screens: {
+            notesTidied: {
+              about: 'The new line was added to the existing link, which lights up briefly.',
+              questions: {
+                lightUp: 'Do we need the link to light up?',
+                wentIntoLink: 'When the line disappears, is it clear that it went into "Sofia Walker"?',
+              },
+            },
+            tidyConfirm: {
+              questions: {
+                newOrSaved: 'Is it clear which details are new and which Sofia already had?',
+              },
+            },
+          },
+        },
+        c: {
+          description: 'Nothing in the note is recognised, so nothing is highlighted and Tidy is never offered.',
+          goal: "Add something about Sofia's hobbies to her notes.",
+          name: 'Nothing to tidy',
+          questions: {
+            nothingHappens: 'Is it fine that nothing at all happens here?',
+          },
+        },
+      },
+      description:
+        "Write about Sofia in her pod's notes, and let Tidy turn the details it recognises into her Contact info.",
+      hints: {
+        contactInfo: "This is Sofia's Contact info. Use the Notes tab to go back to her notes.",
+        notes: 'Type in the note, then pause for a moment and watch the lines you wrote.',
+        notesTidied: 'The tidied lines now live in Contact info. Try the link.',
+        tidyConfirm: 'Check what Contact info will hold, then confirm.',
+      },
+      pod: {
+        avatar: 'S',
+        breadcrumb: {
+          immediateFamily: 'Immediate Family',
+          people: 'People',
+        },
+        title: 'About Sofia',
+      },
+      questions: {
+        existingContact:
+          'How do we add new information to a contact that already exists, through notes? Case B shows one answer.',
+        reversible: "Should Tidy be reversible? Right now it can't be undone.",
+        whenAnalysed: 'Should notes be analysed while typing, or only once a line is finished?',
+      },
+      screens: {
+        contactInfo: {
+          about: "Sofia's Contact info, the single place these details live. The note only links to it.",
+          questions: {
+            source: 'Should Contact info show where each value came from?',
+          },
+        },
+        notes: {
+          about:
+            "Sofia's notes. After a short pause in typing, lines that look like contact details are highlighted and Tidy is offered.",
+          questions: {
+            colours: 'Is it clear what the yellow and blue highlights mean?',
+            dismiss: "Can a suggestion be dismissed? Right now it can't.",
+            pause: 'Is a 1.5-second pause right before suggestions appear?',
+          },
+        },
+        notesTidied: {
+          about: 'The recognised lines have moved into Contact info, and the link leads there.',
+          questions: {
+            linkTarget: 'Is it obvious that the link opens Contact info?',
+            moved: 'Is it clear that the lines were moved, not deleted?',
+          },
+        },
+        tidyConfirm: {
+          about:
+            'Shows the Contact info that tidying will produce. "NEW" marks values that come from the note, and any value can be changed before tidying.',
+          questions: {
+            confirmLabel: 'Is "Tidy notes" clear as the confirm action?',
+            conflict:
+              'What should happen when a recognised value conflicts with a saved one, such as another date of birth? Right now the note wins.',
+            editable: 'Is it clear that the details can be changed here before tidying?',
+          },
+        },
+      },
+      tidy: {
+        confirm: 'Tidy notes',
+        descriptionUpdate:
+          "The new details are added to what {{name}}'s Contact info already holds. You can change any of them first.",
+        new: 'NEW',
+        titleCreate: 'Convert the selected notes to Contact info?',
+        titleUpdate: "Add to {{name}}'s Contact info?",
+      },
+      title: "Tidy Sofia's notes",
+    },
   },
   home: {
     assignedVariant: 'Assigned variant (dev only): {{variant}}',
@@ -366,6 +476,22 @@ export const en = {
         chat: 'Chat',
         info: 'Info',
         notes: 'Notes',
+      },
+    },
+    notes: {
+      label: 'Notes',
+      tidy: 'Tidy',
+    },
+    people: {
+      contactInfo: {
+        empty: 'No contact info yet.',
+        fields: {
+          dateOfBirth: 'Date of birth',
+          email: 'Email',
+          firstName: 'First name',
+          lastName: 'Last name',
+        },
+        title: 'Contact info',
       },
     },
   },
