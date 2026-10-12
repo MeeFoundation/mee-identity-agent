@@ -2,12 +2,12 @@ import { useAtomValue } from 'jotai'
 import { CardText, Diagram3, Paperclip, People } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
+import { MedicationRow } from '../../../pods/ginger/components/medication-row'
 import { toMedicationSummary } from '../../../pods/ginger/medication-fields'
 import { medicationAtom, podAtom } from '../../../pods/ginger/model'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { AddMedicationAction } from '../components/add-medication-action'
 import { ExpPet003TopBar } from '../components/exp-pet-003-top-bar'
-import { MedicationRow } from '../components/medication-row'
 import {
   type ExpPet003Components,
   type ExpPet003Events,

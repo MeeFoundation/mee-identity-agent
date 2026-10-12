@@ -10,12 +10,14 @@ export type GingerPodComponents = DefaultComponents & PodComponents
 export type PodTab = 'notes' | 'chat' | 'info'
 
 // Ontology terms keep their IRI next to the label so the record can be swapped for server data later.
-type OntologyTerm = {
-  iri: string
+// A term typed by a participant has no IRI: the prototype has no ontology lookup.
+export type OntologyTerm = {
+  iri?: string
   label: string
 }
 
 type MeasurementUnit = OntologyTerm & {
+  iri: string
   symbol: string
 }
 

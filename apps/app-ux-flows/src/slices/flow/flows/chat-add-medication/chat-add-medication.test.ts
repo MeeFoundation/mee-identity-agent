@@ -20,6 +20,7 @@ describe('chat-add-medication showcase', () => {
     expect(listFlows().map((flow) => flow.id)).toEqual([
       'exp-pet-002',
       'exp-pet-003',
+      'exp-pet-004',
       'chat-add-medication',
       'exp-demo-001',
       'sc-pet-001',

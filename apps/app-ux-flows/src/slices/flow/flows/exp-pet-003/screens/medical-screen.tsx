@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
+import { MedicationRow } from '../../../pods/ginger/components/medication-row'
+import { SubScreenTopBar } from '../../../pods/ginger/components/sub-screen-top-bar'
 import { useFlowAnalytics, useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { AddMedicationAction } from '../components/add-medication-action'
-import { MedicationRow } from '../components/medication-row'
-import { SubScreenTopBar } from '../components/sub-screen-top-bar'
 import type { ExpPet003Components, ExpPet003Events, ExpPet003ScreenId } from '../model'
 
 export const MedicalScreen = () => {

@@ -13,9 +13,11 @@ type GingerTopBarProps = {
   onTabSelect: (tab: PodTab) => void
   // Without it the back control does nothing.
   onBack?: () => void
+  // Without it the menu control does nothing.
+  onMenu?: () => void
 }
 
-export const GingerTopBar = ({ tab, onTabSelect, onBack = noop }: GingerTopBarProps) => {
+export const GingerTopBar = ({ tab, onTabSelect, onBack = noop, onMenu = noop }: GingerTopBarProps) => {
   const { t } = useTranslation()
   const { PodTopBar, SegmentedTabs } = useFlowComponents<GingerPodComponents>()
   const pod = useAtomValue(podAtom)
@@ -26,7 +28,7 @@ export const GingerTopBar = ({ tab, onTabSelect, onBack = noop }: GingerTopBarPr
       breadcrumb={pod.breadcrumb}
       breadcrumbIcon={Hearts}
       onBack={onBack}
-      onMenu={noop}
+      onMenu={onMenu}
       tabs={
         <SegmentedTabs<PodTab>
           items={[

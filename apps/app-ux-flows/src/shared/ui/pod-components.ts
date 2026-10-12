@@ -6,8 +6,10 @@ import { CategoryRow } from './category-row'
 import { Divider } from './divider'
 import { EmptyStateCard } from './empty-state-card'
 import { FieldRow, FormCard } from './form-card'
+import { InlineFieldEditor } from './inline-field-editor'
 import { PodScreen } from './pod-screen'
 import { PodTopBar } from './pod-top-bar'
+import { RadioGroupField } from './radio-group-field'
 import { RecordRow } from './record-row'
 import { SectionLabel } from './section-label'
 import { SegmentedTabs } from './segmented-tabs'
@@ -23,8 +25,10 @@ export const podComponents = {
   EmptyStateCard,
   FieldRow,
   FormCard,
+  InlineFieldEditor,
   PodScreen,
   PodTopBar,
+  RadioGroupField,
   RecordRow,
   SectionLabel,
   SegmentedTabs,

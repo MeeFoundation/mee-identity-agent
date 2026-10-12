@@ -101,11 +101,6 @@ export const en = {
     },
     expPet003: {
       description: 'Compares how Medical shows Ginger’s medication on the Info tab when you only need to check it.',
-      home: {
-        pods: 'Pods',
-        userInitial: 'A',
-        welcome: 'Welcome, Alice',
-      },
       info: {
         forms: 'Forms',
         medical: 'Medical',
@@ -117,8 +112,6 @@ export const en = {
       medication: {
         add: 'Add medication',
         preview: '{{name}} · {{frequency}}',
-        started: 'Started {{date}}',
-        summary: '{{dose}} · {{frequency}}',
       },
       title: 'Check current medication',
       variants: {
@@ -133,6 +126,44 @@ export const en = {
         c: {
           description: 'Info lists the medication in a Medical section, with no Medical screen.',
           name: 'Medical inline',
+        },
+      },
+    },
+    expPet004: {
+      description: 'Compares how participants find and start changing an existing medication’s schedule.',
+      editor: {
+        context: '{{name}} · {{dose}}',
+        doseLabel: '{{label}} ({{unit}})',
+      },
+      form: {
+        close: 'Close',
+      },
+      info: {
+        forms: 'Forms',
+      },
+      medical: {
+        medications: 'Medications',
+        title: 'Medical',
+      },
+      medication: {
+        add: 'Add medication',
+        changeSchedule: 'Change schedule',
+        edit: 'Edit medication',
+      },
+      title: 'Update medication',
+      updated: 'Medication updated',
+      variants: {
+        a: {
+          description: 'Medical lists the medication; editing starts from its details.',
+          name: 'Details, then edit',
+        },
+        b: {
+          description: 'The medication on Medical also offers Edit medication, which opens the edit sheet.',
+          name: 'Edit from the list',
+        },
+        c: {
+          description: 'The medication on Medical also offers Change schedule, which edits the schedule in place.',
+          name: 'Change schedule inline',
         },
       },
     },
@@ -289,6 +320,11 @@ export const en = {
         emptyTitle: 'You have no forms yet',
         title: 'Forms',
       },
+      home: {
+        pods: 'Pods',
+        userInitial: 'A',
+        welcome: 'Welcome, Alice',
+      },
       medication: {
         fields: {
           activeIngredient: 'Medication / Active ingredient',
@@ -302,6 +338,8 @@ export const en = {
         formTitle: 'Medication',
         frequency_one: 'Once per day',
         frequency_other: '{{count}} times per day',
+        started: 'Started {{date}}',
+        summary: '{{dose}} · {{frequency}}',
       },
       notes: {
         placeholder:
@@ -352,6 +390,10 @@ export const en = {
     },
     header: {
       back: 'Back',
+    },
+    inlineFieldEditor: {
+      cancel: 'Cancel',
+      save: 'Save',
     },
     podTopBar: {
       back: 'Back',

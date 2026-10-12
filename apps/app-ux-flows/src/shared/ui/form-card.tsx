@@ -36,10 +36,20 @@ type FieldRowProps = {
   value: string
   // Without it the row is read-only and shows no edit button.
   onEdit?: () => void
+  // Shown in place of the value while the field is being edited; it carries its own visible label.
+  editor?: ReactNode
 }
 
-export const FieldRow = ({ label, value, onEdit }: FieldRowProps) => {
+export const FieldRow = ({ label, value, onEdit, editor }: FieldRowProps) => {
   const { t } = useTranslation()
+
+  if (editor)
+    return (
+      <div className="py-3 pr-2">
+        <dt className="sr-only">{label}</dt>
+        <dd>{editor}</dd>
+      </div>
+    )
 
   return (
     <div className="flex items-center gap-3 py-3 pr-2">

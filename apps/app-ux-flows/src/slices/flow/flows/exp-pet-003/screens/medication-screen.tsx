@@ -2,10 +2,10 @@ import { useAtomValue } from 'jotai'
 import { Capsule } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
+import { SubScreenTopBar } from '../../../pods/ginger/components/sub-screen-top-bar'
 import { toMedicationFieldRows, toMedicationSummary } from '../../../pods/ginger/medication-fields'
 import { medicationAtom } from '../../../pods/ginger/model'
 import { useFlowComponents } from '../../../runtime/flow-context'
-import { SubScreenTopBar } from '../components/sub-screen-top-bar'
 import type { ExpPet003Components } from '../model'
 
 // Read-only: this scenario only checks the medication, so no field offers editing.

@@ -2,7 +2,7 @@ import type { TFunction } from 'i18next'
 
 import type { MedicationRecord } from './model'
 
-type MedicationFieldRow = {
+export type MedicationFieldRow = {
   id: 'activeIngredient' | 'brandName' | 'manufacturer' | 'dose' | 'doseForm' | 'frequency' | 'startDate'
   label: string
   value: string

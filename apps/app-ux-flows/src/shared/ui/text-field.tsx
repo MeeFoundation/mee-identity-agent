@@ -7,9 +7,10 @@ type TextFieldProps = {
   label: string
   value: string
   onChange: (value: string) => void
+  type?: 'text' | 'number' | 'date'
 }
 
-export const TextField = ({ label, value, onChange }: TextFieldProps) => {
+export const TextField = ({ label, value, onChange, type = 'text' }: TextFieldProps) => {
   const inputId = useId()
 
   return (
@@ -17,7 +18,7 @@ export const TextField = ({ label, value, onChange }: TextFieldProps) => {
       <Label className="px-0.5 group-focus-within:text-brand-700" htmlFor={inputId}>
         {label}
       </Label>
-      <Input id={inputId} onChange={(event) => onChange(event.target.value)} value={value} />
+      <Input id={inputId} onChange={(event) => onChange(event.target.value)} type={type} value={value} />
     </div>
   )
 }
