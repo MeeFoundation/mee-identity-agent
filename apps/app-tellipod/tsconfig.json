@@ -1,0 +1,26 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@mee/core": [
+        "../../packages/core/src/index.ts"
+      ],
+      "@mee/core/*": [
+        "../../packages/core/src/*"
+      ],
+      "@mee/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "@mee/ui/*": [
+        "../../packages/ui/src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}

@@ -8,10 +8,13 @@
     "concepts:android": "pnpm --filter app-concepts android",
     "production:ios": "pnpm --filter app-production ios",
     "production:android": "pnpm --filter app-production android",
+    "tellipod:ios": "pnpm --filter app-tellipod ios",
+    "tellipod:android": "pnpm --filter app-tellipod android",
+    "ux-flows:dev": "pnpm --filter app-ux-flows dev",
     "steiger:concepts": "pnpm --filter app-concepts steiger"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.3.15",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "lefthook": "^1.13.0",

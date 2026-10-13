@@ -1,0 +1,18 @@
+# Build context is the repository root. Send only what the image build needs.
+*
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!tsconfig.json
+!apps/app-ux-flows
+
+# Never send secrets, local env files or build output, even from inside the app.
+**/.npmrc
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules
+**/dist
+**/.git
+**/ios
+**/android

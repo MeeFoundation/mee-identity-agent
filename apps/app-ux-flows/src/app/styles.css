@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* Primitives from Mee Design System v5.2.2 (Figma MX0vkzAw7MfoG7ZMQUmfhu) */
+@theme {
+  --color-*: initial;
+
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-brand-50: #f3f8f8;
+  --color-brand-100: #dfecee;
+  --color-brand-200: #c3dcde;
+  --color-brand-300: #9ac2c6;
+  --color-brand-400: #69a0a7;
+  --color-brand-500: #4f868e;
+  --color-brand-600: #436e77;
+  --color-brand-700: #3b5b63;
+  --color-brand-800: #374e53;
+  --color-brand-900: #314248;
+  --color-brand-950: #1d2a2f;
+
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+  --color-gray-950: #020617;
+
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-200: #fecaca;
+  --color-error-300: #fca5a5;
+  --color-error-400: #f87171;
+  --color-error-500: #ef4444;
+  --color-error-600: #dc2626;
+  --color-error-700: #b91c1c;
+  --color-error-800: #991b1b;
+  --color-error-900: #7f1d1d;
+  --color-error-950: #450a0a;
+
+  --color-warning-50: #fefaec;
+  --color-warning-100: #fcf0c9;
+  --color-warning-200: #f9df89;
+  --color-warning-300: #f6cb53;
+  --color-warning-400: #f4b62b;
+  --color-warning-500: #ed9513;
+  --color-warning-600: #d2710d;
+  --color-warning-700: #ae4f0f;
+  --color-warning-800: #8e3d12;
+  --color-warning-900: #753312;
+  --color-warning-950: #431905;
+
+  --color-success-50: #f2f7ee;
+  --color-success-100: #e3ecdb;
+  --color-success-200: #c8dbbb;
+  --color-success-300: #a6c492;
+  --color-success-400: #86ad6e;
+  --color-success-500: #668e4f;
+  --color-success-600: #50733d;
+  --color-success-700: #3f5932;
+  --color-success-800: #35482c;
+  --color-success-900: #2e3f28;
+  --color-success-950: #162112;
+
+  --color-orange-50: #fef7ee;
+  --color-orange-100: #feecd6;
+  --color-orange-200: #fcdcbb;
+  --color-orange-300: #f9b678;
+  --color-orange-400: #f58e42;
+  --color-orange-500: #f26e1d;
+  --color-orange-600: #e35413;
+  --color-orange-700: #bc3e12;
+  --color-orange-800: #963216;
+  --color-orange-900: #792c15;
+  --color-orange-950: #411309;
+
+  --color-purple-50: #fdf6fc;
+  --color-purple-100: #fbecfa;
+  --color-purple-200: #f6d8f4;
+  --color-purple-300: #edbae7;
+  --color-purple-400: #e290d8;
+  --color-purple-500: #d065c3;
+  --color-purple-600: #bc52ad;
+  --color-purple-700: #943785;
+  --color-purple-800: #7a2e6d;
+  --color-purple-900: #642b59;
+  --color-purple-950: #411138;
+
+  --font-sans: "Public Sans Variable", "Public Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.875rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.75rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 5rem;
+
+  --tracking-normal: 0.005em;
+
+  --radius-sm: 2px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2lg: 10px;
+  --radius-2xl: 16px;
+  --radius-3xl: 28px;
+
+  --shadow-card: 0 0 0 1px rgb(2 6 23 / 0.05), 0 1px 20px 1px rgb(2 6 23 / 0.05);
+  --shadow-tab: 0 0 3px 0 rgb(2 6 23 / 0.07), 0 2px 2px 0 rgb(2 6 23 / 0.05);
+  --shadow-sheet: 0 -1px 30px 0 rgb(2 6 23 / 0.1);
+  --drop-shadow-topbar: 0 1px 15px rgb(2 6 23 / 0.15);
+}
+
+/* Semantic roles (shadcn) */
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-gray-800);
+  --primary: var(--color-brand-500);
+  --primary-foreground: var(--color-white);
+  --secondary: var(--color-brand-50);
+  --secondary-foreground: var(--color-brand-700);
+  --destructive: var(--color-error-700);
+  --muted: var(--color-gray-100);
+  --muted-foreground: var(--color-gray-500);
+  --border: var(--color-gray-300);
+  --input: var(--color-gray-300);
+  --ring: #4f868e66;
+  --radius: 8px;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-sans text-base tracking-normal text-foreground antialiased;
+  }
+}
+
+/* Layout for flow screens, which render a bare <section> starting with the shared Header */
+@utility flow-screen {
+  & > section {
+    display: flex;
+    flex-direction: column;
+    gap: --spacing(4);
+    padding-bottom: --spacing(6);
+  }
+
+  & > section > :not(header) {
+    margin-inline: --spacing(4);
+  }
+}

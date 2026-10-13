@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: matomo
+      MARIADB_USER: matomo
+      MARIADB_PASSWORD: matomo
+    volumes:
+      - matomo-db:/var/lib/mysql
+
+  matomo:
+    image: matomo:5
+    depends_on: [db]
+    ports:
+      - "8080:80"
+    environment:
+      MATOMO_DATABASE_HOST: db
+      MATOMO_DATABASE_USERNAME: matomo
+      MATOMO_DATABASE_PASSWORD: matomo
+      MATOMO_DATABASE_DBNAME: matomo
+    volumes:
+      - matomo-data:/var/www/html
+
+volumes:
+  matomo-db:
+  matomo-data:

@@ -1,0 +1,27 @@
+## 1. Runtime configuration in the app
+
+- [x] 1.1 Add `apps/app-ux-flows/public/config.js` setting `window.__UX_FLOWS_CONFIG__ = {}`, and load it in `index.html` with a classic `<script src="/config.js"></script>` before the module entry; verify `pnpm --filter app-ux-flows build` emits `dist/config.js` and `dist/index.html` references it before the bundle
+- [x] 1.2 Declare the `__UX_FLOWS_CONFIG__` window global (optional, partial record of the analytics variable names to strings) in `src/vite-env.d.ts`; verify `pnpm check-types` passes
+- [x] 1.3 In `src/app/analytics.ts`, add a pure merge function that takes the runtime value of each analytics key when it is a string (empty included) and otherwise the build-time value, with `DEV` always from build-time and non-string runtime values ignored, and feed its result into `parseAnalyticsConfig`, guarding for a missing `window` or config object; verify existing `analytics.test.ts` tests still pass
+- [x] 1.4 Add tests in `analytics.test.ts` for the merge: a runtime value overrides build-time, an empty runtime string overrides a set build-time value, an absent key falls back, non-string runtime values are ignored, `DEV` is never taken from runtime; verify `pnpm --filter app-ux-flows test` passes
+- [x] 1.5 Run the dev server with Matomo settings in `.env.local` and confirm that analytics still uses them (Matomo script requested), which shows the empty `public/config.js` does not override local settings
+
+## 2. Container files
+
+- [x] 2.1 Add `apps/app-ux-flows/Dockerfile.dockerignore` excluding `**/.npmrc`, `**/.env`, `**/.env.*` (re-including `**/.env.example`), `**/node_modules`, `**/dist`, `.git`, `**/ios`, `**/android`, and other unrelated root folders (`apps/app-concepts`, `apps/app-production`, `apps/app-tellipod`, `packages`, `openspec`, `tmp`); verify with a throwaway BuildKit build that lists the context (`docker build -f … --target context-check` or equivalent) that `.npmrc` and `.env.local` are absent
+- [x] 2.2 Add `apps/app-ux-flows/docker/nginx.conf` implementing `/healthz`, immutable `/assets/`, no-cache `/config.js` and `index.html`, 404 for missing file-like paths, SPA fallback, `server_tokens off`, gzip and `X-Content-Type-Options: nosniff`, listening on 8080; verify `nginx -t` passes inside the runtime image (task 3.1)
+- [x] 2.3 Add `apps/app-ux-flows/docker/40-ux-flows-config.sh` (POSIX sh, executable) that writes `config.js` from the allowlisted `VITE_ANALYTICS_*` / `VITE_MATOMO_*` variables, including only those that are set, escaping `\`, `"`, `<` and stripping newlines; verify by running it locally with a temp output path and values containing `"` and `</script>`, then checking the output with `node -e` that evaluates it and prints the parsed values
+- [x] 2.4 Add `apps/app-ux-flows/Dockerfile`: build stage `node:22.19.0-bookworm-slim` with corepack pnpm, `pnpm fetch` on the lockfile, copy the root `package.json`, `pnpm-workspace.yaml` and the app, `pnpm install --offline --frozen-lockfile --filter app-ux-flows`, `pnpm --filter app-ux-flows build`; runtime stage `nginxinc/nginx-unprivileged:1.27-alpine` with the nginx config, startup script in `/docker-entrypoint.d/`, `dist/` (with `config.js` owned by uid 101), `EXPOSE 8080` and a `HEALTHCHECK` on `/healthz`. If the filtered frozen install fails because of other importers, copy all workspace `package.json` files before installing. Verify in task 3.1
+
+## 3. Verify the image
+
+- [x] 3.1 Build with `docker build -f apps/app-ux-flows/Dockerfile -t app-ux-flows .` from the repo root; verify the build succeeds and `docker run --rm --entrypoint nginx app-ux-flows -t` reports a valid config
+- [x] 3.2 Run `docker run --rm -p 8080:8080 app-ux-flows` and verify with `curl -i`: `/healthz` → 200; `/flows/exp-demo-001/ginger-info?variant=b` → 200 HTML with `Cache-Control: no-cache`; a real `/assets/*.js` → 200 with `max-age=31536000, immutable`; `/assets/does-not-exist.js` → 404; `/config.js` → `window.__UX_FLOWS_CONFIG__ = {}`; and `docker inspect` health status becomes `healthy`
+- [x] 3.3 Run with `-e VITE_MATOMO_URL=http://localhost:8081/ -e VITE_MATOMO_SITE_ID=1 -e DATABASE_PASSWORD=secret` and verify `/config.js` contains the two Matomo keys and not `secret`; open the app in a browser and confirm the Matomo script is requested from that URL
+- [x] 3.4 Verify the image contains no `.npmrc`, no `node_modules`, no `src/` and no Node binary (`docker run --rm --entrypoint sh app-ux-flows -c 'find / -name .npmrc -o -name node_modules 2>/dev/null; which node'` prints nothing), that the process runs as uid 101 (`docker run --rm --entrypoint id app-ux-flows`), and that `grep` of the built assets does not find the Matomo URL from `.env.local`
+- [x] 3.5 Introduce a temporary type error in `apps/app-ux-flows/src`, confirm the image build fails, then revert the error
+
+## 4. Documentation and checks
+
+- [x] 4.1 Add `apps/app-ux-flows/DEPLOYMENT.md` covering build and run commands, the BuildKit requirement, port 8080, `/healthz`, caching behaviour and a table of runtime variables; add a pointer to it in `.env.example`; verify that following the documented commands from a clean shell serves the app on the documented port
+- [x] 4.2 Run `pnpm lint`, `pnpm check-types`, `pnpm --filter app-ux-flows test` and `pnpm --filter app-ux-flows knip`; verify all pass (add `public/config.js` and `docker/` to Knip ignores if needed)
