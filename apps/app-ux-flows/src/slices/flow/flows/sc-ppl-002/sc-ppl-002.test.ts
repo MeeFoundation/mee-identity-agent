@@ -55,7 +55,15 @@ describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
     ])
     expect(
       Object.fromEntries(Object.entries(scPpl002Flow.designFrames ?? {}).map(([id, frame]) => [id, frame?.name])),
-    ).toEqual({ info: 'Pod - 6', 'invite-name': 'Modal', 'invite-share': 'Modal', members: 'Pod - 7' })
+    ).toEqual({
+      info: 'SC-PPL-002-A - About Sofia (info)',
+      'invite-detail': "SC-PPL-002-B - Geo's invite (sheet)",
+      'invite-name': 'SC-PPL-002-A - Invite name (sheet)',
+      'invite-share': 'SC-PPL-002-A - Share invite link (sheet)',
+      'member-detail': 'SC-PPL-002-C - Geo (member detail)',
+      members: 'SC-PPL-002-A - Members',
+      'remove-confirm': 'SC-PPL-002-C - Remove Geo (confirm sheet)',
+    })
   })
 
   it('translates every key it declares', () => {

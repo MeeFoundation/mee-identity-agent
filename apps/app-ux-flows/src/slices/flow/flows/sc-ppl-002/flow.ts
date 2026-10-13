@@ -78,10 +78,13 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
   },
   descriptionKey: key('description'),
   designFrames: {
-    info: figmaFrame('Pod - 6', '908-19475'),
-    'invite-name': figmaFrame('Modal', '908-19751'),
-    'invite-share': figmaFrame('Modal', '914-19982'),
-    members: figmaFrame('Pod - 7', '908-19728'),
+    info: figmaFrame('SC-PPL-002-A - About Sofia (info)', '1348-27324'),
+    'invite-detail': figmaFrame("SC-PPL-002-B - Geo's invite (sheet)", '1348-27418'),
+    'invite-name': figmaFrame('SC-PPL-002-A - Invite name (sheet)', '1348-27356'),
+    'invite-share': figmaFrame('SC-PPL-002-A - Share invite link (sheet)', '1348-27367'),
+    'member-detail': figmaFrame('SC-PPL-002-C - Geo (member detail)', '1348-27485'),
+    members: figmaFrame('SC-PPL-002-A - Members', '1348-27346'),
+    'remove-confirm': figmaFrame('SC-PPL-002-C - Remove Geo (confirm sheet)', '1348-27509'),
   },
   hints: {
     info: key('hints.info'),

@@ -20,14 +20,9 @@ import { InfoScreen } from './screens/info-screen'
 import { MembersScreen } from './screens/members-screen'
 import { NotesScreen } from './screens/notes-screen'
 
-const tellipodFrame = (name: string, nodeId: string): DesignFrame => ({
+const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,
   url: `https://www.figma.com/design/cd6NZmMxZHC7qTOk0SXYVW/Mee---Tellipod-App-v4.0.3?node-id=${nodeId}`,
-})
-
-const designSystemFrame = (name: string, nodeId: string): DesignFrame => ({
-  name,
-  url: `https://www.figma.com/design/MX0vkzAw7MfoG7ZMQUmfhu/Mee---Design-System-v5.2.2?node-id=${nodeId}`,
 })
 
 const key = (path: string) => `flows.scPpl003.${path}`
@@ -61,9 +56,11 @@ export const scPpl003Flow = defineFlow<ScPpl003ScreenId, ScPpl003Components, ScP
   },
   descriptionKey: key('description'),
   designFrames: {
-    chat: designSystemFrame('Chat', '6473-3081'),
-    info: tellipodFrame('Pod - 6', '908-19475'),
-    members: tellipodFrame('Pod - 7', '908-19728'),
+    chat: figmaFrame('SC-PPL-003-B - Chat', '1356-638'),
+    'contact-info': figmaFrame('SC-PPL-003-A - Contact info', '1351-32465'),
+    info: figmaFrame('SC-PPL-003-A - About Sofia (info)', '1351-32261'),
+    members: figmaFrame('SC-PPL-003-A - Members', '1351-31924'),
+    notes: figmaFrame('SC-PPL-003-A - About Sofia (notes)', '1351-32048'),
   },
   hints: {
     chat: key('hints.chat'),

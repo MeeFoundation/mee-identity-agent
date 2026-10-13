@@ -60,7 +60,7 @@ const FlowScreenRoute = () => {
 
   return (
     <main className="relative flex h-dvh flex-col items-center gap-4 overflow-hidden bg-gray-100 px-4 py-6 max-[480px]:block max-[480px]:p-0 lg:py-3">
-      <header className="grid w-full max-w-3xl shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-4 max-[480px]:hidden lg:absolute lg:top-6 lg:left-6 lg:flex lg:w-64 lg:flex-col lg:items-start lg:gap-1">
+      <header className="grid w-full max-w-3xl shrink-0 grid-cols-[1fr_auto_1fr] items-center gap-4 max-[480px]:hidden lg:absolute lg:top-6 lg:bottom-6 lg:left-6 lg:flex lg:w-64 lg:flex-col lg:items-start lg:gap-1 lg:overflow-y-auto lg:[scrollbar-width:none] lg:[&::-webkit-scrollbar]:hidden">
         <div>
           <Button onClick={exit} size="s" tone="tertiary" variant="link">
             <ChevronLeftIcon aria-hidden className="-ml-1 size-4" />

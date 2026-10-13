@@ -46,10 +46,17 @@ describe('SC-PPL-003 Sofia’s pod, shared with me', () => {
     ])
   })
 
-  it('declares its screens', () => {
+  it('declares its screens and the Figma frames they implement', () => {
     expect(Object.keys(scPpl003Flow.screens).sort()).toEqual(['chat', 'contact-info', 'info', 'members', 'notes'])
-    expect(scPpl003Flow.designFrames?.notes).toBeUndefined()
-    expect(scPpl003Flow.designFrames?.['contact-info']).toBeUndefined()
+    expect(
+      Object.fromEntries(Object.entries(scPpl003Flow.designFrames ?? {}).map(([id, frame]) => [id, frame?.name])),
+    ).toEqual({
+      chat: 'SC-PPL-003-B - Chat',
+      'contact-info': 'SC-PPL-003-A - Contact info',
+      info: 'SC-PPL-003-A - About Sofia (info)',
+      members: 'SC-PPL-003-A - Members',
+      notes: 'SC-PPL-003-A - About Sofia (notes)',
+    })
   })
 
   it('translates every key it declares', () => {
