@@ -8,7 +8,9 @@ type PodAvatar = { src: string } | { letter: string }
 type PodTopBarProps = {
   title: string
   avatar: PodAvatar
-  breadcrumb: readonly string[]
+  breadcrumb?: readonly string[]
+  // Shown in place of the breadcrumb, such as a count of members.
+  subtitle?: ReactNode
   breadcrumbIcon?: Icon
   // Ends the breadcrumb with a chevron, as on sub-pods that link back to their parent.
   breadcrumbTrailingChevron?: boolean
@@ -23,7 +25,8 @@ const iconButtonClassName =
 export const PodTopBar = ({
   title,
   avatar,
-  breadcrumb,
+  breadcrumb = [],
+  subtitle,
   breadcrumbIcon: BreadcrumbIcon,
   breadcrumbTrailingChevron = false,
   onBack,
@@ -58,17 +61,21 @@ export const PodTopBar = ({
             )}
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">
               <h1 className="truncate font-medium text-base text-gray-900">{title}</h1>
-              <p className="flex h-4 items-center gap-1 text-brand-700 text-xs">
-                {BreadcrumbIcon && <BreadcrumbIcon aria-hidden className="shrink-0" size={14} />}
-                {breadcrumb.map((segment, index) => (
-                  <Fragment key={segment}>
-                    <span className="whitespace-nowrap">{segment}</span>
-                    {(index < breadcrumb.length - 1 || breadcrumbTrailingChevron) && (
-                      <ChevronRight aria-hidden className="mx-0.5 shrink-0" size={10} />
-                    )}
-                  </Fragment>
-                ))}
-              </p>
+              {subtitle ? (
+                <div className="flex min-h-4 items-center gap-1 text-gray-600 text-xs">{subtitle}</div>
+              ) : (
+                <p className="flex h-4 items-center gap-1 text-brand-700 text-xs">
+                  {BreadcrumbIcon && <BreadcrumbIcon aria-hidden className="shrink-0" size={14} />}
+                  {breadcrumb.map((segment, index) => (
+                    <Fragment key={segment}>
+                      <span className="whitespace-nowrap">{segment}</span>
+                      {(index < breadcrumb.length - 1 || breadcrumbTrailingChevron) && (
+                        <ChevronRight aria-hidden className="mx-0.5 shrink-0" size={10} />
+                      )}
+                    </Fragment>
+                  ))}
+                </p>
+              )}
             </div>
           </div>
           <button aria-label={t('ui.podTopBar.menu')} className={iconButtonClassName} onClick={onMenu} type="button">

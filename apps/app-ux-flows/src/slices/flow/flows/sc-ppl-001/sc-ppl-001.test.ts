@@ -44,12 +44,12 @@ const typeAndPause = (store: Store, blockId: string, typed: string) => {
 }
 
 describe('SC-PPL-001 Tidy Sofia’s notes', () => {
-  it('is a registered showcase with three cases, listed last', () => {
+  it('is a registered showcase with three cases, listed before the sharing showcases', () => {
     expect(scPpl001Flow.kind).toBe('showcase')
     expect(scPpl001Flow.code).toBe('SC-PPL-001')
     expect(scPpl001Flow.initialScreen).toBe('notes')
     expect(findFlow('sc-ppl-001')).toBe(scPpl001Flow)
-    expect(listFlows().at(-1)).toBe(scPpl001Flow)
+    expect(listFlows().at(-3)).toBe(scPpl001Flow)
     expect(resolveFlow(scPpl001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PPL-001-A'],
       ['b', 'SC-PPL-001-B'],

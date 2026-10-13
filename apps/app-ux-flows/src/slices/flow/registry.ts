@@ -5,13 +5,23 @@ import { expPet003Flow } from './flows/exp-pet-003/flow'
 import { expPet004Flow } from './flows/exp-pet-004/flow'
 import { scPet001Flow } from './flows/sc-pet-001/flow'
 import { scPpl001Flow } from './flows/sc-ppl-001/flow'
+import { scPpl002Flow } from './flows/sc-ppl-002/flow'
+import { scPpl003Flow } from './flows/sc-ppl-003/flow'
 import type { AnyFlow, ComponentEnvironment } from './runtime/define-flow'
 import type { ResolvedFlow } from './runtime/resolve-flow'
 
 const flows: ReadonlyMap<string, AnyFlow> = new Map(
-  [expPet002Flow, expPet003Flow, expPet004Flow, chatAddMedicationFlow, expDemo001Flow, scPet001Flow, scPpl001Flow].map(
-    (flow) => [flow.id, flow],
-  ),
+  [
+    expPet002Flow,
+    expPet003Flow,
+    expPet004Flow,
+    chatAddMedicationFlow,
+    expDemo001Flow,
+    scPet001Flow,
+    scPpl001Flow,
+    scPpl002Flow,
+    scPpl003Flow,
+  ].map((flow) => [flow.id, flow]),
 )
 
 export const listFlows = (): readonly AnyFlow[] => [...flows.values()]

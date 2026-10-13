@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { type ReactNode, type RefObject, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useOverlayContainer } from '@/shared/lib/overlay-container'
@@ -14,14 +14,16 @@ import {
 } from './primitives/dialog'
 
 type BottomSheetProps = {
-  title: string
+  title: ReactNode
   description?: string
   children: ReactNode
   onDismiss: () => void
+  // Takes focus when the sheet opens; the sheet itself by default.
+  initialFocus?: RefObject<HTMLElement | null>
 }
 
 // Shown by the flow as its own screen: it slides up once mounted, and on dismiss slides down before the flow navigates away.
-export const BottomSheet = ({ title, description, children, onDismiss }: BottomSheetProps) => {
+export const BottomSheet = ({ title, description, children, onDismiss, initialFocus }: BottomSheetProps) => {
   const { t } = useTranslation()
   const container = useOverlayContainer()
   const popupRef = useRef<HTMLDivElement>(null)
@@ -47,7 +49,7 @@ export const BottomSheet = ({ title, description, children, onDismiss }: BottomS
         <DialogBackdrop className="bg-gray-950/40 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0" />
         <DialogPopup
           className="absolute inset-x-0 bottom-0 flex max-h-full flex-col overflow-y-auto rounded-t-3xl bg-white pb-[calc(0.5rem+var(--home-indicator-h))] shadow-sheet transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full"
-          initialFocus={popupRef}
+          initialFocus={initialFocus ?? popupRef}
           ref={popupRef}
         >
           <div aria-hidden className="flex h-4 shrink-0 justify-center pt-[5px]">

@@ -1,5 +1,8 @@
+import type { ReactNode } from 'react'
 import { ChevronRight, type Icon } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
+
+import { CountBadge } from './count-badge'
 
 type CategoryRowProps = {
   icon: Icon
@@ -7,10 +10,12 @@ type CategoryRowProps = {
   count: number
   // A line under the label that summarises what the category holds.
   preview?: string
+  // Shown before the count, such as a suggestions badge.
+  badge?: ReactNode
   onClick: () => void
 }
 
-export const CategoryRow = ({ icon: CategoryIcon, label, count, preview, onClick }: CategoryRowProps) => {
+export const CategoryRow = ({ icon: CategoryIcon, label, count, preview, badge, onClick }: CategoryRowProps) => {
   const { t } = useTranslation()
 
   return (
@@ -35,9 +40,8 @@ export const CategoryRow = ({ icon: CategoryIcon, label, count, preview, onClick
       ) : (
         <span className="min-w-0 flex-1 font-medium text-base text-gray-900">{label}</span>
       )}
-      <span className="flex h-5 min-w-5 items-center justify-center rounded-full border border-brand-200 bg-brand-50 px-1.5 font-semibold text-brand-700 text-xs">
-        {count}
-      </span>
+      {badge}
+      <CountBadge count={count} />
       <ChevronRight aria-hidden className="shrink-0 text-gray-700" size={16} />
     </button>
   )

@@ -25,6 +25,8 @@ describe('chat-add-medication showcase', () => {
       'exp-demo-001',
       'sc-pet-001',
       'sc-ppl-001',
+      'sc-ppl-002',
+      'sc-ppl-003',
     ])
   })
 

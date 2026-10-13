@@ -377,6 +377,223 @@ export const en = {
       },
       title: "Tidy Sofia's notes",
     },
+    scPpl002: {
+      cases: {
+        a: {
+          description: 'Nobody else is in the pod yet.',
+          goal: "Invite Geo to Sofia's pod and send them the link.",
+          name: 'Invite',
+        },
+        b: {
+          description: "Geo was invited two days ago and hasn't joined.",
+          goal: "Geo hasn't joined yet. Take back their invite.",
+          name: 'Revoke an invite',
+          questions: {
+            expire: 'Should an unused invite expire on its own, and should the owner see that?',
+          },
+        },
+        c: {
+          description: 'Geo joined three weeks ago and can view the pod.',
+          goal: "Geo shouldn't see Sofia's pod anymore. Remove them.",
+          name: 'Remove a member',
+        },
+      },
+      description:
+        "Invite someone to Sofia's pod with a one-time link, take back an invite that is still pending, or remove someone who already joined.",
+      hints: {
+        info: 'Sharing starts from Members.',
+        inviteDetail: 'This invite has not been used yet.',
+        inviteName: 'Type a name and create the link.',
+        inviteShare: 'Pick any app to send the link.',
+        memberDetail: 'This is what the member can do in the pod.',
+        members: 'Everyone in the pod, and everyone invited.',
+        removeConfirm: 'Removing someone cannot be undone.',
+      },
+      info: {
+        suggestions_one: '{{count}} suggestion',
+        suggestions_other: '{{count}} suggestions',
+      },
+      inviteDetail: {
+        dates: 'Sent {{sent}} · Expires {{expires}}',
+        explanation: "Revoking stops the link from working right away. {{name}} isn't told.",
+        revoke: 'Revoke invite',
+        sendAgain: 'Send link again',
+        title: "{{name}}'s invite",
+      },
+      inviteName: {
+        create: 'Create invite link',
+        description: 'Once they join, they can see everything in it and use its chat.',
+        help: "Just a name so you can keep track — you'll send them a link next.",
+        label: 'Who are you inviting?',
+        title: 'Add a member to <bold>{{pod}}</bold>',
+      },
+      memberDetail: {
+        canDo: {
+          chat: 'Read and write in the chat',
+          title: 'What they can do',
+          view: 'See notes and info',
+        },
+        joined: 'Joined',
+        remove: 'Remove from pod',
+      },
+      members: {
+        invite: 'Invite member',
+        pendingInvites: 'Pending invites',
+      },
+      pod: {
+        avatar: 'S',
+        members: 'Members',
+        suggestCategory: 'Suggest category',
+        title: 'About Sofia',
+      },
+      questions: {
+        telliCount: "Should Telli count as a member? Right now it doesn't, but pending invites do.",
+        viewOnly:
+          'People who join can only view the pod and use its chat. Is that clear to the person sending the invite?',
+      },
+      removeConfirm: {
+        cancel: 'Cancel',
+        confirm: 'Remove {{name}}',
+        messagesStay: 'Their messages stay in the chat.',
+        noAccess: "{{name}} can't open the pod anymore.",
+        title: 'Remove {{name}} from <bold>{{pod}}</bold>?',
+      },
+      screens: {
+        info: {
+          about: "Sofia's pod as its owner sees it. Members is where sharing starts.",
+        },
+        inviteDetail: {
+          about:
+            'No design. A pending invite can be sent again or revoked. Revoking is instant and can be undone from the toast.',
+          questions: {
+            newLink: 'Should "Send link again" make a new link and stop the old one? Right now it reuses it.',
+            tellInvitee: 'Should the invitee be told the invite was revoked?',
+          },
+        },
+        inviteName: {
+          about: "The name is only for the owner's own list. Nothing is sent yet.",
+        },
+        inviteShare: {
+          about: 'The link is created now and can be used once. Picking any app counts as sending it.',
+          questions: {
+            closedWithoutSending:
+              'If the sheet is closed without sending, should the invite stay pending? Right now it does.',
+            tone: 'Is "the key to your pod" the right tone?',
+          },
+        },
+        memberDetail: {
+          about: 'No design. What the member can do in the pod, and how to remove them.',
+          questions: {
+            changeAccess: 'Should the owner be able to change what a member can do?',
+          },
+        },
+        members: {
+          about: "Who is in the pod, and who was invited but hasn't joined yet.",
+          questions: {
+            pendingLabel: 'Is "Pending for N days" useful, or should it show when the invite expires?',
+          },
+        },
+        removeConfirm: {
+          about: "No design. Removing someone can't be undone, so it asks first.",
+          questions: {
+            messages: 'Is it right that their chat messages stay?',
+            tellMember: 'Should the removed person be told?',
+          },
+        },
+      },
+      share: {
+        copied: 'Link copied',
+        copyLink: 'Copy link',
+        description:
+          'This link is the key to your pod. Send it only to {{name}}, in a way you trust. The link works once and expires {{date}}.',
+        target: {
+          copy: 'Copy',
+          mail: 'Mail',
+          messages: 'Messages',
+        },
+        targets: 'Send the link with',
+        title: 'Invite {{name}} to <bold>{{pod}}</bold>',
+      },
+      title: "Invite someone to Sofia's pod",
+      toast: {
+        removed: '{{name}} was removed from About Sofia',
+        revoked: "{{name}}'s invite revoked",
+        sent: 'Invite link sent to {{name}}',
+        undo: 'Undo',
+      },
+    },
+    scPpl003: {
+      cases: {
+        a: {
+          description: 'Geo opens the pod for the first time.',
+          goal: "Bogdan shared Sofia's pod with you. Find out who else is in it.",
+          name: 'Look around',
+        },
+        b: {
+          description: 'Geo asks Telli instead of reading the notes.',
+          goal: 'Ask Telli when Sofia has piano.',
+          name: 'Ask Telli',
+        },
+      },
+      chat: {
+        bogdanSetUp: 'I set up this pod for Sofia. Everything we know is in the notes.',
+        bogdanWelcome: "Welcome, Geo! Ask Telli if you can't find something.",
+        joined: '<bold>{{name}}</bold> joined',
+        placeholder: 'Ask Telli…',
+        telliTyping: 'Telli is typing',
+        threadLabel: 'Pod chat',
+        yesterday: 'Yesterday',
+      },
+      description:
+        "Look around a pod someone shared with you: you can read everything and use the chat, but you can't change anything.",
+      hints: {
+        chat: 'Everyone in the pod shares this chat. Try asking Telli something.',
+        contactInfo: "Sofia's Contact info, read-only.",
+        info: 'Forms and categories, without ways to add any.',
+        members: 'Everyone who can see this pod.',
+        notes: 'Try to change the note.',
+      },
+      pod: {
+        avatar: 'S',
+        members: 'Members',
+        sharedBy: 'Shared by {{name}}',
+        title: 'About Sofia',
+      },
+      questions: {
+        noticeReadOnly: "Is it clear that you can't change anything here? Nothing says so.",
+        tryToEdit: 'What should happen when someone tries to edit the notes?',
+      },
+      screens: {
+        chat: {
+          about: 'One chat for everyone in the pod. Anyone can ask Telli about what the pod holds.',
+          questions: {
+            source: 'Should Telli say where an answer came from?',
+          },
+        },
+        contactInfo: {
+          about: "Sofia's details, read-only.",
+        },
+        info: {
+          about: 'Forms and categories without "Create form" or suggestions.',
+          questions: {
+            categories: 'Should members see Subpods and Attachments at all?',
+          },
+        },
+        members: {
+          about: 'Who else is in the pod. Only the owner can invite.',
+          questions: {
+            pending: "Should members see pending invites? Right now they don't.",
+          },
+        },
+        notes: {
+          about: "The owner's notes, read-only. No toolbar, no caret, no Tidy.",
+          questions: {
+            sayReadOnly: 'Should the notes say they are read-only, or who can edit them?',
+          },
+        },
+      },
+      title: "Sofia's pod, shared with me",
+    },
   },
   home: {
     assignedVariant: 'Assigned variant (dev only): {{variant}}',
@@ -483,6 +700,11 @@ export const en = {
       tidy: 'Tidy',
     },
     people: {
+      categories: {
+        attachments: 'Attachments',
+        members: 'Members',
+        subpods: 'Subpods',
+      },
       contactInfo: {
         empty: 'No contact info yet.',
         fields: {
@@ -492,6 +714,31 @@ export const en = {
           lastName: 'Last name',
         },
         title: 'Contact info',
+      },
+      forms: {
+        createForm: 'Create form',
+        medical: 'Medical',
+        title: 'Forms',
+      },
+      sharing: {
+        assistant: 'Assistant',
+        canView: 'Can view',
+        infoShared_one: '{{count}} info shared',
+        infoShared_other: '{{count}} info shared',
+        owner: 'Owner',
+        pendingFor_one: 'Pending for {{count}} day',
+        pendingFor_other: 'Pending for {{count}} days',
+        sentToday: 'Sent today',
+        telli: 'Telli',
+        you: '{{name}} (You)',
+      },
+      telli: {
+        answers: {
+          born: "Sofia was born on April 8, 2018. That's from her Contact info.",
+          fullName: "Her full name is Sofia Walker. That's from her Contact info.",
+          notFound: "I couldn't find that in Sofia's pod. Bogdan might know.",
+          piano: "Sofia has piano on Tuesdays. That's from her notes.",
+        },
       },
     },
   },
@@ -512,6 +759,10 @@ export const en = {
     formCard: {
       edit: 'Edit {{field}}',
     },
+    groupChat: {
+      attach: 'Add attachment',
+      send: 'Send',
+    },
     header: {
       back: 'Back',
     },
@@ -525,6 +776,9 @@ export const en = {
     },
     segmentedTabs: {
       dot: 'new',
+    },
+    toast: {
+      close: 'Close',
     },
   },
 }

@@ -192,3 +192,44 @@ export const TidyNotesArea = ({
     </div>
   )
 }
+
+const noop = () => {}
+
+type ReadOnlyNotesAreaProps = {
+  blocks: readonly NoteBlock[]
+  contactLinkLabel: string
+  onOpenContactLink: () => void
+}
+
+// The same note for someone who may only read it: no caret, no toolbar, no Tidy; links still open.
+export const ReadOnlyNotesArea = ({ blocks, contactLinkLabel, onOpenContactLink }: ReadOnlyNotesAreaProps) => {
+  const { t } = useTranslation()
+
+  return (
+    <section aria-label={t('pods.notes.label')} className="-m-1 flex min-h-0 flex-1 flex-col overflow-y-auto">
+      {blocks.map((block) =>
+        block.kind === 'contact-link' ? (
+          <ContactLink
+            key={block.id}
+            label={contactLinkLabel}
+            onOpen={onOpenContactLink}
+            onPulseDone={noop}
+            pulse={false}
+          />
+        ) : (
+          <p className={cn(textClassName, 'text-gray-800')} key={block.id}>
+            {block.text.split('\n').map((line, index) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: a line is identified by its position
+              <Fragment key={index}>
+                {index > 0 && '\n'}
+                <PaintedLine line={line} />
+              </Fragment>
+            ))}
+            {/* Gives a trailing empty line its height. */}
+            {'​'}
+          </p>
+        ),
+      )}
+    </section>
+  )
+}
