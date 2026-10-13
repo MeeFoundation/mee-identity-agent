@@ -34,7 +34,8 @@ Keep these layers separate. Don't derive one from another unless the code explic
   - it links to the record's details;
   - details show the canonical breadcrumb (for example "Ginger > Medical");
   - summaries never open their own edit flow.
-- Data limits: a pod currently holds **one** medication record, and records have **no end date or status**. Don't present "current" vs "past" as if the data supported it.
+- Data limits: a pod's **current** medication is one record (`medicationAtom`). Finished courses live in `medicationCoursesAtom` and carry an `endDate`. Only flows that set courses (EXP-PET-005) can present "current" vs "past". Elsewhere, don't present them as if the data supported it.
+- Doses: the current scheduled dose (`medicationDoseAtom`) and past dose events (`doseHistoryAtom`) are separate from the medication. Giving a dose never edits the medication record. Read history through `pods/ginger/dose-history.ts`. Giving and undoing go through `giveDoseAtom` and `undoDoseAtom`; the Apoquel fixture, Medical, dose history and the give and undo sheets live in `pods/ginger/` and are shared by EXP-PET-005 and SC-PET-002.
 
 ### Which row component
 

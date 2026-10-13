@@ -171,6 +171,32 @@ export const en = {
         },
       },
     },
+    expPet005: {
+      description: 'Compares where participants find and record a scheduled medication dose.',
+      details: {
+        recent: 'Recent doses',
+        seeAll: 'See all',
+      },
+      info: {
+        forms: 'Forms',
+      },
+      title: 'Give medication',
+      today: 'Today',
+      variants: {
+        a: {
+          description: 'The due dose is shown on Medical and the medication’s details only.',
+          name: 'From Medical',
+        },
+        b: {
+          description: 'Ginger’s pod also shows the due dose under its top bar, on Notes and Info.',
+          name: 'On Ginger’s pod',
+        },
+        c: {
+          description: 'Home also shows the due dose in a Today section above the pods.',
+          name: 'On Home',
+        },
+      },
+    },
     scPet001: {
       cases: {
         a: {
@@ -270,6 +296,61 @@ export const en = {
         title: 'Telli',
       },
       title: 'Create Ginger',
+    },
+    scPet002: {
+      cases: {
+        a: {
+          description: 'Ginger’s morning Apoquel was due three hours ago and nobody has given it.',
+          goal: 'Ginger’s morning Apoquel is overdue. Give it to her now and record it.',
+          name: 'Overdue dose',
+          questions: {
+            skip: 'After how long should an overdue dose be skipped rather than given late?',
+          },
+        },
+        b: {
+          description: 'You marked Ginger’s Apoquel as given a few minutes ago, but she didn’t take it.',
+          goal: 'You marked Ginger’s Apoquel as given by mistake. Undo it.',
+          hints: {
+            medical: 'A given dose can be reverted from its card.',
+          },
+          name: 'Undo a dose',
+          questions: {
+            limit: 'Should undo be limited in time, or to the member who gave the dose?',
+          },
+        },
+      },
+      description:
+        'Shows the less common states of Ginger’s scheduled dose: giving one that is overdue, and undoing one marked as given by mistake.',
+      hints: {
+        doseHistory: 'Check which doses are recorded.',
+        giveDose: 'Confirm the dose, or cancel.',
+        medical: 'Ginger’s scheduled dose is at the top of Medical.',
+        undoDose: 'Confirm that the dose was not given, or keep it.',
+      },
+      questions: {
+        whoCanUndo: 'Should Sam be told when a dose is undone?',
+      },
+      screens: {
+        doseHistory: {
+          about: 'An undone dose leaves no entry in the history.',
+        },
+        giveDose: {
+          about: 'The same confirmation as EXP-PET-005; an overdue dose names its scheduled time instead of “now”.',
+        },
+        medical: {
+          about: 'Ginger’s Medical screen, with the scheduled dose overdue or given.',
+          questions: {
+            overdueTone: 'Is the overdue treatment urgent enough without being alarming?',
+          },
+        },
+        undoDose: {
+          about: 'Reverting asks for confirmation, so a tap on Undo is never itself the mistake.',
+          questions: {
+            confirm: 'Would an immediate Undo in the toast be better than a confirmation?',
+          },
+        },
+      },
+      title: 'Medication doses',
     },
     scPpl001: {
       cases: {
@@ -638,6 +719,61 @@ export const en = {
         members: 'Members',
         subpods: 'Subpods',
       },
+      dose: {
+        due: 'Due now',
+        given: 'Given · {{time}} · {{member}}',
+        history: 'History',
+        lastGiven: 'Last given {{day}} {{time}} · {{member}}',
+        markAsGiven: 'Mark as given',
+        overdue: 'Overdue · due at {{time}}',
+        toast: {
+          given: '{{name}} marked as given',
+          undone: '{{name}} marked as not given',
+        },
+        undo: 'Undo',
+        upcoming: 'Due at {{time}}',
+      },
+      doseHistory: {
+        allMedications: 'All medications',
+        course: '{{name}} · {{year}}',
+        empty: 'No doses in this period',
+        given: 'Given {{time}} · {{member}}',
+        medication: 'Medication',
+        missed: 'Missed',
+        periods: {
+          '1y': 'Year',
+          '7d': 'Week',
+          '30d': 'Month',
+          all: 'All',
+        },
+        scheduled: 'Scheduled {{time}}',
+        showAllTime: 'Show all time',
+        showMore_one: 'Show {{count}} more',
+        showMore_other: 'Show {{count}} more',
+        someone: 'Someone',
+        title: 'Dose history',
+        today: 'Today',
+        todayInline: 'today',
+        yesterday: 'Yesterday',
+        yesterdayInline: 'yesterday',
+        you: 'You',
+      },
+      doseSheet: {
+        give: {
+          cancel: 'Cancel',
+          confirm: 'Mark as given',
+          scheduledAt: 'Scheduled: {{time}}',
+          scheduledNow: 'Scheduled: now',
+          title: 'Record {{name}}’s dose?',
+        },
+        medication: '{{name}} · {{dose}} {{form}}',
+        undo: {
+          cancel: 'Keep as given',
+          confirm: 'Mark as not given',
+          given: 'Given {{day}} {{time}} · {{member}}',
+          title: 'Undo {{name}}’s dose?',
+        },
+      },
       forms: {
         addContactInfo: 'Add contact info',
         createForm: 'Create form',
@@ -649,6 +785,13 @@ export const en = {
         pods: 'Pods',
         userInitial: 'A',
         welcome: 'Welcome, Alice',
+      },
+      medical: {
+        add: 'Add medication',
+        history: 'Dose history',
+        historyPreview: 'Last given {{day}} {{time}} · {{member}}',
+        medications: 'Medications',
+        title: 'Medical',
       },
       medication: {
         fields: {

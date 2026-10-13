@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import type { ComponentProps } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { ChevronRight } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
@@ -12,10 +12,12 @@ type GingerHomeViewProps = {
   onOpenPod: () => void
   // Called for every app tab but Home, which is the current screen.
   onAppTabSelect: (tab: Exclude<AppTab, 'home'>) => void
+  // A section shown above Pods, such as a flow's Today section.
+  beforePods?: ReactNode
 }
 
 // The app's Home with Ginger as the participant's only pod.
-export const GingerHomeView = ({ onOpenPod, onAppTabSelect }: GingerHomeViewProps) => {
+export const GingerHomeView = ({ onOpenPod, onAppTabSelect, beforePods }: GingerHomeViewProps) => {
   const { t } = useTranslation()
   const { AppTabBar, PodScreen, SectionLabel } = useFlowComponents<GingerPodComponents>()
   const pod = useAtomValue(podAtom)
@@ -44,6 +46,7 @@ export const GingerHomeView = ({ onOpenPod, onAppTabSelect }: GingerHomeViewProp
         </header>
       }
     >
+      {beforePods}
       <section className="flex flex-col gap-3">
         <SectionLabel>{t('pods.ginger.home.pods')}</SectionLabel>
         <button
