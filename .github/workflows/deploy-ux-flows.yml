@@ -1,0 +1,77 @@
+name: Deploy app-ux-flows to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/app-ux-flows/**"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "package.json"
+      - "tsconfig.json"
+      - ".github/workflows/deploy-ux-flows.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter app-ux-flows
+
+      - name: Remove local env files
+        run: find apps/app-ux-flows -maxdepth 1 -name '.env*' ! -name '.env.example' -print -delete
+
+      - name: Build
+        run: pnpm --filter app-ux-flows build
+        env:
+          VITE_ANALYTICS_ENABLED: ${{ vars.UX_FLOWS_ANALYTICS_ENABLED }}
+          VITE_ANALYTICS_DEBUG: ${{ vars.UX_FLOWS_ANALYTICS_DEBUG }}
+          VITE_MATOMO_URL: ${{ vars.UX_FLOWS_MATOMO_URL }}
+          VITE_MATOMO_SITE_ID: ${{ vars.UX_FLOWS_MATOMO_SITE_ID }}
+          VITE_MATOMO_DIMENSION_FLOW_ID: ${{ vars.UX_FLOWS_MATOMO_DIMENSION_FLOW_ID }}
+          VITE_MATOMO_DIMENSION_VARIANT_ID: ${{ vars.UX_FLOWS_MATOMO_DIMENSION_VARIANT_ID }}
+          VITE_MATOMO_DIMENSION_RUN_ID: ${{ vars.UX_FLOWS_MATOMO_DIMENSION_RUN_ID }}
+          VITE_MATOMO_DIMENSION_SCREEN_ID: ${{ vars.UX_FLOWS_MATOMO_DIMENSION_SCREEN_ID }}
+          VITE_MATOMO_DIMENSION_VARIANT_SOURCE: ${{ vars.UX_FLOWS_MATOMO_DIMENSION_VARIANT_SOURCE }}
+
+      - name: Add SPA fallback
+        run: cp apps/app-ux-flows/dist/index.html apps/app-ux-flows/dist/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/app-ux-flows/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
