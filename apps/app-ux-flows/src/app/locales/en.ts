@@ -253,12 +253,18 @@ export const en = {
       },
       newPod: {
         category: 'Category',
+        changeImage: 'change image',
         chooseCategory: 'Choose category',
         create: 'Create Pod',
         created: 'Pod created',
         description:
           'A digital room for one part of your life. You’ll invite people and add things once this Pod is created.',
+        image: 'Profile image',
+        imageChosen: 'Image selected',
+        imagePlaceholder: 'Add a profile image',
         name: 'Pod name',
+        optional: '(Optional)',
+        selectImage: 'select image',
         suggestedByTelli: 'Suggested by Telli from your chat',
         title: 'New Pod',
       },
@@ -275,6 +281,12 @@ export const en = {
           info: 'Info',
           notes: 'Notes',
         },
+      },
+      podCreated: {
+        goTo: 'Go to {{name}}',
+        message:
+          'You can invite people to this pod by using the link. Copy and share your link with those you want to join.',
+        title: '<bold>{{name}}</bold> Pod was created successfully',
       },
       suggestion: {
         notNow: 'Not now',
@@ -459,6 +471,20 @@ export const en = {
       title: "Tidy Sofia's notes",
     },
     scPpl002: {
+      adoptConflict: {
+        addedBy: 'Added by {{name}}',
+        cancel: 'Cancel',
+        keepBoth: 'Keep both',
+        replace: 'Replace {{value}}',
+        title: {
+          address: 'You already share an address',
+          email: 'You already share an email',
+          firstName: 'You already share a first name',
+          phone: 'You already share a phone number',
+          role: 'You already share a role',
+        },
+        yours: 'Yours',
+      },
       cases: {
         a: {
           description: 'Nobody else is in the pod yet.',
@@ -478,21 +504,35 @@ export const en = {
           goal: "Geo shouldn't see Sofia's pod anymore. Remove them.",
           name: 'Remove a member',
         },
+        d: {
+          description: "Geo added Bogdan's personal email and phone number. Bogdan already shares his work email.",
+          goal: "Geo added some of your details to Sofia's pod. Keep what's right and remove what isn't.",
+          name: 'Info others added about me',
+        },
       },
       description:
-        "Invite someone to Sofia's pod with a one-time link, take back an invite that is still pending, or remove someone who already joined.",
+        "Invite someone to Sofia's pod with a one-time link, take back an invite that is still pending, remove someone who already joined, or sort out what others added about you.",
       hints: {
+        adoptConflict: 'Keep both, or replace yours.',
         info: 'Sharing starts from Members.',
         inviteDetail: 'This invite has not been used yet.',
         inviteName: 'Type a name and create the link.',
         inviteShare: 'Pick any app to send the link.',
         memberDetail: 'This is what the member can do in the pod.',
         members: 'Everyone in the pod, and everyone invited.',
+        myInfo: 'What you share, and what others added about you.',
         removeConfirm: 'Removing someone cannot be undone.',
+        suggestionActions: 'Copy it, add it to your info, or remove it.',
       },
       info: {
         suggestions_one: '{{count}} suggestion',
         suggestions_other: '{{count}} suggestions',
+      },
+      infoToast: {
+        added: '{{field}} added to the info you share',
+        copied: '{{field}} copied',
+        removed: "{{name}}'s {{field}} removed",
+        replaced: '{{field}} replaced',
       },
       inviteDetail: {
         dates: 'Sent {{sent}} · Expires {{expires}}',
@@ -521,6 +561,16 @@ export const en = {
         invite: 'Invite member',
         pendingInvites: 'Pending invites',
       },
+      myInfo: {
+        addedByOthers: 'Info about you — Added by others',
+        addedByOthersHelp:
+          'Only the person who added a detail can change it but you are allowed to remove the info that isn’t right or merge it with your own info if it is right.',
+        addPersonalInfo: 'Add personal info',
+        moreActions: 'More actions for {{field}} {{value}}',
+        shared_one: '{{count}} info shared in this pod',
+        shared_other: '{{count}} info shared in this pod',
+        sharedVisibleTo: 'Everyone in <bold>{{pod}}</bold> can see these.',
+      },
       pod: {
         avatar: 'S',
         members: 'Members',
@@ -528,6 +578,7 @@ export const en = {
         title: 'About Sofia',
       },
       questions: {
+        tellBogdan: 'Should Bogdan be told when someone adds a detail about him?',
         telliCount: "Should Telli count as a member? Right now it doesn't, but pending invites do.",
         viewOnly:
           'People who join can only view the pod and use its chat. Is that clear to the person sending the invite?',
@@ -540,6 +591,13 @@ export const en = {
         title: 'Remove {{name}} from <bold>{{pod}}</bold>?',
       },
       screens: {
+        adoptConflict: {
+          about:
+            'No design. Bogdan already shares this kind of detail, so he picks whether to replace his or keep both.',
+          questions: {
+            mainOne: 'When both are kept, should one be the main one?',
+          },
+        },
         info: {
           about: "Sofia's pod as its owner sees it. Members is where sharing starts.",
         },
@@ -569,9 +627,19 @@ export const en = {
           },
         },
         members: {
-          about: "Who is in the pod, and who was invited but hasn't joined yet.",
+          about: "Who is in the pod, and who was invited but hasn't joined yet. Each person shows the Role they share.",
           questions: {
+            dots: 'What do the coloured dots on the avatars mean?',
             pendingLabel: 'Is "Pending for N days" useful, or should it show when the invite expires?',
+            telliListed: 'The design leaves Telli out of this list. Should it be listed?',
+          },
+        },
+        myInfo: {
+          about:
+            "What Bogdan shares in the pod, and what others added about him. He can't change what others added, only take it over or remove it.",
+          questions: {
+            tellAdder: 'Should the person who added a detail be told when it is removed?',
+            whatEditable: 'What can Bogdan edit here, and who sees it?',
           },
         },
         removeConfirm: {
@@ -581,10 +649,14 @@ export const en = {
             tellMember: 'Should the removed person be told?',
           },
         },
+        suggestionActions: {
+          about: 'What Bogdan can do with a detail someone else added.',
+          questions: {
+            movesOut: 'Is it clear that "Add to info I share" moves the detail out of Geo\'s list?',
+          },
+        },
       },
       share: {
-        copied: 'Link copied',
-        copyLink: 'Copy link',
         description:
           'This link is the key to your pod. Send it only to {{name}}, in a way you trust. The link works once and expires {{date}}.',
         target: {
@@ -594,6 +666,16 @@ export const en = {
         },
         targets: 'Send the link with',
         title: 'Invite {{name}} to <bold>{{pod}}</bold>',
+      },
+      suggestionActions: {
+        add: 'Add to info I share',
+        copy: 'Copy value',
+        remove: 'This isn’t right, remove it',
+        sharedDaysAgo_one: 'Shared by {{name}} {{count}} day ago',
+        sharedDaysAgo_other: 'Shared by {{name}} {{count}} days ago',
+        sharedToday: 'Shared by {{name}} today',
+        sharedYesterday: 'Shared by {{name}} yesterday',
+        title: '{{field}}: <bold>{{value}}</bold>',
       },
       title: "Invite someone to Sofia's pod",
       toast: {
@@ -863,11 +945,29 @@ export const en = {
         medical: 'Medical',
         title: 'Forms',
       },
+      memberInfo: {
+        fieldNames: {
+          address: 'address',
+          email: 'email',
+          firstName: 'first name',
+          phone: 'phone',
+          role: 'role',
+        },
+        fields: {
+          address: 'Address',
+          email: 'Email',
+          firstName: 'First name',
+          phone: 'Phone',
+          role: 'Role',
+        },
+      },
       sharing: {
         assistant: 'Assistant',
         canView: 'Can view',
-        infoShared_one: '{{count}} info shared',
-        infoShared_other: '{{count}} info shared',
+        copied: 'Copied',
+        copyInviteLink: 'copy invite link',
+        copyLink: 'Copy link',
+        linkCopied: 'Link copied',
         owner: 'Owner',
         pendingFor_one: 'Pending for {{count}} day',
         pendingFor_other: 'Pending for {{count}} days',
@@ -890,6 +990,8 @@ export const en = {
       home: 'Home',
       label: 'Main',
       navigation: 'Navigation',
+      notifications: 'Notifications',
+      notificationsNew: 'Notifications, new',
       telli: 'Ask Telli',
     },
     bottomSheet: {

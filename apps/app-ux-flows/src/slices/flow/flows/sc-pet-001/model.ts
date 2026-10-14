@@ -12,6 +12,7 @@ export type ScPet001ScreenId =
   | 'home'
   | 'telli'
   | 'new-pod'
+  | 'pod-created'
   | 'pod-notes'
   | 'pod-empty'
   | 'pod-template-suggested'
@@ -46,6 +47,8 @@ export type ScPet001InitialState = {
 
 export type ScenarioState = {
   podName: string
+  // The chosen profile image as an object URL, or `null`.
+  podImage: string | null
   podCreated: boolean
   petTemplateApplied: boolean
 }
@@ -61,6 +64,9 @@ export const podNameAtom = atom('')
 
 // The sheet's optional category; `null` creates a generic pod.
 export const chosenCategoryAtom = atom<string | null>(null)
+
+// The sheet's optional profile image, an object URL that lives only as long as the page.
+export const podImageAtom = atom<string | null>(null)
 
 // The one record every pod screen renders.
 export const createdPodAtom = atom<PodInstance | null>(null)
@@ -128,6 +134,13 @@ export const applyQuickActionAtom = atom(null, (get, set, turn: number) => {
   set(usedActionTurnAtom, turn)
 })
 
+// Replaces the chosen image, releasing the previous one unless the created pod shows it.
+export const choosePodImageAtom = atom(null, (get, set, src: string) => {
+  const previous = get(podImageAtom)
+  if (previous && previous !== get(createdPodAtom)?.avatarSrc) URL.revokeObjectURL(previous)
+  set(podImageAtom, src)
+})
+
 export const chooseCategoryAtom = atom(null, (_get, set, category: string | null) => {
   set(chosenCategoryAtom, category)
   set(categoryFromTelliAtom, false)
@@ -138,6 +151,7 @@ export const scenarioStateAtom = atom<ScenarioState>((get) => {
   return {
     petTemplateApplied: pod?.category === podCategoryIris.pets,
     podCreated: pod !== null,
+    podImage: get(podImageAtom),
     podName: pod?.name ?? get(podNameAtom),
   }
 })
@@ -171,7 +185,7 @@ export const podInfoScreenAtom = atom<PodInfoScreenId>((get) => {
 export const createPodAtom = atom(null, (get, set) => {
   const name = get(podNameAtom)
   if (get(createdPodAtom) || !canCreatePod(name)) return
-  const pod = createPodFromTemplate({ name })
+  const pod = createPodFromTemplate({ avatarSrc: get(podImageAtom) ?? undefined, name })
   const category = get(chosenCategoryAtom)
   set(createdPodAtom, category ? applyTemplate(pod, category) : pod)
 })

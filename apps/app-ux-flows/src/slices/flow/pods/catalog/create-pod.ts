@@ -13,6 +13,8 @@ export type PodInstance = {
   category: string | null
   memberCount: number
   avatarLetter: string
+  // A photo chosen when the pod was created; without it the pod shows `avatarLetter`.
+  avatarSrc?: string
   breadcrumb: readonly string[]
   forms: readonly PodForm[]
 }
@@ -21,6 +23,7 @@ type CreatePodInput = {
   // Omitted for a generic pod, which gets structure only once a template is applied.
   category?: string
   name: string
+  avatarSrc?: string
 }
 
 const requireTemplate = (category: string | null) => {
@@ -37,11 +40,12 @@ const breadcrumbOf = (category: string) => {
 }
 
 // Lazy instantiation: the new pod copies the forms its category's template pod declares, still empty.
-export const createPodFromTemplate = ({ category, name }: CreatePodInput): PodInstance => {
+export const createPodFromTemplate = ({ category, name, avatarSrc }: CreatePodInput): PodInstance => {
   const template = requireTemplate(category ?? null)
   const trimmedName = name.trim()
   return {
     avatarLetter: (Array.from(trimmedName)[0] ?? '').toLocaleUpperCase(),
+    ...(avatarSrc ? { avatarSrc } : {}),
     breadcrumb: category ? breadcrumbOf(category) : [],
     category: category ?? null,
     forms: template.forms.map((shape) => ({ shape })),

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { gingerMedication, gingerPod, type MedicationRecord, medicationAtom, podAtom } from '../../pods/ginger/model'
+import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { expPet003Flow } from './flow'
 import { hasMedicalScreen, medicalPresentationAtom, podOpensOnAtom } from './model'
@@ -54,6 +55,24 @@ describe('exp-pet-003 flow', () => {
     expect(store.get(medicationAtom)).toBe(metacam)
     expect(store.get(podOpensOnAtom)).toBe('info')
     expect(store.get(medicalPresentationAtom)).toBe('inline')
+  })
+
+  it('records Notifications on Home and stays there, in every variant', () => {
+    for (const id of variantIds) {
+      let selectTab: ((tab: string) => void) | undefined
+      const effects = renderScreen(resolveFlow(expPet003Flow, id), 'home', {
+        components: {
+          AppTabBar: ({ onSelect }: { onSelect: (tab: string) => void }) => {
+            selectTab = onSelect
+            return null
+          },
+        },
+      })
+      selectTab?.('notifications')
+
+      expect(effects.tracked).toEqual([{ event: 'app_tab_selected', props: { tab: 'notifications' } }])
+      expect(effects.navigations).toEqual([])
+    }
   })
 
   it('briefs no one: the task is read by the moderator', () => {

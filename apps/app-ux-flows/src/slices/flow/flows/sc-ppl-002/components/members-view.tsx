@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 
 import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
 
+import { sharedRole } from '../../../pods/people/member-info'
 import { memberInitial, pendingLabel } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import {
   invitesAtom,
   memberCountAtom,
+  memberInfoAtom,
   membersAtom,
   type ScPpl002Components,
   type ScPpl002ScreenId,
@@ -56,6 +58,7 @@ export const MembersView = ({ showToast = false }: MembersViewProps) => {
   const members = useAtomValue(membersAtom)
   const invites = useAtomValue(invitesAtom)
   const count = useAtomValue(memberCountAtom)
+  const memberInfo = useAtomValue(memberInfoAtom)
   const [toast, setToast] = useAtom(toastAtom)
   const selectInvite = useSetAtom(selectedInviteIdAtom)
   const selectMember = useSetAtom(selectedMemberIdAtom)
@@ -101,25 +104,27 @@ export const MembersView = ({ showToast = false }: MembersViewProps) => {
           </Button>
         }
       >
-        {members.map((member) =>
-          member.role === 'owner' ? (
+        {members.map((member) => {
+          const detail = sharedRole(memberInfo[member.id]) ?? t('pods.people.sharing.canView')
+          return member.role === 'owner' ? (
             <MemberRow
               avatar={{ letter: memberInitial(member.name) }}
-              detail={t('pods.people.sharing.infoShared', { count: 2 })}
+              detail={detail}
               key={member.id}
               name={t('pods.people.sharing.you', { name: member.name })}
+              onClick={() => leaveFor('my-info')}
               online
             />
           ) : (
             <MemberRow
               avatar={{ letter: memberInitial(member.name) }}
-              detail={t('pods.people.sharing.canView')}
+              detail={detail}
               key={member.id}
               name={member.name}
               onClick={() => openMember(member.id)}
             />
-          ),
-        )}
+          )
+        })}
         <MemberRow
           avatar={{ icon: telliAssistantIcon }}
           detail={t('pods.people.sharing.assistant')}

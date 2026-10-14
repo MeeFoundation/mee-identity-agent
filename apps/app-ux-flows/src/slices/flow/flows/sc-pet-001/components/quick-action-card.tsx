@@ -39,7 +39,7 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
       return
     }
     createPodFromQuickAction(turn)
-    goToScreen('pod-notes')
+    goToScreen('pod-created')
   }
 
   const cardAction = !pod

@@ -37,7 +37,7 @@ export type ExpPet005Events = {
   medication_undo_cancelled: { entry_point: DoseEntryPoint }
   pod_opened: undefined
   pod_tab_selected: { tab: PodTab }
-  app_tab_selected: { tab: 'telli' | 'navigation' }
+  app_tab_selected: { tab: 'telli' | 'notifications' | 'navigation' }
   info_row_selected: { row: 'pet_form' | 'attachments' | 'subpods' | 'members' }
   medical_opened: undefined
   medication_viewed: undefined

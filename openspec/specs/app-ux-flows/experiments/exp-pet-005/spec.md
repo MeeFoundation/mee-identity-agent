@@ -138,7 +138,7 @@ The card SHALL be announced as one labelled region named after its heading and t
 - one Ginger pod row;
 - the app tab bar with Home active.
 
-Activating the Ginger row SHALL show `ginger-notes`. Ask Telli and Navigation SHALL be recorded and do nothing else.
+Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications and Navigation SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-004:
 - back SHALL show `home`;
@@ -180,6 +180,10 @@ On every screen, back SHALL perform a back navigation, the menu control SHALL be
 #### Scenario: Wrong turns are allowed
 - **WHEN** a participant in variant A opens Notes, then Info, then activates the Pet form row
 - **THEN** each step is recorded and the participant stays free to continue, with no redirect or hint
+
+#### Scenario: Notifications is inert
+- **WHEN** a participant on `home` activates the Notifications tab
+- **THEN** `app_tab_selected` is recorded with `tab` `notifications` and `home` stays shown
 
 ### Requirement: Pod band in variant B
 In variant B, `ginger-notes` and `ginger-info` SHALL show the due-dose card as a band between the Ginger top bar and the tab's content, above the notes area and above the Info list respectively. The band SHALL look and behave the same on both tabs. Switching between Notes and Info SHALL keep it shown. Variants A and C SHALL show no band on these screens, and the tab content SHALL otherwise be identical in all variants.
@@ -317,7 +321,7 @@ EXP-PET-005 SHALL declare and record these interaction events. Every variant SHA
 | `medication_undo_cancelled` | the undo sheet is kept, dismissed or left by back | `entry_point` |
 | `pod_opened` | the Ginger row on Home is activated | none |
 | `pod_tab_selected` | a Ginger tab is selected | `tab`: `notes`, `chat` or `info` |
-| `app_tab_selected` | Ask Telli or Navigation is activated | `tab`: `telli` or `navigation` |
+| `app_tab_selected` | Ask Telli, Notifications or Navigation is activated | `tab`: `telli`, `notifications` or `navigation` |
 | `info_row_selected` | an inert Info row is activated | `row`: `pet_form`, `attachments`, `subpods` or `members` |
 | `medical_opened` | the Medical row is activated | none |
 | `medication_viewed` | the medication item on `medical` is activated | none |
@@ -345,3 +349,7 @@ The sheets' events SHALL carry the entry point of the card that opened them. The
 #### Scenario: Cancellation is recorded
 - **WHEN** a participant opens the sheet from the band and cancels
 - **THEN** `medication_give_cancelled` with `entry_point` `pod` is recorded, and no `flow_completed`
+
+#### Scenario: Notifications tab is recorded
+- **WHEN** a participant activates the Notifications tab on `home`
+- **THEN** `app_tab_selected` is recorded with `tab` `notifications`, and no other event

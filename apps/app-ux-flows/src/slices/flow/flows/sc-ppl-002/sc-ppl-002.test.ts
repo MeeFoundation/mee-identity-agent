@@ -1,19 +1,33 @@
+import { Children, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
 import { en } from '@/app/locales/en'
 
+import { addedByPerson, bogdanInfo, sharedRole } from '../../pods/people/member-info'
 import { FIRST_INVITE_LINK } from '../../pods/people/sharing'
 import { findFlow } from '../../registry'
+import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPpl002Flow } from './flow'
 import {
+  adoptDetailAtom,
+  copyDetailAtom,
   createInviteAtom,
+  infoToastAtom,
   invitesAtom,
+  keepBothAtom,
   markInviteSentAtom,
   memberCountAtom,
+  memberInfoAtom,
   membersAtom,
+  myInfoAtom,
+  removeDetailAtom,
   removeMemberAtom,
+  replaceDetailAtom,
   revokeInviteAtom,
+  selectedConflictAtom,
+  selectedDetailAtom,
+  selectedDetailIdAtom,
   selectedInviteAtom,
   selectedInviteIdAtom,
   selectedMemberAtom,
@@ -30,8 +44,45 @@ const caseRun = (caseId: string) => resolveFlow(scPpl002Flow, null, caseId).crea
 
 const memberIds = (store: ReturnType<typeof caseRun>) => store.get(membersAtom).map(({ id }) => id)
 
+const sharedValues = (store: ReturnType<typeof caseRun>) =>
+  store.get(myInfoAtom).shared.map(({ field, value }) => `${field}:${value}`)
+
+const addedIds = (store: ReturnType<typeof caseRun>) => store.get(myInfoAtom).addedByOthers.map(({ id }) => id)
+
+// Case D with one of Geo's details selected, as after "More actions" on it.
+const caseDWith = (detailId: string) => {
+  const store = caseRun('d')
+  store.set(selectedDetailIdAtom, detailId)
+  return store
+}
+
+// The real sheet only renders its content once open in a browser.
+const InlineSheet = ({ children }: { children: ReactNode }) => children
+
+// Renders a sheet with its buttons captured, so a test can activate one by its label.
+const renderSheet = (screenId: 'suggestion-actions' | 'adopt-conflict', store: ReturnType<typeof caseRun>) => {
+  const buttons = new Map<string, () => void>()
+  const Button = ({ children, onClick }: { children: ReactNode; onClick: () => void }) => {
+    const label = Children.toArray(children)
+      .filter((child) => typeof child === 'string')
+      .join('')
+    if (label) buttons.set(label, onClick)
+    return null
+  }
+  const effects = renderScreen(resolveFlow(scPpl002Flow, null, 'd'), screenId, {
+    components: { BottomSheet: InlineSheet, Button },
+    store,
+  })
+  const click = (label: string) => {
+    const onClick = buttons.get(label)
+    if (!onClick) throw new Error(`No button "${label}"`)
+    onClick()
+  }
+  return { click, effects }
+}
+
 describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
-  it('is a registered showcase with three cases, all starting on Info', () => {
+  it('is a registered showcase with four cases, all starting on Info', () => {
     expect(scPpl002Flow.kind).toBe('showcase')
     expect(scPpl002Flow.code).toBe('SC-PPL-002')
     expect(scPpl002Flow.initialScreen).toBe('info')
@@ -40,18 +91,22 @@ describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
       ['a', 'SC-PPL-002-A'],
       ['b', 'SC-PPL-002-B'],
       ['c', 'SC-PPL-002-C'],
+      ['d', 'SC-PPL-002-D'],
     ])
   })
 
   it('declares its screens and the Figma frames they implement', () => {
     expect(Object.keys(scPpl002Flow.screens).sort()).toEqual([
+      'adopt-conflict',
       'info',
       'invite-detail',
       'invite-name',
       'invite-share',
       'member-detail',
       'members',
+      'my-info',
       'remove-confirm',
+      'suggestion-actions',
     ])
     expect(
       Object.fromEntries(Object.entries(scPpl002Flow.designFrames ?? {}).map(([id, frame]) => [id, frame?.name])),
@@ -62,12 +117,16 @@ describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
       'invite-share': 'SC-PPL-002-A - Share invite link (sheet)',
       'member-detail': 'SC-PPL-002-C - Geo (member detail)',
       members: 'SC-PPL-002-A - Members',
+      'my-info': 'Bogdan (You) - info shared',
       'remove-confirm': 'SC-PPL-002-C - Remove Geo (confirm sheet)',
+      'suggestion-actions': 'Shared info actions (modal)',
     })
+    expect(scPpl002Flow.designFrames?.['my-info']?.url).toContain('node-id=38-2883')
+    expect(scPpl002Flow.designFrames?.['suggestion-actions']?.url).toContain('node-id=119-9506')
   })
 
   it('translates every key it declares', () => {
-    const resolved = ['a', 'b', 'c'].map((caseId) => resolveFlow(scPpl002Flow, null, caseId))
+    const resolved = ['a', 'b', 'c', 'd'].map((caseId) => resolveFlow(scPpl002Flow, null, caseId))
     const keys = resolved.flatMap((flow) => [
       flow.titleKey,
       flow.descriptionKey,
@@ -80,6 +139,7 @@ describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
       ...Object.values(flow.notes.screens).flatMap((note) => [note?.aboutKey, ...(note?.questionKeys ?? [])]),
     ])
     for (const key of keys) expect(typeof translate(key ?? ''), String(key)).toBe('string')
+    expect(resolved[0]?.notes.flow.questionKeys).toHaveLength(3)
   })
 
   it('explains every screen, and lists two questions on invite-detail', () => {
@@ -107,6 +167,119 @@ describe('SC-PPL-002 Invite someone to Sofia’s pod', () => {
     expect(memberIds(c)).toEqual(['bogdan', 'geo'])
     expect(c.get(invitesAtom)).toEqual([])
     expect(c.get(memberCountAtom)).toBe(2)
+
+    const d = caseRun('d')
+    expect(memberIds(d)).toEqual(['bogdan', 'geo', 'andrew'])
+    expect(d.get(invitesAtom)).toEqual([])
+    expect(d.get(memberCountAtom)).toBe(3)
+  })
+
+  it("gives Bogdan his own info in every case, and only case D others' Roles and details about him", () => {
+    for (const caseId of ['a', 'b', 'c']) {
+      const store = caseRun(caseId)
+      expect(store.get(myInfoAtom), caseId).toEqual(bogdanInfo)
+      expect(sharedRole(store.get(memberInfoAtom).geo), caseId).toBeNull()
+    }
+
+    const d = caseRun('d')
+    const info = d.get(memberInfoAtom)
+    expect(d.get(myInfoAtom).shared).toEqual(bogdanInfo.shared)
+    expect(['bogdan', 'geo', 'andrew'].map((id) => sharedRole(info[id]))).toEqual(['Dad', 'Mum', 'Uncle'])
+    expect(
+      addedByPerson(d.get(myInfoAtom)).map(({ addedBy, details }) => [addedBy, details.map(({ value }) => value)]),
+    ).toEqual([['geo', ['bogdan@gmail.com', '+4244235355']]])
+  })
+
+  it('copies a detail without changing anything', () => {
+    const store = caseDWith('geo-bogdan-phone')
+    store.set(copyDetailAtom)
+    expect(store.get(myInfoAtom).addedByOthers).toHaveLength(2)
+    expect(store.get(infoToastAtom)).toEqual({ field: 'phone', kind: 'copied' })
+  })
+
+  it('adds a detail with a new field to the end', () => {
+    const store = caseDWith('geo-bogdan-phone')
+    expect(store.set(adoptDetailAtom)).toBe('added')
+    expect(sharedValues(store).at(-1)).toBe('phone:+4244235355')
+    expect(addedIds(store)).toEqual(['geo-bogdan-email'])
+    expect(store.get(infoToastAtom)).toEqual({ field: 'phone', kind: 'added' })
+  })
+
+  it('leaves an email Bogdan already shares to the conflict sheet', () => {
+    const store = caseDWith('geo-bogdan-email')
+    expect(store.set(adoptDetailAtom)).toBe('conflict')
+    expect(addedIds(store)).toEqual(['geo-bogdan-email', 'geo-bogdan-phone'])
+    expect(store.get(selectedConflictAtom)?.yours.value).toBe('bhutuleac@swiftinvention.com')
+    expect(store.get(infoToastAtom)).toBeNull()
+  })
+
+  it('keeps both emails, the new one right after the old one', () => {
+    const store = caseDWith('geo-bogdan-email')
+    store.set(keepBothAtom)
+    expect(sharedValues(store)).toEqual([
+      'firstName:Bogdan',
+      'role:Dad',
+      'email:bhutuleac@swiftinvention.com',
+      'email:bogdan@gmail.com',
+      'address:318 Fillmore St, Apt 4B',
+    ])
+    expect(addedIds(store)).toEqual(['geo-bogdan-phone'])
+    expect(store.get(infoToastAtom)).toEqual({ field: 'email', kind: 'added' })
+  })
+
+  it('replaces the email in place', () => {
+    const store = caseDWith('geo-bogdan-email')
+    store.set(replaceDetailAtom)
+    expect(sharedValues(store)[2]).toBe('email:bogdan@gmail.com')
+    expect(sharedValues(store)).toHaveLength(4)
+    expect(addedIds(store)).toEqual(['geo-bogdan-phone'])
+    expect(store.get(infoToastAtom)).toEqual({ field: 'email', kind: 'replaced' })
+  })
+
+  it('removes a detail and leaves the shared info alone', () => {
+    const store = caseDWith('geo-bogdan-email')
+    store.set(removeDetailAtom)
+    expect(addedIds(store)).toEqual(['geo-bogdan-phone'])
+    expect(store.get(myInfoAtom).shared).toEqual(bogdanInfo.shared)
+    expect(store.get(infoToastAtom)).toEqual({ addedBy: 'geo', field: 'email', kind: 'removed' })
+  })
+
+  it('has no detail to act on in a new run', () => {
+    const store = caseRun('d')
+    expect(store.get(selectedDetailAtom)).toBeNull()
+    expect(store.get(selectedConflictAtom)).toBeNull()
+  })
+
+  it('completes the run on add and remove, but not on copy', () => {
+    const copy = renderSheet('suggestion-actions', caseDWith('geo-bogdan-phone'))
+    copy.click('Copy value')
+    expect(copy.effects).toMatchObject({ completed: false, navigations: ['my-info'] })
+
+    const add = renderSheet('suggestion-actions', caseDWith('geo-bogdan-phone'))
+    add.click('Add to info I share')
+    expect(add.effects).toMatchObject({ completed: true, navigations: ['my-info'] })
+
+    const remove = renderSheet('suggestion-actions', caseDWith('geo-bogdan-phone'))
+    remove.click('This isn’t right, remove it')
+    expect(remove.effects).toMatchObject({ completed: true, navigations: ['my-info'] })
+  })
+
+  it('opens the conflict sheet for a known field without completing, and completes on Keep both or Replace but not Cancel', () => {
+    const add = renderSheet('suggestion-actions', caseDWith('geo-bogdan-email'))
+    add.click('Add to info I share')
+    expect(add.effects).toMatchObject({ completed: false, navigations: ['adopt-conflict'] })
+
+    const keep = renderSheet('adopt-conflict', caseDWith('geo-bogdan-email'))
+    keep.click('Keep both')
+    expect(keep.effects).toMatchObject({ completed: true, navigations: ['my-info'] })
+
+    const replace = renderSheet('adopt-conflict', caseDWith('geo-bogdan-email'))
+    replace.click('Replace bhutuleac@swiftinvention.com')
+    expect(replace.effects).toMatchObject({ completed: true, navigations: ['my-info'] })
+
+    const cancel = renderSheet('adopt-conflict', caseDWith('geo-bogdan-email'))
+    cancel.click('Cancel')
+    expect(cancel.effects).toMatchObject({ completed: false, navigations: ['my-info'] })
   })
 
   it('creates an invite with the first link, counts it, and toasts once it is sent', () => {

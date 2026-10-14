@@ -14,6 +14,7 @@ import {
   createdPodAtom,
   DEFAULT_SUGGESTED_TEMPLATE,
   newPodOriginAtom,
+  podImageAtom,
   podNameAtom,
   type ScPet001Components,
   type ScPet001InitialState,
@@ -27,6 +28,7 @@ import {
 } from './model'
 import { HomeScreen } from './screens/home-screen'
 import { NewPodScreen } from './screens/new-pod-screen'
+import { PodCreatedScreen } from './screens/pod-created-screen'
 import { PodEmptyScreen } from './screens/pod-empty-screen'
 import { PodNotesScreen } from './screens/pod-notes-screen'
 import { PodTemplateAppliedScreen } from './screens/pod-template-applied-screen'
@@ -96,6 +98,7 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
     const store = createJotaiStore()
     store.set(podNameAtom, '')
     store.set(chosenCategoryAtom, null)
+    store.set(podImageAtom, null)
     store.set(createdPodAtom, null)
     // `null` is a deliberate "suggest nothing", so only a missing value falls back to the default.
     store.set(
@@ -115,7 +118,8 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
   descriptionKey: 'flows.scPet001.description',
   designFrames: {
     home: figmaFrame('Home - 1', '13-1146'),
-    'new-pod': figmaFrame('Home / New Pod (modal)', '868-14331'),
+    'new-pod': figmaFrame('New Pod with profile image (modal)', '905-15244'),
+    'pod-created': figmaFrame('Pod created (modal)', '1435-44400'),
     'pod-empty': figmaFrame('Cell New - 2', '380-14769'),
     telli: figmaFrame('Pod / Chat - 5', '919-30381'),
   },
@@ -132,6 +136,7 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
   screens: {
     home: HomeScreen,
     'new-pod': NewPodScreen,
+    'pod-created': PodCreatedScreen,
     'pod-empty': PodEmptyScreen,
     'pod-notes': PodNotesScreen,
     'pod-template-applied': PodTemplateAppliedScreen,

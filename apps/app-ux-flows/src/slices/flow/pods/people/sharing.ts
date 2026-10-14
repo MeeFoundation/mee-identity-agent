@@ -71,4 +71,6 @@ export const bogdan: Member = { id: 'bogdan', joinedDaysAgo: 60, name: 'Bogdan',
 
 export const geo: Member = { id: 'geo', joinedDaysAgo: 21, name: 'Geo', role: 'viewer' }
 
+export const andrew: Member = { id: 'andrew', joinedDaysAgo: 3, name: 'Andrew', role: 'viewer' }
+
 export const geoInvite: PendingInvite = { id: 'geo', link: FIRST_INVITE_LINK, name: 'Geo', sentDaysAgo: 2 }

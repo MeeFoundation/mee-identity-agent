@@ -19,6 +19,7 @@ import {
   podMembersAtom,
   undoDoseAtom,
 } from '../../pods/ginger/model'
+import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { expPet005Flow } from './flow'
 import { type DoseOrigin, doseOriginAtom, doseSurfaceAtom, toastAtom, toEntryPoint } from './model'
@@ -136,6 +137,24 @@ describe('exp-pet-005 flow', () => {
   it('maps every origin to its entry point', () => {
     const origins: DoseOrigin[] = ['home', 'ginger-notes', 'ginger-info', 'medical', 'medication']
     expect(origins.map(toEntryPoint)).toEqual(['home', 'pod', 'pod', 'medical', 'medical'])
+  })
+
+  it('records Notifications on Home and stays there, in every variant', () => {
+    for (const id of variantIds) {
+      let selectTab: ((tab: string) => void) | undefined
+      const effects = renderScreen(resolveFlow(expPet005Flow, id), 'home', {
+        components: {
+          AppTabBar: ({ onSelect }: { onSelect: (tab: string) => void }) => {
+            selectTab = onSelect
+            return null
+          },
+        },
+      })
+      selectTab?.('notifications')
+
+      expect(effects.tracked).toEqual([{ event: 'app_tab_selected', props: { tab: 'notifications' } }])
+      expect(effects.navigations).toEqual([])
+    }
   })
 
   it('keeps runs isolated from each other', () => {

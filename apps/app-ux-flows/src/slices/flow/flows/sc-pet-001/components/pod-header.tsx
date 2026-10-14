@@ -30,7 +30,7 @@ export const PodHeader = ({ pod, tab }: PodHeaderProps) => {
 
   return (
     <PodTopBar
-      avatar={{ letter: pod.avatarLetter }}
+      avatar={pod.avatarSrc ? { src: pod.avatarSrc } : { letter: pod.avatarLetter }}
       breadcrumb={pod.breadcrumb}
       breadcrumbIcon={pod.category ? categoryIcon(pod.category) : undefined}
       // Home, not history: going back in history would reopen the New Pod sheet the pod came from.

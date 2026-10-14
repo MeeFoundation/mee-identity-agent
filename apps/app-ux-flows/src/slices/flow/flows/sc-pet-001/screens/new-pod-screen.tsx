@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { categoriesWithStructure } from '../../../pods/catalog/templates'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { HomeView } from '../components/home-view'
+import { PodImageField } from '../components/pod-image-field'
 import { TelliView } from '../components/telli-view'
 import {
   canCreatePod,
@@ -35,7 +36,7 @@ export const NewPodScreen = () => {
 
   const create = () => {
     createPod()
-    goToScreen('pod-notes')
+    goToScreen('pod-created')
   }
 
   return (
@@ -60,6 +61,7 @@ export const NewPodScreen = () => {
           {categoryFromTelli && (
             <p className="-mt-2 text-gray-600 text-xs">{t('flows.scPet001.newPod.suggestedByTelli')}</p>
           )}
+          <PodImageField />
           <Button className="w-full" disabled={podCreated || !canCreatePod(podName)} onClick={create} size="l">
             {t('flows.scPet001.newPod.create')}
           </Button>

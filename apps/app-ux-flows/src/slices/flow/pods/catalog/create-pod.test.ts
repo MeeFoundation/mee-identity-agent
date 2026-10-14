@@ -18,6 +18,14 @@ describe('createPodFromTemplate', () => {
     })
   })
 
+  it('keeps a chosen image as the avatar, and has none without one', () => {
+    expect(createPodFromTemplate({ avatarSrc: 'blob:ginger', name: 'Ginger' })).toMatchObject({
+      avatarLetter: 'G',
+      avatarSrc: 'blob:ginger',
+    })
+    expect(createGinger()).not.toHaveProperty('avatarSrc')
+  })
+
   it('creates a Pets pod from its template with one empty Pet profile form', () => {
     expect(createPodFromTemplate({ category: podCategoryIris.pets, name: 'Ginger' })).toMatchObject({
       breadcrumb: ['Pets'],
