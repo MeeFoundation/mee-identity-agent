@@ -3,28 +3,35 @@ import { createStore as createJotaiStore } from 'jotai'
 import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
-import { bogdan, geo, geoInvite } from '../../pods/people/sharing'
+import { andrewInfo, bogdanInfo, geoAddedAboutBogdan, geoInfo } from '../../pods/people/member-info'
+import { andrew, bogdan, geo, geoInvite } from '../../pods/people/sharing'
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
   DEFAULT_MEMBERS,
+  infoToastAtom,
   invitesAtom,
+  memberInfoAtom,
   membersAtom,
   type ScPpl002Components,
   type ScPpl002InitialState,
   type ScPpl002ScreenId,
+  selectedDetailIdAtom,
   selectedInviteIdAtom,
   selectedMemberIdAtom,
   toastAtom,
   todayAtom,
   usedLinksAtom,
 } from './model'
+import { AdoptConflictScreen } from './screens/adopt-conflict-screen'
 import { InfoScreen } from './screens/info-screen'
 import { InviteDetailScreen } from './screens/invite-detail-screen'
 import { InviteNameScreen } from './screens/invite-name-screen'
 import { InviteShareScreen } from './screens/invite-share-screen'
 import { MemberDetailScreen } from './screens/member-detail-screen'
 import { MembersScreen } from './screens/members-screen'
+import { MyInfoScreen } from './screens/my-info-screen'
 import { RemoveConfirmScreen } from './screens/remove-confirm-screen'
+import { SuggestionActionsScreen } from './screens/suggestion-actions-screen'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,
@@ -58,6 +65,21 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
       initialState: { invites: [], members: [bogdan, geo] },
       nameKey: caseKey('c', 'name'),
     },
+    d: {
+      code: 'SC-PPL-002-D',
+      descriptionKey: caseKey('d', 'description'),
+      goalKey: caseKey('d', 'goal'),
+      initialState: {
+        invites: [],
+        memberInfo: {
+          [andrew.id]: andrewInfo,
+          [bogdan.id]: { ...bogdanInfo, addedByOthers: geoAddedAboutBogdan },
+          [geo.id]: geoInfo,
+        },
+        members: [bogdan, geo, andrew],
+      },
+      nameKey: caseKey('d', 'name'),
+    },
   },
   code: 'SC-PPL-002',
   components: { ...defaultComponents, ...podComponents },
@@ -74,6 +96,9 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
     store.set(selectedInviteIdAtom, null)
     store.set(selectedMemberIdAtom, null)
     store.set(toastAtom, null)
+    store.set(memberInfoAtom, { [bogdan.id]: bogdanInfo, ...initialState?.memberInfo })
+    store.set(selectedDetailIdAtom, null)
+    store.set(infoToastAtom, null)
     return store
   },
   descriptionKey: key('description'),
@@ -84,22 +109,31 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
     'invite-share': figmaFrame('SC-PPL-002-A - Share invite link (sheet)', '1348-27367'),
     'member-detail': figmaFrame('SC-PPL-002-C - Geo (member detail)', '1348-27485'),
     members: figmaFrame('SC-PPL-002-A - Members', '1348-27346'),
+    'my-info': figmaFrame('Bogdan (You) - info shared', '38-2883'),
     'remove-confirm': figmaFrame('SC-PPL-002-C - Remove Geo (confirm sheet)', '1348-27509'),
+    'suggestion-actions': figmaFrame('Shared info actions (modal)', '119-9506'),
   },
   hints: {
+    'adopt-conflict': key('hints.adoptConflict'),
     info: key('hints.info'),
     'invite-detail': key('hints.inviteDetail'),
     'invite-name': key('hints.inviteName'),
     'invite-share': key('hints.inviteShare'),
     'member-detail': key('hints.memberDetail'),
     members: key('hints.members'),
+    'my-info': key('hints.myInfo'),
     'remove-confirm': key('hints.removeConfirm'),
+    'suggestion-actions': key('hints.suggestionActions'),
   },
   id: 'sc-ppl-002',
   initialScreen: 'info',
   kind: 'showcase',
-  questionKeys: [key('questions.viewOnly'), key('questions.telliCount')],
+  questionKeys: [key('questions.viewOnly'), key('questions.telliCount'), key('questions.tellBogdan')],
   screenNotes: {
+    'adopt-conflict': {
+      aboutKey: key('screens.adoptConflict.about'),
+      questionKeys: [key('screens.adoptConflict.questions.mainOne')],
+    },
     info: { aboutKey: key('screens.info.about') },
     'invite-detail': {
       aboutKey: key('screens.inviteDetail.about'),
@@ -120,7 +154,18 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
       aboutKey: key('screens.memberDetail.about'),
       questionKeys: [key('screens.memberDetail.questions.changeAccess')],
     },
-    members: { aboutKey: key('screens.members.about'), questionKeys: [key('screens.members.questions.pendingLabel')] },
+    members: {
+      aboutKey: key('screens.members.about'),
+      questionKeys: [
+        key('screens.members.questions.pendingLabel'),
+        key('screens.members.questions.dots'),
+        key('screens.members.questions.telliListed'),
+      ],
+    },
+    'my-info': {
+      aboutKey: key('screens.myInfo.about'),
+      questionKeys: [key('screens.myInfo.questions.whatEditable'), key('screens.myInfo.questions.tellAdder')],
+    },
     'remove-confirm': {
       aboutKey: key('screens.removeConfirm.about'),
       questionKeys: [
@@ -128,15 +173,22 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
         key('screens.removeConfirm.questions.messages'),
       ],
     },
+    'suggestion-actions': {
+      aboutKey: key('screens.suggestionActions.about'),
+      questionKeys: [key('screens.suggestionActions.questions.movesOut')],
+    },
   },
   screens: {
+    'adopt-conflict': AdoptConflictScreen,
     info: InfoScreen,
     'invite-detail': InviteDetailScreen,
     'invite-name': InviteNameScreen,
     'invite-share': InviteShareScreen,
     'member-detail': MemberDetailScreen,
     members: MembersScreen,
+    'my-info': MyInfoScreen,
     'remove-confirm': RemoveConfirmScreen,
+    'suggestion-actions': SuggestionActionsScreen,
   },
   titleKey: key('title'),
 })

@@ -2,9 +2,9 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai'
 import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { InviteLinkField } from '../../../pods/people/components/invite-link-field'
 import { formatShortDate, inviteExpiresOn, inviteSentOn } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { InviteLinkField } from '../components/invite-link-field'
 import { MembersView } from '../components/members-view'
 import {
   revokeInviteAtom,

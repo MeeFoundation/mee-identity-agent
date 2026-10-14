@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next'
 
 import { cn } from '@/shared/lib/cn'
 
+import { copyToClipboard, InviteLinkField } from '../../../pods/people/components/invite-link-field'
 import { formatShortDate, inviteExpiresOn } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { copyToClipboard, InviteLinkField } from '../components/invite-link-field'
 import { MembersView } from '../components/members-view'
 import { SheetTitle } from '../components/sheet-title'
 import {

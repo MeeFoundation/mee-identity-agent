@@ -40,7 +40,7 @@ export type ScheduleFrequency = (typeof SCHEDULE_FREQUENCIES)[number]
 export type ExpPet004Events = {
   pod_opened: undefined
   pod_tab_selected: { tab: PodTab }
-  app_tab_selected: { tab: 'telli' | 'navigation' }
+  app_tab_selected: { tab: 'telli' | 'notifications' | 'navigation' }
   info_row_selected: { row: 'pet_form' | 'attachments' | 'subpods' | 'members' }
   pod_menu_selected: { screen: MenuScreen }
   medical_opened: undefined

@@ -13,6 +13,7 @@ The flow SHALL declare these screens:
 - `home`: the Home screen (01).
 - `telli`: the global Telli chat, reached from the Ask Telli tab.
 - `new-pod`: the New Pod sheet, both while empty (02) and once a name is entered (03).
+- `pod-created`: the sheet confirming the new pod, with its invite link.
 - `pod-notes`: the pod's Notes tab, where the pod opens.
 - `pod-empty`: the new, generic pod's Info tab (04).
 - `pod-template-suggested`: the Info tab with a template suggestion (05).
@@ -24,7 +25,8 @@ The flow SHALL declare these screens:
 |---|---|
 | `home` | Home - 1 |
 | `telli` | Pod / Chat - 5 |
-| `new-pod` | Home / New Pod (modal) |
+| `new-pod` | New Pod with profile image (modal), 905-15244 |
+| `pod-created` | Pod created (modal), 1435-44400 |
 | `pod-empty` | Cell New - 2 |
 
 `pod-notes`, `pod-template-suggested` and `pod-template-applied` have no Figma frame and SHALL NOT declare one. "Pod / Chat - 5" is a pod's chat; `telli` follows its chat design under a Telli top bar.
@@ -35,15 +37,16 @@ The flow SHALL declare these screens:
 
 #### Scenario: Scenario code in the catalogue
 - **WHEN** a developer opens the development flow catalogue
-- **THEN** "Create Ginger" is listed with the code `SC-PET-001` and its cases with the codes `SC-PET-001-A`, `SC-PET-001-B` and `SC-PET-001-C`, and `pod-notes` is listed among its screens
+- **THEN** "Create Ginger" is listed with the code `SC-PET-001` and its cases with the codes `SC-PET-001-A`, `SC-PET-001-B` and `SC-PET-001-C`, and `pod-notes` and `pod-created` are listed among its screens
 
 ### Requirement: Shared scenario state
 A run SHALL keep one record of the pod, shared by every screen. Its observable state SHALL be:
 - `podName`: the name entered on `new-pod`, trimmed once the pod is created;
+- `podImage`: the profile image chosen on `new-pod`, or none;
 - `podCreated`: whether the pod exists;
 - `petTemplateApplied`: whether the Pet template has been applied to the pod.
 
-At run start `podName` SHALL be empty and the other two SHALL be false. Every screen after creation SHALL show the name from this state; no screen SHALL hardcode "Ginger". The template to suggest SHALL come from the flow's initial state, defaulting to the Pets template, and SHALL NOT be decided inside the pod screens. No screen SHALL fetch data.
+At run start `podName` SHALL be empty, `podImage` SHALL be none and the other two SHALL be false. The image SHALL stay in the browser for the run only: it SHALL NOT be uploaded or kept after the run ends. Every screen after creation SHALL show the name from this state; no screen SHALL hardcode "Ginger". The template to suggest SHALL come from the flow's initial state, defaulting to the Pets template, and SHALL NOT be decided inside the pod screens. No screen SHALL fetch data.
 
 #### Scenario: The entered name is the shown name
 - **WHEN** a tester creates a pod named "Luna"
@@ -57,7 +60,7 @@ At run start `podName` SHALL be empty and the other two SHALL be false. Every sc
 - a "Maybe later" action on the card;
 - the app tab bar, with Home active.
 
-Activating "+ Add Pod" SHALL show `new-pod`. Activating the Ask Telli tab SHALL show `telli`. "Maybe later", the Home and Navigation tabs and the rest of the screen SHALL do nothing. All cases SHALL offer both "+ Add Pod" and Ask Telli; only the goal tells the tester which way to use.
+Activating "+ Add Pod" SHALL show `new-pod`. Activating the Ask Telli tab SHALL show `telli`. "Maybe later", the Home, Notifications and Navigation tabs and the rest of the screen SHALL do nothing. All cases SHALL offer both "+ Add Pod" and Ask Telli; only the goal tells the tester which way to use.
 
 #### Scenario: Open New Pod
 - **WHEN** a tester on `home` activates "+ Add Pod"
@@ -67,12 +70,17 @@ Activating "+ Add Pod" SHALL show `new-pod`. Activating the Ask Telli tab SHALL 
 - **WHEN** a tester on `home` activates the Ask Telli tab
 - **THEN** `telli` is shown with Ask Telli active
 
+#### Scenario: Notifications does nothing
+- **WHEN** a tester on `home` activates Notifications
+- **THEN** `home` stays shown and nothing changes
+
 ### Requirement: New Pod with an optional category
 `new-pod` SHALL show a bottom sheet with:
 - the title "New Pod";
 - the description "A digital room for one part of your life. You’ll invite people and add things once this Pod is created.";
 - a "Pod name" text field;
 - a "Category" select showing "Choose category" while no category is chosen;
+- a "Profile image (Optional)" field showing an empty thumbnail, the placeholder "Add a profile image" and a "select image" action;
 - a "Create Pod" button.
 
 The sheet SHALL NOT ask for the creator's role in the pod.
@@ -81,11 +89,13 @@ The sheet SHALL be shown over the screen it was opened from: Home when opened wi
 
 When opened with "+ Add Pod", the fields SHALL hold what was entered before in the run, empty at run start. When opened from a quick action, the name SHALL be emptied and the category SHALL be replaced by the action's category, or left unset where the action has none. While the category is the one a quick action provided, the caption "Suggested by Telli from your chat" SHALL be shown under the Category select. Changing the category SHALL remove the caption.
 
+Activating "select image" SHALL open the device's file picker, limited to images. Choosing an image SHALL show it in the thumbnail and change the action to "change image". Cancelling the picker SHALL change nothing. The image SHALL be optional and SHALL NOT affect whether "Create Pod" is available.
+
 The Category select SHALL list the categories whose template adds structure to a pod; in this scenario that is Pets. Choosing a category SHALL be optional.
 
 "Create Pod" SHALL be unavailable while the name is empty or only whitespace, whatever the category. The entered values SHALL be kept in the scenario state for the rest of the run.
 
-Activating "Create Pod" SHALL create the pod and open it on `pod-notes`:
+Activating "Create Pod" SHALL create the pod, with the chosen image if any, and show `pod-created`:
 - with no category chosen, the pod SHALL be generic;
 - with Pets chosen, the pod SHALL be created with the Pets template already applied, and no suggestion SHALL be offered.
 
@@ -95,18 +105,18 @@ Dismissing the sheet, by tapping outside it or pressing Escape, SHALL perform a 
 
 #### Scenario: Empty sheet
 - **WHEN** a tester opens `new-pod` with "+ Add Pod" in a new run
-- **THEN** Pod name is empty, Category shows "Choose category", no role field is shown, and "Create Pod" is unavailable
+- **THEN** Pod name is empty, Category shows "Choose category", Profile image shows "Add a profile image", no role field is shown, and "Create Pod" is unavailable
 
 #### Scenario: Name without a category is enough
 - **WHEN** a tester types "Ginger" into Pod name and leaves Category on "Choose category"
 - **THEN** "Create Pod" becomes available
 
 #### Scenario: Create generic Ginger
-- **WHEN** a tester enters "Ginger", leaves Category unset and activates "Create Pod"
+- **WHEN** a tester enters "Ginger", leaves Category unset, activates "Create Pod" and then "Go to Ginger"
 - **THEN** `pod-notes` is shown with the title "Ginger" and no breadcrumb
 
 #### Scenario: Create Ginger as a pet up front
-- **WHEN** a tester enters "Ginger", chooses Pets and activates "Create Pod"
+- **WHEN** a tester enters "Ginger", chooses Pets, activates "Create Pod" and then "Go to Ginger"
 - **THEN** `pod-notes` is shown with the breadcrumb "Pets", no dot on the Info tab, and selecting Info shows `pod-template-applied`
 
 #### Scenario: Pre-filled by Telli
@@ -117,11 +127,19 @@ Dismissing the sheet, by tapping outside it or pressing Escape, SHALL perform a 
 - **WHEN** a tester dismisses the sheet
 - **THEN** the screen it was opened from is shown and no pod has been created
 
+#### Scenario: Choose a profile image
+- **WHEN** a tester activates "select image" and picks a photo
+- **THEN** the thumbnail shows the photo, the action reads "change image", and "Create Pod" stays unavailable until a name is entered
+
+#### Scenario: Image becomes the avatar
+- **WHEN** a tester enters "Ginger", picks a photo and creates the pod
+- **THEN** `pod-created` is shown, and after "Go to Ginger" the pod top bar shows the photo instead of the letter "G"
+
 ### Requirement: Generic pod
 A pod created without a category SHALL have no category. It SHALL take:
 - the trimmed name as its name,
 - one member, the creator,
-- the first letter of its name as its avatar,
+- the image chosen on `new-pod` as its avatar, or the first letter of its name when none was chosen,
 - no breadcrumb,
 - no forms, following the ontology's template for a pod without a category.
 
@@ -241,7 +259,7 @@ The rows SHALL do nothing in this scenario. The visual design SHALL use the same
 - **THEN** `pod-template-applied` shows the title "Ginger", the Pets icon and the breadcrumb "Pets", the "Pet information" section with Pet information, Medical and Care & Feeding, and Attachments 0, Subpods 0 and Members 1
 
 ### Requirement: Direct links
-When `pod-notes`, `pod-empty`, `pod-template-suggested` or `pod-template-applied` is opened in a run in which no pod was created, the scenario SHALL first create the generic pod "Ginger", as if the tester had created it without a category. When `pod-template-applied` is opened in a run in which the template was not applied, the scenario SHALL apply it. When `pod-template-suggested` is opened directly, it SHALL show the suggestion for the default template.
+When `pod-created`, `pod-notes`, `pod-empty`, `pod-template-suggested` or `pod-template-applied` is opened in a run in which no pod was created, the scenario SHALL first create the generic pod "Ginger", as if the tester had created it without a category. When `pod-template-applied` is opened in a run in which the template was not applied, the scenario SHALL apply it. When `pod-template-suggested` is opened directly, it SHALL show the suggestion for the default template.
 
 #### Scenario: Direct link to the result
 - **WHEN** someone opens `/flows/sc-pet-001/pod-template-applied` in a new run
@@ -255,20 +273,28 @@ When `pod-notes`, `pod-empty`, `pod-template-suggested` or `pod-template-applied
 - **WHEN** someone opens `/flows/sc-pet-001/pod-notes` in a new run
 - **THEN** the generic pod "Ginger" is shown on its Notes tab, and after about 1.5 seconds the Info tab shows a dot
 
+#### Scenario: Direct link to the created sheet
+- **WHEN** someone opens `/flows/sc-pet-001/pod-created` in a new run
+- **THEN** the generic pod "Ginger" is created and `pod-created` is shown for it
+
 ### Requirement: Scenario completion
-The run SHALL complete silently once the pod with the Pets template applied is shown, on either tab: through the suggestion, by choosing Pets on `new-pod`, or from a Telli quick action that carries Pets. The screen stays visible and no completion view is shown. This SHALL also apply when `pod-template-applied` is opened directly by URL. The run SHALL be completed at most once. Showing a generic pod, on `pod-notes` or `pod-empty`, SHALL NOT complete the run.
+The run SHALL complete silently once the pod with the Pets template applied is shown, on either tab: through the suggestion, by choosing Pets on `new-pod`, or from a Telli quick action that carries Pets. `pod-created` is not the pod being shown: the run SHALL complete once the tester leaves it for the pod. The screen stays visible and no completion view is shown. This SHALL also apply when `pod-template-applied` is opened directly by URL. The run SHALL be completed at most once. Showing a generic pod, on `pod-notes` or `pod-empty`, SHALL NOT complete the run.
 
 #### Scenario: Completion keeps Ginger visible
 - **WHEN** a tester activates "Use template"
 - **THEN** `pod-template-applied` stays on screen and no completion view is shown
 
 #### Scenario: Created as a pet
-- **WHEN** a tester creates "Ginger" with Pets chosen
+- **WHEN** a tester creates "Ginger" with Pets chosen and activates "Go to Ginger" on `pod-created`
 - **THEN** the run completes while `pod-notes` is shown
 
 #### Scenario: Generic pod does not complete
 - **WHEN** a tester creates a generic pod and stays on `pod-notes`
 - **THEN** the run is not completed
+
+#### Scenario: Not yet on the created sheet
+- **WHEN** a tester creates "Ginger" with Pets chosen and stays on `pod-created`
+- **THEN** the run is not completed yet
 
 ### Requirement: Cases and goals
 SC-PET-001 SHALL have three cases, each with its own display code, name and goal:
@@ -290,7 +316,7 @@ The cases SHALL share every screen and differ only in their goal, their hints an
 | `pod-empty` | "Take a look — the app may suggest something." |
 | `pod-template-suggested` | "Decide whether to use the Pet template." |
 
-`pod-template-applied` SHALL have no hint.
+`pod-template-applied` and `pod-created` SHALL have no hint.
 
 #### Scenario: Case-specific hint
 - **WHEN** a tester in case B is on `home`
@@ -318,7 +344,7 @@ Sending SHALL:
 
 After the reply, the composer SHALL hold the next message, if there is one. Each step SHALL happen at most once per run. The conversation SHALL be kept, and resume from its current step, when the tester leaves `telli` and returns.
 
-Activating the Home tab SHALL show `home`. The Navigation tab SHALL do nothing.
+Activating the Home tab SHALL show `home`. The Notifications and Navigation tabs SHALL do nothing.
 
 #### Scenario: Telli is thinking
 - **WHEN** a tester in case B sends the prepared message
@@ -351,7 +377,7 @@ A quick action SHALL be shown as a chat action card inside the Telli reply that 
 - action: "Create pod".
 
 Every card SHALL keep the draft it was shown with, and activating "Create pod" SHALL act on that card's draft, even after newer cards have appeared:
-- when the draft has a name, the pod SHALL be created at once from the draft, without showing `new-pod`. The chat is the confirmation. The created pod SHALL then be opened on `pod-notes`, as after "Create Pod" in the sheet;
+- when the draft has a name, the pod SHALL be created at once from the draft, without showing `new-pod`. The chat is the confirmation. `pod-created` SHALL then be shown for the pod, as after "Create Pod" in the sheet;
 - when the draft has no name, `new-pod` SHALL open pre-filled from the draft, as defined in "New Pod with an optional category".
 
 Once the pod is created, the card it was created from, directly or through the sheet, if any, SHALL show the status "Pod created" and the action "Open pod". That action SHALL open the pod on `pod-notes`. Every other card's action SHALL be unavailable.
@@ -362,7 +388,7 @@ Once the pod is created, the card it was created from, directly or through the s
 
 #### Scenario: Act on the full card
 - **WHEN** a tester in case B activates "Create pod" on Telli's card
-- **THEN** no sheet is shown, `pod-notes` is shown for "Ginger" with the breadcrumb "Pets", and the run completes
+- **THEN** `new-pod` is not shown, `pod-created` is shown for "Ginger", and after "Go to Ginger" `pod-notes` is shown with the breadcrumb "Pets" and the run completes
 
 #### Scenario: Card after creation
 - **WHEN** a tester returns to `telli` after creating the pod from a card
@@ -371,3 +397,31 @@ Once the pod is created, the card it was created from, directly or through the s
 #### Scenario: Open pod lands on Notes
 - **WHEN** a tester activates "Open pod" on the card the pod was created from
 - **THEN** `pod-notes` is shown
+
+### Requirement: Pod created
+`pod-created` SHALL be a bottom sheet over the new pod's `pod-notes`, following the Figma frame 1435-44400. It SHALL show:
+- a check icon in a circle;
+- the title "{name} Pod was created successfully", with the pod's name in bold;
+- the message "You can invite people to this pod by using the link. Copy and share your link with those you want to join.";
+- a field holding the pod's invite link, `pod.app/i/x7f2-4k9a`, with a "copy invite link" control;
+- a "Go to {name}" button, where {name} is the pod's name.
+
+The "copy invite link" control SHALL copy the link to the clipboard and show a check with "Copied" for about 1.5 seconds. It SHALL NOT close the sheet. A blocked clipboard SHALL NOT stop the flow. Copying SHALL NOT invite anyone or add a member: the pod keeps one member.
+
+Activating "Go to {name}" or dismissing the sheet, by tapping outside it or pressing Escape, SHALL show `pod-notes`. `pod-created` SHALL NOT complete the run by itself.
+
+#### Scenario: Created from the sheet
+- **WHEN** a tester enters "Ginger" on `new-pod` and activates "Create Pod"
+- **THEN** `pod-created` is shown over Ginger's Notes with "Ginger Pod was created successfully", the link `pod.app/i/x7f2-4k9a` and "Go to Ginger"
+
+#### Scenario: Copy the link
+- **WHEN** a tester activates "copy invite link"
+- **THEN** `pod.app/i/x7f2-4k9a` is on the clipboard, a check with "Copied" shows for about 1.5 seconds, and the sheet stays open
+
+#### Scenario: Go to the pod
+- **WHEN** a tester activates "Go to Ginger"
+- **THEN** `pod-notes` is shown for Ginger and Members is still 1 on the Info tab
+
+#### Scenario: Dismiss
+- **WHEN** a tester dismisses `pod-created`
+- **THEN** `pod-notes` is shown, not `new-pod`

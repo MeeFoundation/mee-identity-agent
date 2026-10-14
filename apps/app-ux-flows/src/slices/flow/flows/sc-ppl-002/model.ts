@@ -3,6 +3,16 @@ import { atom } from 'jotai'
 import type { DefaultComponents } from '@/shared/ui/default-components'
 import type { PodComponents } from '@/shared/ui/pod-components'
 
+import {
+  adopt,
+  bogdanInfo,
+  findAdded,
+  type InfoField,
+  keepBoth,
+  type MemberInfo,
+  removeAdded,
+  replace,
+} from '../../pods/people/member-info'
 import { bogdan, type Member, memberCount, nextInviteLink, type PendingInvite } from '../../pods/people/sharing'
 
 export type ScPpl002ScreenId =
@@ -13,12 +23,17 @@ export type ScPpl002ScreenId =
   | 'invite-detail'
   | 'member-detail'
   | 'remove-confirm'
+  | 'my-info'
+  | 'suggestion-actions'
+  | 'adopt-conflict'
 
 export type ScPpl002Components = DefaultComponents & PodComponents
 
 export type ScPpl002InitialState = {
   members?: readonly Member[]
   invites?: readonly PendingInvite[]
+  // Keyed by member id. Bogdan's own info is added in every case.
+  memberInfo?: Readonly<Record<string, MemberInfo>>
 }
 
 // Bogdan owns the pod; Telli is always listed and never counted.
@@ -101,4 +116,74 @@ export const removeMemberAtom = atom(null, (get, set) => {
   )
   set(selectedMemberIdAtom, null)
   set(toastAtom, { kind: 'removed', name: member.name })
+})
+
+export const memberInfoAtom = atom<Readonly<Record<string, MemberInfo>>>({ [bogdan.id]: bogdanInfo })
+
+// What Bogdan, the person using the app, shares and what others added about him.
+export const myInfoAtom = atom(
+  (get) => get(memberInfoAtom)[bogdan.id] ?? bogdanInfo,
+  (get, set, info: MemberInfo) => set(memberInfoAtom, { ...get(memberInfoAtom), [bogdan.id]: info }),
+)
+
+export const selectedDetailIdAtom = atom<string | null>(null)
+
+export const selectedDetailAtom = atom((get) => {
+  const detailId = get(selectedDetailIdAtom)
+  return detailId === null ? null : (findAdded(get(myInfoAtom), detailId) ?? null)
+})
+
+// The shared detail an adopted one would clash with, or `null` when there is no clash.
+export const selectedConflictAtom = atom((get) => {
+  const detailId = get(selectedDetailIdAtom)
+  if (detailId === null) return null
+  const result = adopt(get(myInfoAtom), detailId)
+  return result?.kind === 'conflict' ? result : null
+})
+
+export type InfoToast =
+  | { kind: 'copied' | 'added' | 'replaced'; field: InfoField }
+  | { kind: 'removed'; field: InfoField; addedBy: string }
+
+export const infoToastAtom = atom<InfoToast | null>(null)
+
+export const copyDetailAtom = atom(null, (get, set) => {
+  const detail = get(selectedDetailAtom)
+  if (!detail) return
+  set(selectedDetailIdAtom, null)
+  set(infoToastAtom, { field: detail.field, kind: 'copied' })
+})
+
+// Adds the detail when Bogdan shares nothing with its field; otherwise leaves everything as is for the conflict sheet.
+export const adoptDetailAtom = atom(null, (get, set) => {
+  const detail = get(selectedDetailAtom)
+  if (!detail) return null
+  const result = adopt(get(myInfoAtom), detail.id)
+  if (result?.kind !== 'added') return result?.kind ?? null
+  set(myInfoAtom, result.info)
+  set(selectedDetailIdAtom, null)
+  set(infoToastAtom, { field: detail.field, kind: 'added' })
+  return result.kind
+})
+
+const resolveConflictAtom = atom(null, (get, set, how: 'keep-both' | 'replace') => {
+  const conflict = get(selectedConflictAtom)
+  if (!conflict) return
+  const info = get(myInfoAtom)
+  const { added } = conflict
+  set(myInfoAtom, how === 'keep-both' ? keepBoth(info, added.id) : replace(info, added.id))
+  set(selectedDetailIdAtom, null)
+  set(infoToastAtom, { field: added.field, kind: how === 'keep-both' ? 'added' : 'replaced' })
+})
+
+export const keepBothAtom = atom(null, (_get, set) => set(resolveConflictAtom, 'keep-both'))
+
+export const replaceDetailAtom = atom(null, (_get, set) => set(resolveConflictAtom, 'replace'))
+
+export const removeDetailAtom = atom(null, (get, set) => {
+  const detail = get(selectedDetailAtom)
+  if (!detail) return
+  set(myInfoAtom, removeAdded(get(myInfoAtom), detail.id))
+  set(selectedDetailIdAtom, null)
+  set(infoToastAtom, { addedBy: detail.addedBy, field: detail.field, kind: 'removed' })
 })

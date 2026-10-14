@@ -1,3 +1,4 @@
+import { Children, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
 import { en } from '@/app/locales/en'
@@ -5,6 +6,7 @@ import { en } from '@/app/locales/en'
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { categoriesWithStructure } from '../../pods/catalog/templates'
 import { findFlow, listFlows } from '../../registry'
+import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPet001Flow } from './flow'
 import {
@@ -13,6 +15,7 @@ import {
   applySuggestedTemplateAtom,
   categoryFromTelliAtom,
   chooseCategoryAtom,
+  choosePodImageAtom,
   chosenCategoryAtom,
   conversationAtom,
   createdPodAtom,
@@ -24,8 +27,10 @@ import {
   newPodOriginAtom,
   nextTelliStage,
   nextUserMessageAtom,
+  podImageAtom,
   podInfoScreenAtom,
   podNameAtom,
+  type ScPet001ScreenId,
   scenarioStateAtom,
   sendNextMessageAtom,
   shouldOfferSuggestionAtom,
@@ -55,6 +60,29 @@ const playTurns = (store: ReturnType<typeof caseRun>, turns: number) => {
 const newRun = (initialState?: Parameters<typeof scPet001Flow.createStore>[0]) =>
   resolveFlow(scPet001Flow, null).createStore(initialState)
 
+// Renders a screen with its buttons captured, so a test can activate one by its label.
+const renderWithButtons = (screenId: ScPet001ScreenId, store: ReturnType<typeof caseRun>, caseId = 'a') => {
+  const buttons = new Map<string, () => void>()
+  const Button = ({ children, onClick }: { children: ReactNode; onClick: () => void }) => {
+    const label = Children.toArray(children)
+      .filter((child) => typeof child === 'string')
+      .join('')
+    if (label) buttons.set(label, onClick)
+    return null
+  }
+  const InlineSheet = ({ children }: { children: ReactNode }) => children
+  const effects = renderScreen(resolveFlow(scPet001Flow, null, caseId), screenId, {
+    components: { BottomSheet: InlineSheet, Button },
+    store,
+  })
+  const click = (label: string) => {
+    const onClick = buttons.get(label)
+    if (!onClick) throw new Error(`No button "${label}"`)
+    onClick()
+  }
+  return { click, effects }
+}
+
 const runWithPod = (name: string, category: string | null = null) => {
   const store = newRun()
   store.set(podNameAtom, name)
@@ -70,7 +98,7 @@ describe('SC-PET-001 Create Ginger', () => {
     expect(scPet001Flow.variants).toBeUndefined()
     expect(scPet001Flow.initialScreen).toBe('home')
     expect(findFlow('sc-pet-001')).toBe(scPet001Flow)
-    expect(listFlows().at(-4)).toBe(scPet001Flow)
+    expect(listFlows().at(-5)).toBe(scPet001Flow)
     expect(resolveFlow(scPet001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PET-001-A'],
       ['b', 'SC-PET-001-B'],
@@ -146,10 +174,33 @@ describe('SC-PET-001 Create Ginger', () => {
     expect(resolveFlow(scPet001Flow, null).designFrames.telli?.name).toBe('Pod / Chat - 5')
   })
 
+  it('leaves Notifications inert on Home and in the Telli chat', () => {
+    for (const screenId of ['home', 'telli'] as const) {
+      let selectTab: ((tab: string) => void) | undefined
+      const effects = renderScreen(resolveFlow(scPet001Flow, null, 'b'), screenId, {
+        components: {
+          AppTabBar: ({ onSelect }: { onSelect: (tab: string) => void }) => {
+            selectTab = onSelect
+            return null
+          },
+        },
+      })
+      selectTab?.('notifications')
+
+      expect(effects.tracked).toEqual([])
+      expect(effects.navigations).toEqual([])
+    }
+  })
+
   it('starts with no name, category, pod or template', () => {
     const store = newRun()
 
-    expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: false, podCreated: false, podName: '' })
+    expect(store.get(scenarioStateAtom)).toEqual({
+      petTemplateApplied: false,
+      podCreated: false,
+      podImage: null,
+      podName: '',
+    })
     expect(store.get(chosenCategoryAtom)).toBeNull()
   })
 
@@ -169,7 +220,12 @@ describe('SC-PET-001 Create Ginger', () => {
 
     expect(store.get(createdPodAtom)).toBe(pod)
     expect(pod).toMatchObject({ breadcrumb: [], category: null, forms: [], memberCount: 1, name: 'Ginger' })
-    expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: false, podCreated: true, podName: 'Ginger' })
+    expect(store.get(scenarioStateAtom)).toEqual({
+      petTemplateApplied: false,
+      podCreated: true,
+      podImage: null,
+      podName: 'Ginger',
+    })
   })
 
   it('records no creator role on the pod', () => {
@@ -215,7 +271,12 @@ describe('SC-PET-001 Create Ginger', () => {
 
     expect(store.get(createdPodAtom)).toBe(pet)
     expect(pet).toMatchObject({ breadcrumb: ['Pets'], category: podCategoryIris.pets, id: generic?.id, name: 'Ginger' })
-    expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: true, podCreated: true, podName: 'Ginger' })
+    expect(store.get(scenarioStateAtom)).toEqual({
+      petTemplateApplied: true,
+      podCreated: true,
+      podImage: null,
+      podName: 'Ginger',
+    })
     expect(store.get(activeSuggestionAtom)).toBeNull()
   })
 
@@ -272,11 +333,101 @@ describe('SC-PET-001 Create Ginger', () => {
     const direct = newRun()
     direct.set(chosenCategoryAtom, podCategoryIris.pets)
     direct.set(ensurePodAtom)
-    expect(direct.get(scenarioStateAtom)).toEqual({ petTemplateApplied: false, podCreated: true, podName: 'Ginger' })
+    expect(direct.get(scenarioStateAtom)).toEqual({
+      petTemplateApplied: false,
+      podCreated: true,
+      podImage: null,
+      podName: 'Ginger',
+    })
 
     const created = runWithPod('Luna')
     created.set(ensurePodAtom)
     expect(created.get(createdPodAtom)?.name).toBe('Luna')
+  })
+
+  describe('profile image and pod-created', () => {
+    it('declares pod-created with its frame and no hint, and the New Pod frame with the image field', () => {
+      const flow = resolveFlow(scPet001Flow, null, 'a')
+
+      expect(Object.keys(flow.screens)).toContain('pod-created')
+      expect(flow.designFrames['pod-created']?.url).toContain('node-id=1435-44400')
+      expect(flow.designFrames['new-pod']?.url).toContain('node-id=905-15244')
+      expect(flow.hints['pod-created']).toBeUndefined()
+    })
+
+    it('creates the pod with the chosen image as its avatar', () => {
+      const store = newRun()
+      store.set(choosePodImageAtom, 'blob:ginger')
+      store.set(podNameAtom, 'Ginger')
+      store.set(createPodAtom)
+
+      expect(store.get(createdPodAtom)).toMatchObject({ avatarLetter: 'G', avatarSrc: 'blob:ginger' })
+      expect(store.get(scenarioStateAtom).podImage).toBe('blob:ginger')
+    })
+
+    it('keeps the letter avatar when no image was chosen', () => {
+      expect(runWithPod('Ginger').get(createdPodAtom)).not.toHaveProperty('avatarSrc')
+    })
+
+    it('does not make the image count towards creating the pod', () => {
+      const store = newRun()
+      store.set(choosePodImageAtom, 'blob:ginger')
+      store.set(createPodAtom)
+
+      expect(store.get(createdPodAtom)).toBeNull()
+      expect(store.get(podImageAtom)).toBe('blob:ginger')
+    })
+
+    it('shows pod-created after Create Pod in the sheet', () => {
+      const store = newRun()
+      store.set(podNameAtom, 'Ginger')
+      const sheet = renderWithButtons('new-pod', store)
+      sheet.click('Create Pod')
+
+      expect(store.get(createdPodAtom)?.name).toBe('Ginger')
+      expect(sheet.effects.navigations).toEqual(['pod-created'])
+    })
+
+    it('shows pod-created after Create pod on a named quick action, and Open pod later goes to Notes', () => {
+      const store = caseRun('b')
+      playTurns(store, 1)
+      const actions: (() => void)[] = []
+      const ChatActionCard = ({ action }: { action: { onAction: () => void } }) => {
+        actions.push(action.onAction)
+        return null
+      }
+      const telli = renderScreen(resolveFlow(scPet001Flow, null, 'b'), 'telli', {
+        components: { ChatActionCard },
+        store,
+      })
+      actions[0]?.()
+
+      expect(store.get(createdPodAtom)?.category).toBe(podCategoryIris.pets)
+      expect(telli.navigations).toEqual(['pod-created'])
+
+      actions.length = 0
+      const again = renderScreen(resolveFlow(scPet001Flow, null, 'b'), 'telli', {
+        components: { ChatActionCard },
+        store,
+      })
+      actions[0]?.()
+      expect(again.navigations).toEqual(['pod-notes'])
+    })
+
+    it('leaves pod-created for the pod, by Go to, without completing the run itself', () => {
+      const store = runWithPod('Ginger', podCategoryIris.pets)
+      const sheet = renderWithButtons('pod-created', store)
+      sheet.click('Go to Ginger')
+
+      expect(sheet.effects).toMatchObject({ completed: false, navigations: ['pod-notes'] })
+    })
+
+    it('creates generic Ginger for a direct link to pod-created', () => {
+      const store = newRun()
+      store.set(ensurePodAtom)
+
+      expect(store.get(createdPodAtom)).toMatchObject({ category: null, name: 'Ginger' })
+    })
   })
 
   describe('Telli conversation', () => {
@@ -380,6 +531,11 @@ describe('SC-PET-001 Create Ginger', () => {
     const store = newRun()
     store.set(applySuggestedTemplateAtom)
 
-    expect(store.get(scenarioStateAtom)).toEqual({ petTemplateApplied: true, podCreated: true, podName: 'Ginger' })
+    expect(store.get(scenarioStateAtom)).toEqual({
+      petTemplateApplied: true,
+      podCreated: true,
+      podImage: null,
+      podName: 'Ginger',
+    })
   })
 })

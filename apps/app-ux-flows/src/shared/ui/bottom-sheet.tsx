@@ -28,6 +28,7 @@ export const BottomSheet = ({ title, description, children, onDismiss, initialFo
   const container = useOverlayContainer()
   const popupRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
+  const openedRef = useRef(false)
 
   // Mounting closed and opening on the next frame gives the open transition a starting point.
   useEffect(() => {
@@ -37,10 +38,15 @@ export const BottomSheet = ({ title, description, children, onDismiss, initialFo
 
   return (
     <Dialog
-      onOpenChange={(next) => {
-        if (!next) setOpen(false)
+      onOpenChange={(next, details) => {
+        if (next) return
+        // A second click on the control that opened the sheet lands on the backdrop while the sheet slides up;
+        // it must not dismiss a sheet the participant has not seen yet.
+        if (!openedRef.current && details.reason === 'outside-press') return
+        setOpen(false)
       }}
       onOpenChangeComplete={(isOpen) => {
+        openedRef.current = isOpen
         if (!isOpen) onDismiss()
       }}
       open={open}

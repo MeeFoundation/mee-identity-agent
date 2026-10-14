@@ -62,7 +62,7 @@ The code that starts a run SHALL be able to supply a different pod or medication
 - **THEN** EXP-PET-003 still shows its own default medication, unchanged
 
 ### Requirement: Home, Ginger tabs and Ginger Info
-`home` SHALL be shown as in EXP-PET-003: a greeting, a "Pods" section label, one Ginger pod row, and the app tab bar with Home active. Activating the Ginger row SHALL show `ginger-notes`. Ask Telli and Navigation SHALL be recorded and do nothing else.
+`home` SHALL be shown as in EXP-PET-003: a greeting, a "Pods" section label, one Ginger pod row, and the app tab bar with Home active. Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications and Navigation SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-003:
 - back SHALL show `home`;
@@ -84,6 +84,10 @@ The code that starts a run SHALL be able to supply a different pod or medication
 #### Scenario: Menu is recorded
 - **WHEN** a participant on `ginger-info` activates the menu control
 - **THEN** the activation is recorded and `ginger-info` stays shown
+
+#### Scenario: Notifications is inert
+- **WHEN** a participant on `home` activates the Notifications tab
+- **THEN** `app_tab_selected` is recorded with `tab` `notifications` and `home` stays shown
 
 ### Requirement: Medical screen and medication item
 `medical` SHALL show a top bar without tabs. The bar has a back control, the Ginger avatar, the title "Medical", the breadcrumb "Ginger >" and a menu control. Below it SHALL be a "Medications" section label, one medication item and a "+ Add medication" action.
@@ -201,7 +205,7 @@ In variant `c`, activating "Change schedule" SHALL replace the medication item o
 EXP-PET-004 SHALL declare and record these interaction events. Every variant SHALL use the same event name for the same intent:
 - `pod_opened`: the Ginger row on `home` was activated.
 - `pod_tab_selected`: a Ginger tab was activated. Property `tab`: `notes`, `chat` or `info`.
-- `app_tab_selected`: an app tab bar tab other than Home was activated. Property `tab`: `telli` or `navigation`.
+- `app_tab_selected`: an app tab bar tab other than Home was activated. Property `tab`: `telli`, `notifications` or `navigation`.
 - `info_row_selected`: an Info row that does nothing else was activated. Property `row`: `pet_form`, `attachments`, `subpods` or `members`.
 - `pod_menu_selected`: a top bar menu control was activated. Property `screen`: `ginger-notes`, `ginger-info`, `medical` or `medication`.
 - `medical_opened`: the Medical row was activated.
@@ -230,3 +234,7 @@ The runtime's own lifecycle events, including `flow_completed` when the schedule
 #### Scenario: Wrong-field edits are visible
 - **WHEN** a participant edits and saves the dose on `medication`
 - **THEN** `medication_field_edit_selected` and `medication_field_saved` are recorded with `field` `dose`, and the typed value is not recorded
+
+#### Scenario: Notifications tab is recorded
+- **WHEN** a participant activates the Notifications tab on `home`
+- **THEN** `app_tab_selected` is recorded with `tab` `notifications`, and no other event
