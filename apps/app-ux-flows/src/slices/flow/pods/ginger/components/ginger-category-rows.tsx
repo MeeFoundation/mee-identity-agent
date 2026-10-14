@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai'
-import { Diagram3, Paperclip, People } from 'react-bootstrap-icons'
+import { Basket, Diagram3, Paperclip, People } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
 import { useFlowComponents } from '../../../runtime/flow-context'
@@ -10,9 +10,16 @@ const noop = () => {}
 type GingerCategoryRowsProps = {
   // Without it the Medical row does nothing, like the other rows.
   onOpenMedical?: () => void
+  // Without it there is no Care & Feeding row, as in the flows from before it existed.
+  onOpenCareFeeding?: () => void
+  careFeedingCount?: number
 }
 
-export const GingerCategoryRows = ({ onOpenMedical = noop }: GingerCategoryRowsProps) => {
+export const GingerCategoryRows = ({
+  onOpenMedical = noop,
+  onOpenCareFeeding,
+  careFeedingCount = 0,
+}: GingerCategoryRowsProps) => {
   const { t } = useTranslation()
   const { CategoryRow } = useFlowComponents<GingerPodComponents>()
   const pod = useAtomValue(podAtom)
@@ -20,6 +27,14 @@ export const GingerCategoryRows = ({ onOpenMedical = noop }: GingerCategoryRowsP
   return (
     <>
       <CategoryRow count={0} icon={Paperclip} label={t('pods.ginger.categories.medical')} onClick={onOpenMedical} />
+      {onOpenCareFeeding && (
+        <CategoryRow
+          count={careFeedingCount}
+          icon={Basket}
+          label={t('pods.ginger.categories.careFeeding')}
+          onClick={onOpenCareFeeding}
+        />
+      )}
       <CategoryRow count={0} icon={Paperclip} label={t('pods.ginger.categories.attachments')} onClick={noop} />
       <CategoryRow count={0} icon={Diagram3} label={t('pods.ginger.categories.subpods')} onClick={noop} />
       <CategoryRow count={pod.memberCount} icon={People} label={t('pods.ginger.categories.members')} onClick={noop} />

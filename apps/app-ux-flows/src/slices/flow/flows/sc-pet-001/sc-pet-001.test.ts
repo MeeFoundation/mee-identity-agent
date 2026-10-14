@@ -92,13 +92,14 @@ const runWithPod = (name: string, category: string | null = null) => {
 }
 
 describe('SC-PET-001 Create Ginger', () => {
-  it('is a registered showcase with the code SC-PET-001, cases instead of variants, listed last', () => {
+  it('is a registered showcase with the code SC-PET-001, cases instead of variants, listed before SC-PET-002', () => {
     expect(scPet001Flow.kind).toBe('showcase')
     expect(scPet001Flow.code).toBe('SC-PET-001')
     expect(scPet001Flow.variants).toBeUndefined()
     expect(scPet001Flow.initialScreen).toBe('home')
     expect(findFlow('sc-pet-001')).toBe(scPet001Flow)
-    expect(listFlows().at(-5)).toBe(scPet001Flow)
+    const ids = listFlows().map(({ id }) => id)
+    expect(ids[ids.indexOf('sc-pet-001') + 1]).toBe('sc-pet-002')
     expect(resolveFlow(scPet001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PET-001-A'],
       ['b', 'SC-PET-001-B'],

@@ -6,6 +6,8 @@ import { expPet004Flow } from './flows/exp-pet-004/flow'
 import { expPet005Flow } from './flows/exp-pet-005/flow'
 import { scPet001Flow } from './flows/sc-pet-001/flow'
 import { scPet002Flow } from './flows/sc-pet-002/flow'
+import { scPet003Flow } from './flows/sc-pet-003/flow'
+import { scPet004Flow } from './flows/sc-pet-004/flow'
 import { scPpl001Flow } from './flows/sc-ppl-001/flow'
 import { scPpl002Flow } from './flows/sc-ppl-002/flow'
 import { scPpl003Flow } from './flows/sc-ppl-003/flow'
@@ -22,6 +24,8 @@ const flows: ReadonlyMap<string, AnyFlow> = new Map(
     expDemo001Flow,
     scPet001Flow,
     scPet002Flow,
+    scPet003Flow,
+    scPet004Flow,
     scPpl001Flow,
     scPpl002Flow,
     scPpl003Flow,

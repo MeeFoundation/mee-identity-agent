@@ -364,6 +364,194 @@ export const en = {
       },
       title: 'Medication doses',
     },
+    scPet003: {
+      cases: {
+        a: {
+          description: 'Ginger’s Care & Feeding is empty. You are her owner.',
+          goal: 'Write down how Ginger should be fed, so whoever looks after her knows.',
+          name: 'Write',
+          questions: {
+            emptyState: 'What should the empty state suggest writing?',
+          },
+        },
+        b: {
+          description:
+            'Alice shared Ginger’s pod with you while she is away. Her instructions are read-only; dinner is due.',
+          goal: 'You’re looking after Ginger while Alice is away. Check how much she eats, then feed her dinner and record it.',
+          name: 'Feed as sitter',
+          questions: {
+            historyBefore: 'Should the feeding history show meals from before the sitter joined?',
+          },
+        },
+        c: {
+          description: 'The same shared pod; you ask Telli instead of reading the instructions.',
+          goal: 'You’re looking after Ginger. Ask Telli how much she eats.',
+          hints: {
+            info: 'Telli answers in the pod’s Chat.',
+          },
+          name: 'Ask Telli',
+          questions: {
+            quote: 'Should Telli quote the instructions or link to them?',
+          },
+        },
+        d: {
+          description: 'Ginger’s instructions mention two meal times, and there is no feeding schedule yet.',
+          goal: 'Turn Ginger’s feeding instructions into a feeding schedule.',
+          name: 'Tidy into schedule',
+          questions: {
+            afterSchedule: 'What should happen to the instructions text once the schedule exists?',
+          },
+        },
+      },
+      chat: {
+        aliceThanks: 'Thanks for looking after Ginger this week!',
+        placeholder: 'Message Ginger’s pod. Tag @Telli for help…',
+        telliTyping: 'Telli is typing',
+        threadLabel: 'Ginger’s pod chat',
+      },
+      description:
+        'Shows Ginger’s free-text care and feeding instructions: written by her owner, read by someone looking after her, answered by Telli, and turned into a feeding schedule.',
+      edit: {
+        cancel: 'Cancel',
+        placeholder: 'How to feed and look after {{name}}',
+        save: 'Save',
+        title: 'Instructions',
+      },
+      hints: {
+        careFeeding: 'The instructions are free text, as the owner wrote them.',
+        chat: 'Ask Telli anything about Ginger’s pod.',
+        editInstructions: 'Write the instructions, then save them.',
+        feedingHistory: 'Check who fed Ginger and when.',
+        feedMeal: 'Confirm the meal, or cancel.',
+        info: 'Care & Feeding sits next to Medical.',
+        scheduleSheet: 'Check the meals Telli found, then set up the schedule.',
+        undoMeal: 'Confirm that the meal was not fed, or keep it.',
+      },
+      questions: {
+        freeText: 'Should the instructions stay free text, or become a form with fields?',
+      },
+      scheduleSheet: {
+        cancel: 'Not now',
+        confirm: 'Set up schedule',
+        title: 'Set up {{name}}’s feeding schedule?',
+      },
+      screens: {
+        careFeeding: {
+          about:
+            'Ginger’s Care & Feeding: today’s meals or the feeding schedule, and the instructions. Only the owner can change the instructions; every member can record meals.',
+          questions: {
+            sections: 'Should the schedule and the instructions be one section or two?',
+          },
+        },
+        chat: {
+          about: 'One chat for everyone in Ginger’s pod. Telli answers from what the pod holds.',
+        },
+        editInstructions: {
+          about: 'Plain text, with no fields to fill in.',
+        },
+        feedingHistory: {
+          about: 'The last 7 days of meals: who fed Ginger, when, how much she ate, and missed meals.',
+        },
+        feedMeal: {
+          about: 'The same meal sheet as SC-PET-004: confirm the meal and how much Ginger ate.',
+        },
+        info: {
+          about: 'Ginger’s Info tab, with the Care & Feeding row after Medical.',
+        },
+        scheduleSheet: {
+          about: 'Telli names each time it found in the instructions as a meal.',
+          questions: {
+            editable: 'Should meal names and times be editable before setting up?',
+          },
+        },
+        undoMeal: {
+          about: 'Reverting a meal you recorded asks for confirmation.',
+        },
+      },
+      title: 'Care instructions',
+    },
+    scPet004: {
+      cases: {
+        a: {
+          description: 'Ginger’s breakfast was due ten minutes ago and nobody has logged it.',
+          goal: 'Ginger’s breakfast is due. Feed her and record it.',
+          name: 'Log a meal',
+          questions: {
+            oneTap: 'Should “Mark as fed” be one tap, without the sheet, when all was eaten?',
+          },
+        },
+        b: {
+          description: 'Sam fed Ginger her breakfast twenty minutes ago.',
+          goal: 'Ginger is meowing for food. Feed her if she hasn’t eaten yet.',
+          name: 'Double feed',
+          questions: {
+            noticeable: 'Is “Fed · {time} · Sam” noticeable enough before someone feeds her again?',
+          },
+        },
+        c: {
+          description: 'You marked Ginger’s dinner as fed ten minutes ago, but you haven’t fed her yet.',
+          goal: 'You marked Ginger’s dinner as fed by mistake. Undo it.',
+          hints: {
+            careFeeding: 'A meal you fed can be reverted from its card.',
+          },
+          name: 'Undo fed',
+          questions: {
+            tellSam: 'Should Sam be told when a meal is undone?',
+          },
+        },
+        d: {
+          description: 'Ginger’s breakfast is due, and she leaves half of it.',
+          goal: 'Ginger only ate half her breakfast. Record it.',
+          hints: {
+            feedMeal: 'Choose how much she ate before confirming.',
+          },
+          name: 'Partly eaten',
+          questions: {
+            none: 'Should “None” record a meal as fed at all?',
+          },
+        },
+      },
+      description:
+        'Shows how two people looking after Ginger log her meals: feeding her, noticing someone already did, undoing a mistake, and recording how much she ate.',
+      hints: {
+        careFeeding: 'Today’s meals are at the top of Care & Feeding.',
+        feedAgain: 'Decide whether to feed her again.',
+        feedingHistory: 'Check who fed Ginger and when.',
+        feedMeal: 'Confirm the meal, or cancel.',
+        info: 'Care & Feeding sits next to Medical.',
+        undoMeal: 'Confirm that the meal was not fed, or keep it.',
+      },
+      questions: {
+        sharedToday: 'Should meals and medication doses share one Today list on Ginger’s pod?',
+      },
+      screens: {
+        careFeeding: {
+          about: 'Today’s breakfast and dinner, with the same due, overdue and given treatments as a dose.',
+          questions: {
+            missed: 'What should happen to a meal that is never logged?',
+          },
+        },
+        feedAgain: {
+          about: 'Feeding a meal someone else gave asks first, with not feeding as the main choice.',
+          questions: {
+            allow: 'Should a second feeding be allowed at all?',
+          },
+        },
+        feedingHistory: {
+          about: 'The last 7 days of meals: who fed Ginger, when, how much she ate, and missed meals.',
+        },
+        feedMeal: {
+          about: 'Like giving a dose, plus how much of the meal Ginger ate.',
+        },
+        info: {
+          about: 'Ginger’s Info tab, with the Care & Feeding row after Medical.',
+        },
+        undoMeal: {
+          about: 'Reverting asks for confirmation, as for a dose.',
+        },
+      },
+      title: 'Meals',
+    },
     scPpl001: {
       cases: {
         a: {
@@ -795,8 +983,94 @@ export const en = {
       },
     },
     ginger: {
+      careFeeding: {
+        amounts: {
+          all: 'All',
+          half: 'About half',
+          little: 'A little',
+          none: 'None',
+        },
+        edit: 'Edit',
+        emptyMessage: 'Write down how Ginger is fed and looked after.',
+        emptyTitle: 'No care instructions yet',
+        history: {
+          empty: 'No meals in the last 7 days',
+          fed: 'Fed {{time}} · {{member}}',
+          fedAgain: 'Fed again {{time}} · {{member}}',
+          missed: 'Missed · scheduled {{time}}',
+          preview: 'Last fed {{day}} {{time}} · {{member}}',
+          title: 'Feeding history',
+        },
+        instructions: 'Instructions',
+        meal: {
+          ate: {
+            half: 'ate about half',
+            little: 'ate a little',
+            none: 'ate none',
+          },
+          due: 'Due now',
+          fed: 'Fed · {{time}} · {{member}}',
+          fedAgain: 'Fed again · {{time}} · {{member}}',
+          feedAgain: 'Feed again',
+          markAsFed: 'Mark as fed',
+          overdue: 'Overdue · due at {{time}}',
+          undo: 'Undo',
+          upcoming: 'Due at {{time}}',
+        },
+        meals: {
+          breakfast: 'Breakfast',
+          dinner: 'Dinner',
+          lunch: 'Lunch',
+        },
+        mealsInline: {
+          breakfast: 'breakfast',
+          dinner: 'dinner',
+          lunch: 'lunch',
+        },
+        schedule: 'Schedule',
+        scheduledMeal: '{{meal}} · {{time}}',
+        sheet: {
+          feed: {
+            amount: 'How much did she eat?',
+            cancel: 'Cancel',
+            confirm: 'Mark as fed',
+            scheduledAt: 'Scheduled: {{time}}',
+            scheduledNow: 'Scheduled: now',
+            title: 'Record {{name}}’s {{meal}}?',
+          },
+          feedAgain: {
+            at: '{{member}} fed her at {{time}}.',
+            cancel: 'Don’t feed',
+            confirm: 'Feed again',
+            minutesAgo: '{{member}} fed her {{count}} minutes ago.',
+            title: '{{name}} already had {{meal}}',
+          },
+          meal: '{{meal}} · {{portion}}',
+          undo: {
+            cancel: 'Keep as fed',
+            confirm: 'Mark as not fed',
+            fed: 'Fed {{day}} {{time}} · {{member}}',
+            title: 'Undo {{name}}’s {{meal}}?',
+          },
+        },
+        suggestion: {
+          caption: 'Found {{count}} meal times. Set up a feeding schedule?',
+          label: 'Set up schedule',
+        },
+        title: 'Care & Feeding',
+        toast: {
+          extra: 'Extra {{meal}} logged',
+          fed: '{{meal}} marked as fed',
+          saved: 'Care instructions saved',
+          scheduled: 'Feeding schedule set up',
+          undone: '{{meal}} marked as not fed',
+        },
+        today: 'Today',
+        write: 'Write instructions',
+      },
       categories: {
         attachments: 'Attachments',
+        careFeeding: 'Care & Feeding',
         medical: 'Medical',
         members: 'Members',
         subpods: 'Subpods',
@@ -918,6 +1192,13 @@ export const en = {
         chat: 'Chat',
         info: 'Info',
         notes: 'Notes',
+      },
+      telli: {
+        answers: {
+          feeding:
+            'Ginger eats twice a day, at 7am and 6pm: half a cup of dry food (Purina Pro Plan) plus a spoonful of wet food. It’s in <careFeeding>Care & Feeding</careFeeding>.',
+          notFound: 'I couldn’t find that in Ginger’s pod.',
+        },
       },
     },
     notes: {
