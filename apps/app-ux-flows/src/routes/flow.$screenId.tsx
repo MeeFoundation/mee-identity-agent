@@ -3,6 +3,7 @@ import { ChevronLeftIcon } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { devMode } from '@/shared/lib/dev-mode'
 import { Button } from '@/shared/ui/button'
 
 import { validateFlowSearch } from './flow-search'
@@ -68,7 +69,7 @@ const FlowScreenRoute = () => {
           </Button>
         </div>
         <h1 className="font-semibold text-gray-900 text-lg">{t(flow.titleKey)}</h1>
-        {import.meta.env.DEV && flow.variantId && (
+        {devMode.on && flow.variantId && (
           <p className="justify-self-end text-muted-foreground text-xs">
             {t('flow.chrome.variant', { variant: flow.variantId })}
           </p>

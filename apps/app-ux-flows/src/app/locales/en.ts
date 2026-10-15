@@ -953,6 +953,11 @@ export const en = {
       noFrame: 'No Figma frame',
       title: 'Screens (dev only)',
     },
+    devMode: {
+      label: 'Dev mode',
+      turnOff: 'Turn off',
+    },
+    hiddenInProduction: 'Hidden in production',
     newSession: 'Start new test session',
     sections: {
       experiments: 'Experiments ({{count}})',
@@ -1291,6 +1296,10 @@ export const en = {
     },
     header: {
       back: 'Back',
+    },
+    homeTopBar: {
+      search: 'Search, or ask Telli…',
+      sharing: 'Device-to-device sharing, pod members only.',
     },
     inlineFieldEditor: {
       cancel: 'Cancel',

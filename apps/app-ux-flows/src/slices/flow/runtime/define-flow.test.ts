@@ -83,4 +83,28 @@ describe('defineFlow typing', () => {
 
     expect(showcase.questionKeys).toEqual(['fixture.question'])
   })
+
+  it('lets flows, variants and cases be hidden, and only with `true`', () => {
+    const experiment = defineFlow({
+      ...base,
+      hidden: true,
+      kind: 'experiment',
+      variants: { a: { hidden: true, nameKey: 'a' } },
+    })
+    const showcase = defineFlow({
+      ...base,
+      cases: { a: { code: 'SC-1-A', hidden: true, nameKey: 'a' } },
+      kind: 'showcase',
+    })
+
+    // @ts-expect-error a visible flow leaves `hidden` out
+    defineFlow({ ...base, hidden: false, kind: 'showcase' })
+    // @ts-expect-error a visible variant leaves `hidden` out
+    defineFlow({ ...base, kind: 'experiment', variants: { a: { hidden: false, nameKey: 'a' } } })
+    // @ts-expect-error a visible case leaves `hidden` out
+    defineFlow({ ...base, cases: { a: { code: 'SC-1-A', hidden: false, nameKey: 'a' } }, kind: 'showcase' })
+
+    expect(experiment.hidden).toBe(true)
+    expect(showcase.cases?.a?.hidden).toBe(true)
+  })
 })

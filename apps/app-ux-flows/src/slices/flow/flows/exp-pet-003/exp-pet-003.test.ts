@@ -75,6 +75,25 @@ describe('exp-pet-003 flow', () => {
     }
   })
 
+  it('records the Home search field and stays there, in every variant', () => {
+    for (const id of variantIds) {
+      let selectSearch: (() => void) | undefined
+      const effects = renderScreen(resolveFlow(expPet003Flow, id), 'home', {
+        components: {
+          HomeTopBar: ({ onSearchSelect }: { onSearchSelect?: () => void }) => {
+            selectSearch = onSearchSelect
+            return null
+          },
+        },
+      })
+      selectSearch?.()
+
+      expect(selectSearch).toBeDefined()
+      expect(effects.tracked).toEqual([{ event: 'search_selected' }])
+      expect(effects.navigations).toEqual([])
+    }
+  })
+
   it('briefs no one: the task is read by the moderator', () => {
     const flow = resolveFlow(expPet003Flow, 'a')
 

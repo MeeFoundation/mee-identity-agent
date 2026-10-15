@@ -195,6 +195,7 @@ describe('resolveFlow', () => {
         second: {
           code: 'SC-1-B',
           goalKey: 'second.goal',
+          hidden: true,
           hints: { form: 'second.form' },
           initialState: { items: ['case'] },
           nameKey: 'second.name',
@@ -227,8 +228,8 @@ describe('resolveFlow', () => {
 
     it('lists every case in declaration order', () => {
       expect(resolveFlow(casedFlow, null, 'second').cases).toEqual([
-        { code: 'SC-1-A', id: 'first', nameKey: 'first.name' },
-        { code: 'SC-1-B', id: 'second', nameKey: 'second.name' },
+        { code: 'SC-1-A', hidden: false, id: 'first', nameKey: 'first.name' },
+        { code: 'SC-1-B', hidden: true, id: 'second', nameKey: 'second.name' },
       ])
       expect(resolveFlow(noVariantFlow, null).cases).toEqual([])
     })

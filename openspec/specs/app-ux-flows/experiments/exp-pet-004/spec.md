@@ -62,7 +62,7 @@ The code that starts a run SHALL be able to supply a different pod or medication
 - **THEN** EXP-PET-003 still shows its own default medication, unchanged
 
 ### Requirement: Home, Ginger tabs and Ginger Info
-`home` SHALL be shown as in EXP-PET-003: a greeting, a "Pods" section label, one Ginger pod row, and the app tab bar with Home active. Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications and Navigation SHALL be recorded and do nothing else.
+`home` SHALL be shown as in EXP-PET-003: the Home top bar defined by `app-ux-flows/design-system`, with the greeting "Welcome, Alice", the initial "A", the sharing line and the search field, then a "Pods" section label, one Ginger pod row, and the app tab bar with Home active. Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-003:
 - back SHALL show `home`;
@@ -88,6 +88,10 @@ The code that starts a run SHALL be able to supply a different pod or medication
 #### Scenario: Notifications is inert
 - **WHEN** a participant on `home` activates the Notifications tab
 - **THEN** `app_tab_selected` is recorded with `tab` `notifications` and `home` stays shown
+
+#### Scenario: Search is recorded
+- **WHEN** a participant on `home` activates the search field
+- **THEN** `search_selected` is recorded and `home` stays shown
 
 ### Requirement: Medical screen and medication item
 `medical` SHALL show a top bar without tabs. The bar has a back control, the Ginger avatar, the title "Medical", the breadcrumb "Ginger >" and a menu control. Below it SHALL be a "Medications" section label, one medication item and a "+ Add medication" action.
@@ -206,6 +210,7 @@ EXP-PET-004 SHALL declare and record these interaction events. Every variant SHA
 - `pod_opened`: the Ginger row on `home` was activated.
 - `pod_tab_selected`: a Ginger tab was activated. Property `tab`: `notes`, `chat` or `info`.
 - `app_tab_selected`: an app tab bar tab other than Home was activated. Property `tab`: `telli`, `notifications` or `navigation`.
+- `search_selected`: the search field in the Home top bar was activated.
 - `info_row_selected`: an Info row that does nothing else was activated. Property `row`: `pet_form`, `attachments`, `subpods` or `members`.
 - `pod_menu_selected`: a top bar menu control was activated. Property `screen`: `ginger-notes`, `ginger-info`, `medical` or `medication`.
 - `medical_opened`: the Medical row was activated.
@@ -238,3 +243,7 @@ The runtime's own lifecycle events, including `flow_completed` when the schedule
 #### Scenario: Notifications tab is recorded
 - **WHEN** a participant activates the Notifications tab on `home`
 - **THEN** `app_tab_selected` is recorded with `tab` `notifications`, and no other event
+
+#### Scenario: Search field is recorded
+- **WHEN** a participant on `home` activates the search field
+- **THEN** `search_selected` is recorded, and no other event

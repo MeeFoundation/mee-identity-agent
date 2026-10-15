@@ -133,12 +133,12 @@ The card SHALL be announced as one labelled region named after its heading and t
 
 ### Requirement: Baseline path in every variant
 `home` SHALL show, as in EXP-PET-004:
-- a greeting;
+- the Home top bar defined by `app-ux-flows/design-system`, with the greeting "Welcome, Alice", the initial "A", the sharing line and the search field;
 - a "Pods" section label;
 - one Ginger pod row;
 - the app tab bar with Home active.
 
-Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications and Navigation SHALL be recorded and do nothing else.
+Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-004:
 - back SHALL show `home`;
@@ -184,6 +184,10 @@ On every screen, back SHALL perform a back navigation, the menu control SHALL be
 #### Scenario: Notifications is inert
 - **WHEN** a participant on `home` activates the Notifications tab
 - **THEN** `app_tab_selected` is recorded with `tab` `notifications` and `home` stays shown
+
+#### Scenario: Search is recorded
+- **WHEN** a participant on `home` activates the search field
+- **THEN** `search_selected` is recorded and `home` stays shown
 
 ### Requirement: Pod band in variant B
 In variant B, `ginger-notes` and `ginger-info` SHALL show the due-dose card as a band between the Ginger top bar and the tab's content, above the notes area and above the Info list respectively. The band SHALL look and behave the same on both tabs. Switching between Notes and Info SHALL keep it shown. Variants A and C SHALL show no band on these screens, and the tab content SHALL otherwise be identical in all variants.
@@ -322,6 +326,7 @@ EXP-PET-005 SHALL declare and record these interaction events. Every variant SHA
 | `pod_opened` | the Ginger row on Home is activated | none |
 | `pod_tab_selected` | a Ginger tab is selected | `tab`: `notes`, `chat` or `info` |
 | `app_tab_selected` | Ask Telli, Notifications or Navigation is activated | `tab`: `telli`, `notifications` or `navigation` |
+| `search_selected` | the search field in the Home top bar is activated | none |
 | `info_row_selected` | an inert Info row is activated | `row`: `pet_form`, `attachments`, `subpods` or `members` |
 | `medical_opened` | the Medical row is activated | none |
 | `medication_viewed` | the medication item on `medical` is activated | none |
@@ -353,3 +358,7 @@ The sheets' events SHALL carry the entry point of the card that opened them. The
 #### Scenario: Notifications tab is recorded
 - **WHEN** a participant activates the Notifications tab on `home`
 - **THEN** `app_tab_selected` is recorded with `tab` `notifications`, and no other event
+
+#### Scenario: Search field is recorded
+- **WHEN** a participant on `home` activates the search field
+- **THEN** `search_selected` is recorded, and no other event

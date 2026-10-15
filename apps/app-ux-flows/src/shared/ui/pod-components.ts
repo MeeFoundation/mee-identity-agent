@@ -7,6 +7,7 @@ import { CountBadge } from './count-badge'
 import { Divider } from './divider'
 import { EmptyStateCard } from './empty-state-card'
 import { FieldRow, FormCard } from './form-card'
+import { HomeTopBar } from './home-top-bar'
 import { InlineFieldEditor } from './inline-field-editor'
 import { MemberCard, MemberRow } from './member-row'
 import { PodScreen } from './pod-screen'
@@ -29,6 +30,7 @@ export const podComponents = {
   EmptyStateCard,
   FieldRow,
   FormCard,
+  HomeTopBar,
   InlineFieldEditor,
   MemberCard,
   MemberRow,

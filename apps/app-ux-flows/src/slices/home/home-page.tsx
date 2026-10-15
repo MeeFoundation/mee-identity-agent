@@ -17,9 +17,20 @@ type HomePageProps = {
   onStartNewSession: () => void
   screenHref: ScreenHref
   onOpenScreen: (href: string) => void
+  // Shown when dev mode was turned on through the URL, so reviewers can tell and leave it.
+  devModeNote: boolean
+  onTurnOffDevMode: () => void
 }
 
-export const HomePage = ({ flows, onStartFlow, onStartNewSession, screenHref, onOpenScreen }: HomePageProps) => {
+export const HomePage = ({
+  flows,
+  onStartFlow,
+  onStartNewSession,
+  screenHref,
+  onOpenScreen,
+  devModeNote,
+  onTurnOffDevMode,
+}: HomePageProps) => {
   const { t } = useTranslation()
 
   return (
@@ -27,9 +38,19 @@ export const HomePage = ({ flows, onStartFlow, onStartNewSession, screenHref, on
       <header className="border-gray-200 border-b bg-white">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-6 py-5">
           <h1 className="font-semibold text-2xl text-gray-900">{t('home.title')}</h1>
-          <Button onClick={onStartNewSession} tone="tertiary" variant="outlined">
-            {t('home.newSession')}
-          </Button>
+          <div className="flex flex-wrap items-center gap-4">
+            {devModeNote && (
+              <p className="flex items-center gap-2 text-muted-foreground text-sm">
+                {t('home.devMode.label')}
+                <Button onClick={onTurnOffDevMode} size="s" tone="tertiary" variant="link">
+                  {t('home.devMode.turnOff')}
+                </Button>
+              </p>
+            )}
+            <Button onClick={onStartNewSession} tone="tertiary" variant="outlined">
+              {t('home.newSession')}
+            </Button>
+          </div>
         </div>
       </header>
       <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6 sm:px-6">

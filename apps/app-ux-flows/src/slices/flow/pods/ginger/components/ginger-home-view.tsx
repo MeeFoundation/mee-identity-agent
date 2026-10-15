@@ -14,12 +14,13 @@ type GingerHomeViewProps = {
   onAppTabSelect: (tab: Exclude<AppTab, 'home'>) => void
   // A section shown above Pods, such as a flow's Today section.
   beforePods?: ReactNode
+  onSearchSelect?: () => void
 }
 
 // The app's Home with Ginger as the participant's only pod.
-export const GingerHomeView = ({ onOpenPod, onAppTabSelect, beforePods }: GingerHomeViewProps) => {
+export const GingerHomeView = ({ onOpenPod, onAppTabSelect, beforePods, onSearchSelect }: GingerHomeViewProps) => {
   const { t } = useTranslation()
-  const { AppTabBar, PodScreen, SectionLabel } = useFlowComponents<GingerPodComponents>()
+  const { AppTabBar, HomeTopBar, PodScreen, SectionLabel } = useFlowComponents<GingerPodComponents>()
   const pod = useAtomValue(podAtom)
 
   return (
@@ -33,17 +34,11 @@ export const GingerHomeView = ({ onOpenPod, onAppTabSelect, beforePods }: Ginger
         />
       }
       topBar={
-        <header className="rounded-3xl border-white border-b bg-linear-to-b from-brand-100 to-white pt-(--status-bar-h) drop-shadow-topbar">
-          <div className="flex flex-col gap-4 px-5 pt-2.5 pb-5">
-            <span
-              aria-hidden
-              className="flex size-11 items-center justify-center rounded-full border border-gray-200 bg-white font-medium text-gray-700"
-            >
-              {t('pods.ginger.home.userInitial')}
-            </span>
-            <h1 className="font-semibold text-gray-900 text-xl">{t('pods.ginger.home.welcome')}</h1>
-          </div>
-        </header>
+        <HomeTopBar
+          greeting={t('pods.ginger.home.welcome')}
+          initial={t('pods.ginger.home.userInitial')}
+          onSearchSelect={onSearchSelect}
+        />
       }
     >
       {beforePods}

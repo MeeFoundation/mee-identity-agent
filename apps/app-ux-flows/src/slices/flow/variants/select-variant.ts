@@ -12,6 +12,7 @@ export type VariantChoice = {
   id: string
   nameKey: string
   descriptionKey?: string
+  hidden: boolean
 }
 
 export type SelectedVariant = {
@@ -80,7 +81,7 @@ export const listVariantChoices = (flow: AnyFlow): VariantChoice[] | null => {
   const ordered = [...variantIds].sort((a, b) => Number(b === defaultVariantId) - Number(a === defaultVariantId))
 
   return ordered.map((id) => {
-    const { nameKey, descriptionKey } = variants[id]
-    return { descriptionKey, id, nameKey }
+    const { nameKey, descriptionKey, hidden } = variants[id]
+    return { descriptionKey, hidden: hidden === true, id, nameKey }
   })
 }

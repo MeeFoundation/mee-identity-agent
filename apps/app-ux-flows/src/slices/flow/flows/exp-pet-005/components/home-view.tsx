@@ -39,6 +39,7 @@ export const HomeView = ({ showToast = false }: ViewProps) => {
       }
       onAppTabSelect={(tab) => track('app_tab_selected', { tab })}
       onOpenPod={openPod}
+      onSearchSelect={() => track('search_selected')}
     />
   )
 }

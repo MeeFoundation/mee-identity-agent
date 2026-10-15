@@ -38,6 +38,7 @@ export type ExpPet005Events = {
   pod_opened: undefined
   pod_tab_selected: { tab: PodTab }
   app_tab_selected: { tab: 'telli' | 'notifications' | 'navigation' }
+  search_selected: undefined
   info_row_selected: { row: 'pet_form' | 'attachments' | 'subpods' | 'members' }
   medical_opened: undefined
   medication_viewed: undefined

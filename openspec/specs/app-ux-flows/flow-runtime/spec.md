@@ -75,11 +75,11 @@ A screen id MAY be declared as unavailable in the base flow so that only variant
 - **THEN** `pnpm check-types` reports an error
 
 ### Requirement: Flow Registry
-The application SHALL maintain a registry of all available flows, mapping each flow id to its flow definition. The registry SHALL be the single source of truth for which flows exist, used both to list flows on the home page and to resolve a flow by id from a URL.
+The application SHALL maintain a registry of all available flows, mapping each flow id to its flow definition. The registry SHALL be the single source of truth for which flows exist, used both to list flows on the home page and to resolve a flow by id from a URL. In production builds the registry SHALL leave out hidden flows, variants and cases, as defined in "Hidden flows and cases".
 
 #### Scenario: Registry lists all flows
 - **WHEN** the home page requests the list of available flows
-- **THEN** it receives every flow registered in the Flow Registry, including each flow's id and title
+- **THEN** it receives every flow registered in the Flow Registry, including each flow's id and title, except hidden flows in production builds
 
 #### Scenario: Registry resolves an unknown flow id
 - **WHEN** a URL under `/flows/` references a flow id that is not in the Flow Registry
@@ -90,7 +90,7 @@ The application's home page SHALL list every flow in the Flow Registry and SHALL
 
 For a flow with explicit variant selection, the home page SHALL let the participant choose which variant to start, with one start action per variant showing the variant's name. For a showcase with cases, it SHALL let the participant choose which case to start, with one start action per case showing the case's code and name. A variant's or case's description SHALL be available on demand from its start action, for example on hover or focus, rather than always shown. For any other flow, it SHALL offer a single start action.
 
-Showcases SHALL be listed in both development and production builds. In production builds the home page SHALL NOT show variant information to the participant. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
+Showcases SHALL be listed in both development and production builds. Production builds SHALL NOT list hidden flows, and SHALL NOT offer start actions for hidden variants or cases. A section's count SHALL include only the flows it lists. Development builds SHALL list hidden flows, variants and cases with their start actions. Each hidden one SHALL be marked "Hidden in production": on the flow's row, on the variant's or case's start action, and on its catalogue entry. In production builds the home page SHALL NOT show variant information to the participant. The home page SHALL offer a "Start new test session" action that clears stored automatic variant assignments.
 
 Development builds SHALL additionally show, for each flow, a catalogue, collapsed until opened:
 - the flow's display code, if any,
@@ -118,7 +118,7 @@ Production builds SHALL NOT show the catalogue, display codes or Figma reference
 
 #### Scenario: Showcases in production
 - **WHEN** a production build shows the home page
-- **THEN** the "Showcases" section lists every registered showcase with its title, description and its start actions
+- **THEN** the "Showcases" section lists every registered showcase that is not hidden, with its title, description and the start actions of its cases that are not hidden
 
 #### Scenario: Variant description on demand
 - **WHEN** a participant hovers over or focuses the start action of variant `b` of `exp-demo-001`
@@ -151,6 +151,10 @@ Production builds SHALL NOT show the catalogue, display codes or Figma reference
 #### Scenario: Choose a case
 - **WHEN** a participant views the home page and showcase `sc-pet-001` has cases
 - **THEN** its row offers "SC-PET-001-A", "SC-PET-001-B" and "SC-PET-001-C" with their names, and choosing B opens `/flows/sc-pet-001/home?case=b`
+
+#### Scenario: Hidden items labelled in development
+- **WHEN** a development build shows the home page and case `c` of `sc-pet-001` is hidden
+- **THEN** "SC-PET-001-C" is offered with the label "Hidden in production", and cases A and B have no label
 
 ### Requirement: Direct flow URL
 Each flow SHALL be reachable at `/flows/<flowId>`, and each of its screens at `/flows/<flowId>/<screenId>`, so a participant can open a flow or a specific screen directly. The screen id in the URL SHALL be the only source of truth for which screen is shown. Opening any flow URL when no run of that flow is active in the current page session SHALL start a new run from the flow's initial state. A screen SHALL render correctly with that initial state even if the participant never visited earlier screens.
@@ -326,3 +330,95 @@ Showcases stay untracked whatever their case.
 #### Scenario: Unknown case in the URL
 - **WHEN** someone opens a showcase URL with `?case=<unknownId>`
 - **THEN** the URL is replaced with the same path without the parameter, and the run uses the first case
+
+### Requirement: Hidden flows and cases
+A flow MAY be declared hidden, and so MAY each case of a showcase. Variants of an experiment MAY be hidden as defined by `app-ux-flows/flow-variants`. A flow or case that does not declare it SHALL be visible. Hiding SHALL be decided at build time and SHALL NOT depend on runtime configuration.
+
+Development builds (the local dev server) SHALL treat hidden flows, variants and cases exactly like visible ones, except for the "Hidden in production" label on the home page.
+
+Production builds SHALL treat anything hidden as if it were not declared:
+- a hidden flow SHALL NOT be listed, and any of its URLs, `/flows/<flowId>` or `/flows/<flowId>/<screenId>`, SHALL show the not-found state;
+- a hidden case SHALL NOT be offered on the home page or as a "Try case" action in the briefing. A `case` parameter naming it SHALL be handled as an unknown case;
+- when the first declared case is hidden, the first visible case SHALL be used when no case is requested;
+- a flow whose variants are all hidden, or whose cases are all hidden, SHALL be hidden as a whole.
+
+Hiding SHALL NOT change a visible flow's, variant's or case's identifiers, codes, screens or behavior.
+
+#### Scenario: Hidden flow on the dev server
+- **WHEN** showcase `sc-pet-004` is hidden and someone opens the home page and `/flows/sc-pet-004/info` on the dev server
+- **THEN** `sc-pet-004` is listed with the label "Hidden in production", and the flow runs as usual
+
+#### Scenario: Hidden flow is not listed in production
+- **WHEN** showcase `sc-pet-004` is hidden and a production build shows the home page
+- **THEN** `sc-pet-004` is not listed, and the "Showcases" heading counts one flow fewer
+
+#### Scenario: Hidden flow URL in production
+- **WHEN** showcase `sc-pet-004` is hidden and someone opens `/flows/sc-pet-004/info` in a production build
+- **THEN** the not-found state is shown instead of starting a flow
+
+#### Scenario: Hidden case in production
+- **WHEN** case `d` of `sc-pet-003` is hidden and a production build shows the home page
+- **THEN** the row of `sc-pet-003` offers cases A, B and C only
+
+#### Scenario: Hidden case URL in production
+- **WHEN** case `d` of `sc-pet-003` is hidden and someone opens `/flows/sc-pet-003/info?case=d` in a production build
+- **THEN** the URL is replaced with `/flows/sc-pet-003/info`, and the run uses case A
+
+#### Scenario: Hidden first case in production
+- **WHEN** case `a` of `sc-pet-003` is hidden and someone opens `/flows/sc-pet-003/info` without a `case` parameter in a production build
+- **THEN** the run uses case B
+
+#### Scenario: Hidden case left out of the briefing
+- **WHEN** case `d` of `sc-pet-003` is hidden and a tester completes case A in a production build
+- **THEN** the briefing offers "Try case SC-PET-003-B" and "Try case SC-PET-003-C", and no action for case D
+
+#### Scenario: All cases hidden
+- **WHEN** every case of a showcase is hidden and a production build shows the home page
+- **THEN** the showcase is not listed, and its URLs show the not-found state
+
+### Requirement: Dev mode
+The application SHALL have a dev mode, decided once when the page loads:
+- A development build (the local dev server) SHALL always be in dev mode.
+- A production build SHALL be in dev mode when the page is opened with the URL parameter `mode=dev`. It SHALL then stay in dev mode for that browser tab, across in-app navigation and page reloads, until the tab is closed or the page is opened with `mode=off`.
+- Opening a production build with `mode=off` SHALL end dev mode for that tab.
+- Any other `mode` value SHALL be ignored. On a development build, `mode=off` SHALL have no effect.
+- When the browser keeps no per-tab storage, dev mode SHALL last only for the page opened with `mode=dev`.
+
+A production build in dev mode SHALL behave as a development build for every `app-ux-flows` requirement that tells development and production builds apart. That includes:
+- the home page catalogue, display codes, Figma references, stored assignments and variant information;
+- the variant label while a flow runs;
+- hidden flows, variants and cases, which SHALL be listed, labelled "Hidden in production" and runnable.
+
+The exception is analytics, as defined by `app-ux-flows/flow-analytics`. A production build not in dev mode SHALL behave as a production build.
+
+When dev mode was turned on through the URL, the home page SHALL show a note, "Dev mode", with a "Turn off" action. The action SHALL reload the app at the home page with `mode=off`. A development build SHALL NOT show the note.
+
+Dev mode SHALL NOT be access control. It changes what is shown, not what the bundle contains.
+
+#### Scenario: Turning dev mode on in production
+- **WHEN** someone opens a production build at `/?mode=dev`
+- **THEN** the home page shows the catalogue, display codes, hidden flows with the label "Hidden in production", and the "Dev mode" note with "Turn off"
+
+#### Scenario: Dev mode lasts for the tab
+- **WHEN** someone opened a production build with `?mode=dev`, then starts a flow from the home page and reloads the page
+- **THEN** the flow screen still shows the variant label, and the home page still shows the catalogue
+
+#### Scenario: Hidden flow in dev mode
+- **WHEN** showcase `sc-pet-004` is hidden and someone opens `/flows/sc-pet-004/info?mode=dev` in a production build
+- **THEN** the flow runs instead of showing the not-found state
+
+#### Scenario: Turning dev mode off
+- **WHEN** someone in dev mode on a production build activates "Turn off" on the home page
+- **THEN** the app reloads at `/?mode=off`, and hidden flows, the catalogue and the note are no longer shown in that tab
+
+#### Scenario: Another tab is not in dev mode
+- **WHEN** someone opened a production build with `?mode=dev` in one tab and opens the app's root URL in a new tab
+- **THEN** the new tab is not in dev mode
+
+#### Scenario: Unknown mode value
+- **WHEN** someone opens a production build with `?mode=preview`
+- **THEN** the app behaves as a production build
+
+#### Scenario: Development build ignores mode=off
+- **WHEN** a developer opens the local dev server with `?mode=off`
+- **THEN** the app stays in dev mode, and the "Dev mode" note is not shown

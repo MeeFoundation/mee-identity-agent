@@ -10,7 +10,7 @@ const noop = () => {}
 // Home as in the Figma "Home - 1" frame: a greeting and the call to add a first pod.
 export const HomeView = () => {
   const { t } = useTranslation()
-  const { AppTabBar, Button, PodScreen } = useFlowComponents<ScPet001Components>()
+  const { AppTabBar, Button, HomeTopBar, PodScreen } = useFlowComponents<ScPet001Components>()
   const { goToScreen } = useFlowNavigation<ScPet001ScreenId>()
   const openNewPodFromHome = useSetAtom(openNewPodFromHomeAtom)
 
@@ -29,19 +29,7 @@ export const HomeView = () => {
           }}
         />
       }
-      topBar={
-        <header className="rounded-3xl border-white border-b bg-linear-to-b from-brand-100 to-white pt-(--status-bar-h) drop-shadow-topbar">
-          <div className="flex flex-col gap-4 px-5 pt-2.5 pb-5">
-            <span
-              aria-hidden
-              className="flex size-11 items-center justify-center rounded-full border border-gray-200 bg-white font-medium text-gray-700"
-            >
-              {t('flows.scPet001.home.userInitial')}
-            </span>
-            <h1 className="font-semibold text-gray-900 text-xl">{t('flows.scPet001.home.welcome')}</h1>
-          </div>
-        </header>
-      }
+      topBar={<HomeTopBar greeting={t('flows.scPet001.home.welcome')} initial={t('flows.scPet001.home.userInitial')} />}
     >
       <section className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-card">
         <span className="flex size-12 items-center justify-center rounded-full bg-gray-100">

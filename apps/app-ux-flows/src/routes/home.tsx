@@ -1,6 +1,7 @@
 import { createRoute, useNavigate, useRouter } from '@tanstack/react-router'
 
 import { useAnalytics } from '@/shared/analytics/analytics-provider'
+import { devMode } from '@/shared/lib/dev-mode'
 
 import type { FlowSearch } from './flow-search'
 import { rootRoute } from './root'
@@ -33,10 +34,12 @@ const HomeRoute = () => {
 
   return (
     <HomePage
+      devModeNote={devMode.fromUrl}
       flows={flows}
       onOpenScreen={(href) => navigate({ href })}
       onStartFlow={(flowId, choice) => navigate({ params: { flowId }, search: toSearch(choice), to: '/flows/$flowId' })}
       onStartNewSession={startNewSession}
+      onTurnOffDevMode={() => window.location.assign('/?mode=off')}
       screenHref={(flowId, screenId, { variantId, caseId }) =>
         router.buildLocation({
           params: { flowId, screenId },
@@ -53,10 +56,11 @@ export const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   loader: () => ({
     flows: listFlows().map((flow) => ({
-      assignedVariantId: import.meta.env.DEV ? browserAssignmentStore.read(flow.id) : null,
+      assignedVariantId: devMode.on ? browserAssignmentStore.read(flow.id) : null,
       caseChoices: flow.cases ? listCases(flow) : null,
-      catalogue: import.meta.env.DEV ? listFlowCatalogue(flow) : null,
+      catalogue: devMode.on ? listFlowCatalogue(flow) : null,
       descriptionKey: flow.descriptionKey ?? null,
+      hidden: flow.hidden === true,
       id: flow.id,
       kind: flow.kind,
       titleKey: flow.titleKey,

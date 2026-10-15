@@ -54,6 +54,15 @@ At startup the container writes the variables that are set (and only those) to `
 
 In local development, `public/config.js` is an empty object, so `.env.local` applies as before.
 
+## Dev mode
+
+A deployed app can show what the local dev server shows: the screen catalogue, display codes and Figma links, variant information, and flows, variants and cases marked `hidden`. Open any URL with `?mode=dev`, for example `https://ux-flows.example.com/?mode=dev`.
+
+- Dev mode lasts for that browser tab, across navigation and reloads, until the tab is closed. Other tabs aren't affected.
+- To leave it, use **Turn off** next to "Dev mode" on the home page, or open any URL with `?mode=off`.
+- While dev mode is on, nothing is sent to Matomo, even when Matomo is configured. Events are written to the browser console instead.
+- Dev links are for reviewers, not participants: a participant opening one sees unfinished work and their runs aren't tracked. Dev mode isn't access control; the hidden code is part of the bundle either way.
+
 ## Caching
 
 | Path | Cache-Control |
