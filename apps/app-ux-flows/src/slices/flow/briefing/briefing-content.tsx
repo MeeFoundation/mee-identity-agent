@@ -73,7 +73,14 @@ export const BriefingContent = ({ flow, screenId, run, onTryCase }: BriefingProp
   return (
     <div className="flex flex-col gap-4 text-sm">
       <CaseLabel flow={flow} />
-      {flow.goalKey && <BriefingSection title={t('flow.briefing.yourGoal')}>{t(flow.goalKey)}</BriefingSection>}
+      {flow.goalKey && (
+        <section className="flex flex-col gap-1 rounded-xl border border-brand-200 bg-brand-50 p-3">
+          <h2 className="font-semibold text-brand-700 text-xs uppercase tracking-wide">
+            {t('flow.briefing.yourGoal')}
+          </h2>
+          <p className="font-medium text-base text-gray-900">{t(flow.goalKey)}</p>
+        </section>
+      )}
       {completed ? (
         <output className="flex flex-col gap-1 rounded-xl bg-success-50 p-3">
           <h2 className="font-semibold text-success-700">{t('flow.briefing.goalReached')}</h2>
