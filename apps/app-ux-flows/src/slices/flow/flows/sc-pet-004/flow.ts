@@ -89,6 +89,7 @@ export const scPet004Flow = defineFlow<ScPet004ScreenId, ScPet004Components, ScP
     return store
   },
   descriptionKey: key('description'),
+  hidden: true,
   hints: {
     'care-feeding': key('hints.careFeeding'),
     'feed-again': key('hints.feedAgain'),

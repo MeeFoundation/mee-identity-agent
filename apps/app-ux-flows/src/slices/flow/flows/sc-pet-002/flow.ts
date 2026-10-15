@@ -85,6 +85,7 @@ export const scPet002Flow = defineFlow<ScPet002ScreenId, ScPet002Components, ScP
     medical: figmaFrame('SC-PET-002-A - Medical (dose overdue)', '1390-30353'),
     'undo-dose': figmaFrame('SC-PET-002-B - Undo dose (sheet over Medical)', '1390-30478'),
   },
+  hidden: true,
   hints: {
     'dose-history': key('hints.doseHistory'),
     'give-dose': key('hints.giveDose'),

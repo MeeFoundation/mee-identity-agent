@@ -41,6 +41,7 @@ export const expPet004Flow = defineFlow<ExpPet004ScreenId, ExpPet004Components, 
     return store
   },
   descriptionKey: 'flows.expPet004.description',
+  hidden: true,
   id: 'exp-pet-004',
   initialScreen: 'home',
   kind: 'experiment',

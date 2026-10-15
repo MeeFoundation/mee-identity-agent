@@ -101,6 +101,7 @@ export const scPet003Flow = defineFlow<ScPet003ScreenId, ScPet003Components, ScP
     return store
   },
   descriptionKey: key('description'),
+  hidden: true,
   hints: {
     'care-feeding': key('hints.careFeeding'),
     chat: key('hints.chat'),

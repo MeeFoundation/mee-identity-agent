@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/shared/ui/button'
 
 import type { ScreenHref } from './flow-catalogue'
+import { FlowGroup } from './flow-group'
 import { type FlowLauncher, FlowRow, type FlowStartChoice } from './flow-row'
-import { groupFlowsByKind } from './group-flows'
+import { groupFlowsByFamily, groupFlowsByKind } from './group-flows'
+import type { FlowKind } from '@/slices/flow/runtime/define-flow'
 
 const sectionTitleKeys = {
   experiment: 'home.sections.experiments',
@@ -20,7 +22,13 @@ type HomePageProps = {
   // Shown when dev mode was turned on through the URL, so reviewers can tell and leave it.
   devModeNote: boolean
   onTurnOffDevMode: () => void
+  // Family codes on group headers, like other display codes, show only in dev mode.
+  showCodes: boolean
+  openGroups: ReadonlySet<string>
+  onToggleGroup: (groupId: string) => void
 }
+
+const flowGroupId = (kind: FlowKind, family: string) => `${kind}:${family}`
 
 export const HomePage = ({
   flows,
@@ -30,6 +38,9 @@ export const HomePage = ({
   onOpenScreen,
   devModeNote,
   onTurnOffDevMode,
+  showCodes,
+  openGroups,
+  onToggleGroup,
 }: HomePageProps) => {
   const { t } = useTranslation()
 
@@ -59,16 +70,34 @@ export const HomePage = ({
             <h2 className="font-semibold text-gray-900 text-lg" id={`flows-${section.kind}`}>
               {t(sectionTitleKeys[section.kind], { count: section.flows.length })}
             </h2>
-            <ul className="divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white">
-              {section.flows.map((flow) => (
-                <FlowRow
-                  flow={flow}
-                  key={flow.id}
-                  onOpenScreen={onOpenScreen}
-                  onStartFlow={onStartFlow}
-                  screenHref={screenHref}
-                />
-              ))}
+            <ul className="divide-y divide-gray-200 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+              {groupFlowsByFamily(section.flows).map((item) => {
+                if (item.type === 'flow') {
+                  return (
+                    <FlowRow
+                      flow={item.flow}
+                      key={item.flow.id}
+                      onOpenScreen={onOpenScreen}
+                      onStartFlow={onStartFlow}
+                      screenHref={screenHref}
+                    />
+                  )
+                }
+                const groupId = flowGroupId(section.kind, item.family)
+                return (
+                  <FlowGroup
+                    expanded={openGroups.has(groupId)}
+                    family={item.family}
+                    flows={item.flows}
+                    key={groupId}
+                    onOpenScreen={onOpenScreen}
+                    onStartFlow={onStartFlow}
+                    onToggle={() => onToggleGroup(groupId)}
+                    screenHref={screenHref}
+                    showCodes={showCodes}
+                  />
+                )
+              })}
             </ul>
           </section>
         ))}

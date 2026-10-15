@@ -24,7 +24,7 @@ Open http://localhost:8080. If port 8080 is busy on your machine (for example, l
 
 - The container listens on port **8080** and runs nginx as a non-root user (uid 101).
 - `GET /healthz` returns `200 ok`. The image declares a Docker `HEALTHCHECK` that uses it.
-- Client-side routes such as `/flows/exp-demo-001/ginger-info?variant=b` serve `index.html`. A missing path with a file extension returns 404.
+- Client-side routes such as `/flows/exp-pet-002/ginger-info?variant=b` serve `index.html`. A missing path with a file extension returns 404.
 
 ## Runtime configuration
 

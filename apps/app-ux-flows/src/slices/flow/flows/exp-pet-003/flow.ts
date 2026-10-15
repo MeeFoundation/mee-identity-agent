@@ -34,6 +34,7 @@ export const expPet003Flow = defineFlow<ExpPet003ScreenId, ExpPet003Components, 
     return store
   },
   descriptionKey: 'flows.expPet003.description',
+  hidden: true,
   id: 'exp-pet-003',
   initialScreen: 'home',
   kind: 'experiment',

@@ -1,7 +1,6 @@
 import { devMode } from '@/shared/lib/dev-mode'
 
 import { chatAddMedicationFlow } from './flows/chat-add-medication/flow'
-import { expDemo001Flow } from './flows/exp-demo-001/flow'
 import { expPet002Flow } from './flows/exp-pet-002/flow'
 import { expPet003Flow } from './flows/exp-pet-003/flow'
 import { expPet004Flow } from './flows/exp-pet-004/flow'
@@ -32,24 +31,22 @@ export const createRegistry = (definitions: readonly AnyFlow[], showHidden: bool
   }
 }
 
-export const { listFlows, findFlow } = createRegistry(
-  [
-    expPet002Flow,
-    expPet003Flow,
-    expPet004Flow,
-    expPet005Flow,
-    chatAddMedicationFlow,
-    expDemo001Flow,
-    scPet001Flow,
-    scPet002Flow,
-    scPet003Flow,
-    scPet004Flow,
-    scPpl001Flow,
-    scPpl002Flow,
-    scPpl003Flow,
-  ],
-  devMode.on,
-)
+export const flowDefinitions: readonly AnyFlow[] = [
+  expPet002Flow,
+  expPet003Flow,
+  expPet004Flow,
+  expPet005Flow,
+  scPet001Flow,
+  scPet002Flow,
+  scPet003Flow,
+  scPet004Flow,
+  chatAddMedicationFlow,
+  scPpl001Flow,
+  scPpl002Flow,
+  scPpl003Flow,
+]
+
+export const { listFlows, findFlow } = createRegistry(flowDefinitions, devMode.on)
 
 export const hasScreen = (flow: ResolvedFlow<string, ComponentEnvironment, object>, screenId: string) =>
   Object.hasOwn(flow.screens, screenId)

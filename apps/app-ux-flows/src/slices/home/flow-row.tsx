@@ -24,6 +24,7 @@ export type FlowStartChoice = {
 export type FlowLauncher = {
   id: string
   kind: FlowKind
+  code: string | null
   titleKey: string
   descriptionKey: string | null
   hidden: boolean
