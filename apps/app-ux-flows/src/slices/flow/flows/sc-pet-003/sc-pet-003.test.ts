@@ -28,6 +28,7 @@ import {
   isOwnerAtom,
   type ScPet003ScreenId,
   scheduleReply,
+  sendMessageAtom,
   TELLI_DELAY_MS,
   toastAtom,
 } from './model'
@@ -272,6 +273,25 @@ describe('SC-PET-003 Care instructions', () => {
     scheduleReply(store, 'Does Ginger like toys?', onAnswer)
     vi.advanceTimersByTime(TELLI_DELAY_MS)
     expect(onAnswer).toHaveBeenLastCalledWith(false)
+  })
+
+  it("shows the empty state in the owner's empty chat until the first message", () => {
+    // How many times the chat renders its empty state for a case's run.
+    const emptyStatesIn = (caseId: string, store = caseRun(caseId)) => {
+      let emptyStates = 0
+      const ChatEmptyState = () => {
+        emptyStates += 1
+        return null
+      }
+      renderScreen(resolveFlow(scPet003Flow, null, caseId), 'chat', { components: { ChatEmptyState }, store })
+      return emptyStates
+    }
+    const store = caseRun('a')
+    expect(emptyStatesIn('a', store)).toBe(1)
+
+    store.set(sendMessageAtom, 'Hello', new Date())
+    expect(emptyStatesIn('a', store)).toBe(0)
+    expect(emptyStatesIn('b')).toBe(0)
   })
 
   it("links Care & Feeding in Telli's feeding answer to its screen", () => {

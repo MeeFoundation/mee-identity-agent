@@ -1,6 +1,7 @@
-import { type ReactNode, type RefObject, useEffect, useRef, useState } from 'react'
+import { type ReactNode, type RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { cn } from '@/shared/lib/cn'
 import { useOverlayContainer } from '@/shared/lib/overlay-container'
 
 import {
@@ -22,19 +23,43 @@ type BottomSheetProps = {
   initialFocus?: RefObject<HTMLElement | null>
 }
 
+// Set while a sheet is unmounted open by a screen change, until the end of that commit. The next screen's sheet
+// takes its place without a transition, so its backdrop does not flash and it does not slide up again.
+let handoffPending = false
+
 // Shown by the flow as its own screen: it slides up once mounted, and on dismiss slides down before the flow navigates away.
 export const BottomSheet = ({ title, description, children, onDismiss, initialFocus }: BottomSheetProps) => {
   const { t } = useTranslation()
   const container = useOverlayContainer()
   const popupRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
+  const [instant, setInstant] = useState(false)
   const openedRef = useRef(false)
+  const openRef = useRef(false)
+  openRef.current = open
 
   // Mounting closed and opening on the next frame gives the open transition a starting point.
-  useEffect(() => {
+  useLayoutEffect(() => {
+    if (handoffPending) {
+      handoffPending = false
+      setInstant(true)
+      setOpen(true)
+      return
+    }
     const frame = requestAnimationFrame(() => setOpen(true))
     return () => cancelAnimationFrame(frame)
   }, [])
+
+  useLayoutEffect(
+    () => () => {
+      if (!openRef.current) return
+      handoffPending = true
+      queueMicrotask(() => {
+        handoffPending = false
+      })
+    },
+    [],
+  )
 
   return (
     <Dialog
@@ -47,14 +72,23 @@ export const BottomSheet = ({ title, description, children, onDismiss, initialFo
       }}
       onOpenChangeComplete={(isOpen) => {
         openedRef.current = isOpen
+        if (isOpen) setInstant(false)
         if (!isOpen) onDismiss()
       }}
       open={open}
     >
       <DialogPortal container={container}>
-        <DialogBackdrop className="bg-gray-950/40 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0" />
+        <DialogBackdrop
+          className={cn(
+            'bg-gray-950/40 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0',
+            instant && 'transition-none',
+          )}
+        />
         <DialogPopup
-          className="absolute inset-x-0 bottom-0 flex max-h-full flex-col overflow-y-auto rounded-t-3xl bg-white pb-[calc(0.5rem+var(--home-indicator-h))] shadow-sheet transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full"
+          className={cn(
+            'absolute inset-x-0 bottom-0 flex max-h-full flex-col overflow-y-auto rounded-t-3xl bg-white pb-[calc(0.5rem+var(--home-indicator-h))] shadow-sheet transition-transform duration-300 ease-out data-ending-style:translate-y-full data-starting-style:translate-y-full',
+            instant && 'transition-none',
+          )}
           initialFocus={initialFocus ?? popupRef}
           ref={popupRef}
         >

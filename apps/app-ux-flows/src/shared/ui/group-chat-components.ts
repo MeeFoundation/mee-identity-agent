@@ -1,8 +1,9 @@
 import { ChatThread } from './chat-thread'
 import { ChatTypingIndicator } from './chat-typing-indicator'
-import { ChatNotice, GroupChatComposer, GroupChatMessage } from './group-chat'
+import { ChatEmptyState, ChatNotice, GroupChatComposer, GroupChatMessage } from './group-chat'
 
 export const groupChatComponents = {
+  ChatEmptyState,
   ChatNotice,
   ChatThread,
   ChatTypingIndicator,

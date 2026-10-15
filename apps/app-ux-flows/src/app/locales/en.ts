@@ -226,6 +226,15 @@ export const en = {
       },
       home: {
         addPod: 'Add Pod',
+        categories: {
+          all: 'All categories',
+          browse: 'Browse categories',
+          empty: 'No pods yet',
+          events: 'Events',
+          health: 'Health & Wellness',
+          people: 'People',
+          title: 'Categories',
+        },
         maybeLater: 'Maybe later',
         message:
           'A Pod is a private little room for any info — your kid, a trip, a project. Fill it with info, files, and notes and start collaborating. Every Pod you create or receive from others is automatically organized into Tellipod categories.',
@@ -1276,11 +1285,22 @@ export const en = {
       label: '{{label}}, {{count}}',
       labelWithPreview: '{{label}}, {{count}}, {{preview}}',
     },
+    chat: {
+      telliName: '@Telli',
+    },
+    chatActionCard: {
+      edit: 'Edit {{label}}',
+    },
     formCard: {
       edit: 'Edit {{field}}',
     },
     groupChat: {
       attach: 'Add attachment',
+      empty: {
+        hint: 'Tag @Telli if you need help.',
+        message: 'Everyone in this pod will see your messages.',
+        title: 'Be the first to write a message.',
+      },
       send: 'Send',
     },
     header: {

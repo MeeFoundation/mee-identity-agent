@@ -159,8 +159,12 @@ export const TidyNotesArea = ({
 
   return (
     <div className="-m-1 flex flex-1 flex-col gap-4">
+      {/* Bleeds past the text so a highlight's padding and ring around a line aren't clipped by the scroll box. */}
       {/* biome-ignore lint/a11y/noStaticElementInteractions lint/a11y/useKeyWithClickEvents: a pointer convenience; the textareas are focusable themselves */}
-      <div className="flex min-h-0 flex-1 cursor-text flex-col overflow-y-auto" onClick={focusLastTextarea}>
+      <div
+        className="-m-1.5 flex min-h-0 flex-1 cursor-text flex-col overflow-y-auto p-1.5"
+        onClick={focusLastTextarea}
+      >
         {blocks.map((block) =>
           block.kind === 'contact-link' ? (
             <ContactLink
