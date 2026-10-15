@@ -3,8 +3,9 @@ import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { isMultiValue } from '../../../pods/people/member-info'
+import { bogdan } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { MyInfoView } from '../components/my-info-view'
+import { MemberInfoView } from '../components/member-info-view'
 import { useMemberName } from '../components/use-member-name'
 import {
   keepBothAtom,
@@ -41,7 +42,7 @@ export const AdoptConflictScreen = () => {
     if (!store.get(selectedConflictAtom)) goToScreen('my-info')
   }, [store, goToScreen])
 
-  if (!conflict) return <MyInfoView />
+  if (!conflict) return <MemberInfoView memberId={bogdan.id} />
 
   const { added, yours } = conflict
 
@@ -55,7 +56,7 @@ export const AdoptConflictScreen = () => {
 
   return (
     <>
-      <MyInfoView />
+      <MemberInfoView memberId={bogdan.id} />
       <BottomSheet onDismiss={cancel} title={t(`flows.scPpl002.adoptConflict.title.${added.field}`)}>
         <div className="flex flex-col gap-6">
           <dl className="flex flex-col divide-y divide-gray-100 rounded-2xl px-4 shadow-card">

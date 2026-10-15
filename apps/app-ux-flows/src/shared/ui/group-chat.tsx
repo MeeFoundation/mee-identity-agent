@@ -1,9 +1,11 @@
 import type { FormEvent, ReactNode } from 'react'
 import { ArrowUp, Plus } from 'react-bootstrap-icons'
+import { useTranslation } from 'react-i18next'
 
 import { cn } from '@/shared/lib/cn'
 
 import { shouldSend } from './chat-composer'
+import telliAssistantIcon from './icons/telli-assistant.svg'
 
 // A person shows the first letter of their name; an assistant shows its icon.
 type ChatAuthorAvatar = { letter: string } | { icon: string }
@@ -65,6 +67,25 @@ export const ChatNotice = ({ children }: ChatNoticeProps) => (
     {children}
   </p>
 )
+
+// After the Figma "Cell - Chat - 2" frame: shown in a pod chat that has no messages yet.
+export const ChatEmptyState = () => {
+  const { t } = useTranslation()
+
+  return (
+    <div className="flex flex-col items-center gap-4 text-center">
+      <img alt="" aria-hidden className="block" height={40} src={telliAssistantIcon} width={40} />
+      <div className="flex flex-col">
+        <p className="text-gray-900 text-lg">{t('ui.groupChat.empty.title')}</p>
+        <p className="text-gray-600 text-sm">
+          {t('ui.groupChat.empty.message')}
+          <br />
+          {t('ui.groupChat.empty.hint')}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 type GroupChatComposerProps = {
   value: string

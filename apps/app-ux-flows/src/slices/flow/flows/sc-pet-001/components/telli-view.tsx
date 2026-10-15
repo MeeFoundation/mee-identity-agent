@@ -63,8 +63,9 @@ export const TelliView = () => {
           <div className="flex flex-col gap-3" key={turn.userKey}>
             <ChatMessage author="user">{t(turn.userKey)}</ChatMessage>
             <ChatMessage author="agent">
-              <ChatAgentBubble>{t(turn.replyKey, turn.replyValues)}</ChatAgentBubble>
-              {turn.action && <QuickActionCard action={turn.action} turn={index} />}
+              <ChatAgentBubble attachments={turn.action && <QuickActionCard action={turn.action} turn={index} />}>
+                {t(turn.replyKey, turn.replyValues)}
+              </ChatAgentBubble>
             </ChatMessage>
           </div>
         ))}

@@ -4,14 +4,18 @@ import type { DefaultComponents } from '@/shared/ui/default-components'
 import type { PodComponents } from '@/shared/ui/pod-components'
 
 import {
+  addShared,
   adopt,
   bogdanInfo,
+  editShared,
   findAdded,
   type InfoField,
   keepBoth,
   type MemberInfo,
   removeAdded,
+  removeDetailBy,
   replace,
+  setDetailAbout,
 } from '../../pods/people/member-info'
 import { bogdan, type Member, memberCount, nextInviteLink, type PendingInvite } from '../../pods/people/sharing'
 
@@ -120,6 +124,11 @@ export const removeMemberAtom = atom(null, (get, set) => {
 
 export const memberInfoAtom = atom<Readonly<Record<string, MemberInfo>>>({ [bogdan.id]: bogdanInfo })
 
+const noInfo: MemberInfo = { addedByOthers: [], shared: [] }
+
+export const infoOf = (memberInfo: Readonly<Record<string, MemberInfo>>, memberId: string) =>
+  memberInfo[memberId] ?? noInfo
+
 // What Bogdan, the person using the app, shares and what others added about him.
 export const myInfoAtom = atom(
   (get) => get(memberInfoAtom)[bogdan.id] ?? bogdanInfo,
@@ -142,8 +151,9 @@ export const selectedConflictAtom = atom((get) => {
 })
 
 export type InfoToast =
-  | { kind: 'copied' | 'added' | 'replaced'; field: InfoField }
+  | { kind: 'copied' | 'added' | 'replaced' | 'updated'; field: InfoField }
   | { kind: 'removed'; field: InfoField; addedBy: string }
+  | { kind: 'addedAbout' | 'alreadyShared' | 'removedMine'; field: InfoField; memberId: string }
 
 export const infoToastAtom = atom<InfoToast | null>(null)
 
@@ -186,4 +196,31 @@ export const removeDetailAtom = atom(null, (get, set) => {
   set(myInfoAtom, removeAdded(get(myInfoAtom), detail.id))
   set(selectedDetailIdAtom, null)
   set(infoToastAtom, { addedBy: detail.addedBy, field: detail.field, kind: 'removed' })
+})
+
+export const editMySharedAtom = atom(null, (get, set, detailId: string, value: string) => {
+  const detail = get(myInfoAtom).shared.find(({ id }) => id === detailId)
+  if (!detail) return
+  set(myInfoAtom, editShared(get(myInfoAtom), detailId, value))
+  set(infoToastAtom, { field: detail.field, kind: 'updated' })
+})
+
+export const addMySharedAtom = atom(null, (get, set, field: InfoField, value: string) => {
+  set(myInfoAtom, addShared(get(myInfoAtom), field, value))
+  set(infoToastAtom, { field, kind: 'added' })
+})
+
+// Bogdan's own detail about another member; their shared info never changes.
+export const saveDetailAboutAtom = atom(null, (get, set, memberId: string, field: InfoField, value: string) => {
+  const memberInfo = get(memberInfoAtom)
+  const result = setDetailAbout(infoOf(memberInfo, memberId), bogdan.id, field, value)
+  set(memberInfoAtom, { ...memberInfo, [memberId]: result.info })
+  set(infoToastAtom, { field, kind: result.outcome === 'added' ? 'addedAbout' : 'alreadyShared', memberId })
+  return result.outcome
+})
+
+export const removeMyDetailAboutAtom = atom(null, (get, set, memberId: string, field: InfoField) => {
+  const memberInfo = get(memberInfoAtom)
+  set(memberInfoAtom, { ...memberInfo, [memberId]: removeDetailBy(infoOf(memberInfo, memberId), bogdan.id, field) })
+  set(infoToastAtom, { field, kind: 'removedMine', memberId })
 })

@@ -3,7 +3,14 @@ import { createStore as createJotaiStore } from 'jotai'
 import { defaultComponents } from '@/shared/ui/default-components'
 import { podComponents } from '@/shared/ui/pod-components'
 
-import { andrewInfo, bogdanInfo, geoAddedAboutBogdan, geoInfo } from '../../pods/people/member-info'
+import {
+  andrewAddedAboutGeo,
+  andrewInfo,
+  bogdanInfo,
+  geoAddedAboutBogdan,
+  geoInfo,
+  geoInfoWithOldEmail,
+} from '../../pods/people/member-info'
 import { andrew, bogdan, geo, geoInvite } from '../../pods/people/sharing'
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
@@ -80,6 +87,21 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
       },
       nameKey: caseKey('d', 'name'),
     },
+    e: {
+      code: 'SC-PPL-002-E',
+      descriptionKey: caseKey('e', 'description'),
+      goalKey: caseKey('e', 'goal'),
+      initialState: {
+        invites: [],
+        memberInfo: {
+          [andrew.id]: andrewInfo,
+          [geo.id]: { ...geoInfoWithOldEmail, addedByOthers: andrewAddedAboutGeo },
+        },
+        members: [bogdan, geo, andrew],
+      },
+      nameKey: caseKey('e', 'name'),
+      questionKeys: [caseKey('e', 'questions.whoAdded')],
+    },
   },
   code: 'SC-PPL-002',
   components: { ...defaultComponents, ...podComponents },
@@ -107,7 +129,7 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
     'invite-detail': figmaFrame("SC-PPL-002-B - Geo's invite (sheet)", '1348-27418'),
     'invite-name': figmaFrame('SC-PPL-002-A - Invite name (sheet)', '1348-27356'),
     'invite-share': figmaFrame('SC-PPL-002-A - Share invite link (sheet)', '1348-27367'),
-    'member-detail': figmaFrame('SC-PPL-002-C - Geo (member detail)', '1348-27485'),
+    'member-detail': figmaFrame('Bogdan (You) - info shared', '38-2883'),
     members: figmaFrame('SC-PPL-002-A - Members', '1348-27346'),
     'my-info': figmaFrame('Bogdan (You) - info shared', '38-2883'),
     'remove-confirm': figmaFrame('SC-PPL-002-C - Remove Geo (confirm sheet)', '1348-27509'),
@@ -128,7 +150,12 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
   id: 'sc-ppl-002',
   initialScreen: 'info',
   kind: 'showcase',
-  questionKeys: [key('questions.viewOnly'), key('questions.telliCount'), key('questions.tellBogdan')],
+  questionKeys: [
+    key('questions.viewOnly'),
+    key('questions.telliCount'),
+    key('questions.tellBogdan'),
+    key('questions.detailComesBack'),
+  ],
   screenNotes: {
     'adopt-conflict': {
       aboutKey: key('screens.adoptConflict.about'),
@@ -152,7 +179,10 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
     },
     'member-detail': {
       aboutKey: key('screens.memberDetail.about'),
-      questionKeys: [key('screens.memberDetail.questions.changeAccess')],
+      questionKeys: [
+        key('screens.memberDetail.questions.tellMember'),
+        key('screens.memberDetail.questions.joinedAndAccess'),
+      ],
     },
     members: {
       aboutKey: key('screens.members.about'),
@@ -164,7 +194,7 @@ export const scPpl002Flow = defineFlow<ScPpl002ScreenId, ScPpl002Components, ScP
     },
     'my-info': {
       aboutKey: key('screens.myInfo.about'),
-      questionKeys: [key('screens.myInfo.questions.whatEditable'), key('screens.myInfo.questions.tellAdder')],
+      questionKeys: [key('screens.myInfo.questions.stopSharing'), key('screens.myInfo.questions.tellAdder')],
     },
     'remove-confirm': {
       aboutKey: key('screens.removeConfirm.about'),

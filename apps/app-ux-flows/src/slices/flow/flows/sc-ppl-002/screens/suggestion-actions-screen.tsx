@@ -4,8 +4,9 @@ import { Copy, type Icon, PlusLg, Trash3 } from 'react-bootstrap-icons'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { copyToClipboard } from '../../../pods/people/components/invite-link-field'
+import { bogdan } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { MyInfoView } from '../components/my-info-view'
+import { MemberInfoView } from '../components/member-info-view'
 import { useMemberName } from '../components/use-member-name'
 import {
   adoptDetailAtom,
@@ -62,7 +63,7 @@ export const SuggestionActionsScreen = () => {
     if (!store.get(selectedDetailAtom)) goToScreen('my-info')
   }, [store, goToScreen])
 
-  if (!detail) return <MyInfoView />
+  if (!detail) return <MemberInfoView memberId={bogdan.id} />
 
   const field = t(`pods.people.memberInfo.fields.${detail.field}`)
 
@@ -89,7 +90,7 @@ export const SuggestionActionsScreen = () => {
 
   return (
     <>
-      <MyInfoView />
+      <MemberInfoView memberId={bogdan.id} />
       <BottomSheet
         description={t(sharedByKey(detail.addedDaysAgo), {
           count: detail.addedDaysAgo,

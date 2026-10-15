@@ -121,6 +121,8 @@ export const sendNextMessageAtom = atom(null, (get, set) => {
   set(telliProgressAtom, { ...get(telliProgressAtom), stage: 'sending' })
 })
 
+export const firstPodCardDismissedAtom = atom(false)
+
 export const openNewPodFromHomeAtom = atom(null, (_get, set) => set(newPodOriginAtom, 'home'))
 
 // Fills the sheet from one card's own draft: name and category replaced. Nothing once the pod exists.

@@ -111,9 +111,9 @@ describe('HomePage flow groups', () => {
     expect(html).toContain('Showcases (5)')
     expect(html).toContain('Pet care (3)')
     expect(html).toContain('People (2)')
-    expect(html.match(/aria-expanded="false"/g)).toHaveLength(2)
+    expect(html.match(/aria-expanded="false"/g)).toHaveLength(3)
     expect(html).not.toContain('sc-pet-001')
-    expect(startActions()).toBe(1)
+    expect(startActions()).toBe(0)
   })
 
   it('shows the rows of the groups that are open', () => {
@@ -123,14 +123,15 @@ describe('HomePage flow groups', () => {
     expect(html).toContain('sc-pet-001')
     expect(html).toContain('chat-add-medication')
     expect(html).not.toContain('sc-ppl-001')
-    expect(startActions()).toBe(4)
+    expect(startActions()).toBe(3)
   })
 
-  it('keeps a lone family as a plain row', () => {
+  it('puts a lone family under a group too', () => {
     const html = render({ flows: showcases })
 
     expect(html).toContain('Experiments (1)')
-    expect(html).toContain('exp-pet-002')
+    expect(html).toContain('Pet care (1)')
+    expect(html).not.toContain('exp-pet-002')
   })
 
   it('shows family codes only in dev mode', () => {

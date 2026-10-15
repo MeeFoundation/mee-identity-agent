@@ -226,6 +226,15 @@ export const en = {
       },
       home: {
         addPod: 'Add Pod',
+        categories: {
+          all: 'All categories',
+          browse: 'Browse categories',
+          empty: 'No pods yet',
+          events: 'Events',
+          health: 'Health & Wellness',
+          people: 'People',
+          title: 'Categories',
+        },
         maybeLater: 'Maybe later',
         message:
           'A Pod is a private little room for any info — your kid, a trip, a project. Fill it with info, files, and notes and start collaborating. Every Pod you create or receive from others is automatically organized into Tellipod categories.',
@@ -679,16 +688,27 @@ export const en = {
           goal: "Geo added some of your details to Sofia's pod. Keep what's right and remove what isn't.",
           name: 'Info others added about me',
         },
+        e: {
+          description: 'Geo shares an old email. Andrew already added a phone number for Geo.',
+          goal: "Geo's email in the pod is out of date. Add the one you know: geo@swiftinvention.com.",
+          name: 'Add info about someone else',
+          questions: {
+            whoAdded: 'Should Geo see who added each detail before deciding?',
+          },
+        },
       },
       description:
-        "Invite someone to Sofia's pod with a one-time link, take back an invite that is still pending, remove someone who already joined, or sort out what others added about you.",
+        "Invite someone to Sofia's pod with a one-time link, take back an invite that is still pending, remove someone who already joined, sort out what others added about you, or add what you know about someone else.",
+      editor: {
+        field: 'Field',
+      },
       hints: {
         adoptConflict: 'Keep both, or replace yours.',
         info: 'Sharing starts from Members.',
         inviteDetail: 'This invite has not been used yet.',
         inviteName: 'Type a name and create the link.',
         inviteShare: 'Pick any app to send the link.',
-        memberDetail: 'This is what the member can do in the pod.',
+        memberDetail: 'What the member shares, and what others added about them.',
         members: 'Everyone in the pod, and everyone invited.',
         myInfo: 'What you share, and what others added about you.',
         removeConfirm: 'Removing someone cannot be undone.',
@@ -700,9 +720,13 @@ export const en = {
       },
       infoToast: {
         added: '{{field}} added to the info you share',
+        addedAbout: '{{field}} added about {{name}}',
+        alreadyShared: '{{name}} already shares this {{field}}',
         copied: '{{field}} copied',
         removed: "{{name}}'s {{field}} removed",
+        removedMine: 'Your {{field}} about {{name}} removed',
         replaced: '{{field}} replaced',
+        updated: '{{field}} updated',
       },
       inviteDetail: {
         dates: 'Sent {{sent}} · Expires {{expires}}',
@@ -719,13 +743,16 @@ export const en = {
         title: 'Add a member to <bold>{{pod}}</bold>',
       },
       memberDetail: {
-        canDo: {
-          chat: 'Read and write in the chat',
-          title: 'What they can do',
-          view: 'See notes and info',
-        },
-        joined: 'Joined',
+        addedByOthers: 'Info about {{name}} — Added by others',
+        addedByOthersHelp:
+          'Everyone in <bold>{{pod}}</bold> can see these. Only the person who added a detail can change it.',
+        addInfo: 'Add info about {{name}}',
+        nothingShared: "{{name}} hasn't shared any info yet.",
         remove: 'Remove from pod',
+        removeMine: 'Remove your {{field}} {{value}}',
+        shared_one: '{{count}} info shared by {{name}}',
+        shared_other: '{{count}} info shared by {{name}}',
+        sharedHelp: 'Only {{name}} can change these. What you edit is added below as your info about {{name}}.',
       },
       members: {
         invite: 'Invite member',
@@ -748,6 +775,8 @@ export const en = {
         title: 'About Sofia',
       },
       questions: {
+        detailComesBack:
+          'A detail someone added is hidden once its person shares the same value. If that person later changes their value, should the detail come back? Right now it does.',
         tellBogdan: 'Should Bogdan be told when someone adds a detail about him?',
         telliCount: "Should Telli count as a member? Right now it doesn't, but pending invites do.",
         viewOnly:
@@ -791,9 +820,11 @@ export const en = {
           },
         },
         memberDetail: {
-          about: 'No design. What the member can do in the pod, and how to remove them.',
+          about:
+            "No design; follows Bogdan's own info screen. What the member shares and what others added about them. Bogdan can't change their info: his edits are added as his own info about them. The owner can remove them here.",
           questions: {
-            changeAccess: 'Should the owner be able to change what a member can do?',
+            joinedAndAccess: 'Should the owner still see when the member joined and what they can do?',
+            tellMember: 'Should the member be told when someone adds info about them?',
           },
         },
         members: {
@@ -806,10 +837,10 @@ export const en = {
         },
         myInfo: {
           about:
-            "What Bogdan shares in the pod, and what others added about him. He can't change what others added, only take it over or remove it.",
+            "What Bogdan shares in the pod, and what others added about him. He can edit what he shares. He can't change what others added, only take it over or remove it.",
           questions: {
+            stopSharing: 'Should Bogdan be able to stop sharing a detail?',
             tellAdder: 'Should the person who added a detail be told when it is removed?',
-            whatEditable: 'What can Bogdan edit here, and who sees it?',
           },
         },
         removeConfirm: {
@@ -1276,11 +1307,22 @@ export const en = {
       label: '{{label}}, {{count}}',
       labelWithPreview: '{{label}}, {{count}}, {{preview}}',
     },
+    chat: {
+      telliName: '@Telli',
+    },
+    chatActionCard: {
+      edit: 'Edit {{label}}',
+    },
     formCard: {
       edit: 'Edit {{field}}',
     },
     groupChat: {
       attach: 'Add attachment',
+      empty: {
+        hint: 'Tag @Telli if you need help.',
+        message: 'Everyone in this pod will see your messages.',
+        title: 'Be the first to write a message.',
+      },
       send: 'Send',
     },
     header: {

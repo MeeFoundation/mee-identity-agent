@@ -126,7 +126,7 @@ For the owner, while no feeding schedule exists, `care-feeding` SHALL recognise 
 - **THEN** "Today" lists Dinner fed by You and Breakfast fed by You, and earlier days list Alice's and the participant's meals, including one missed dinner
 
 ### Requirement: Pod chat with Telli
-`chat` SHALL show Ginger's pod chat. In cases B and C it SHALL start with Alice's message "Thanks for looking after Ginger this week!"; in cases A and D it SHALL start empty. A message the participant sends SHALL be shown as theirs with the current time, and the composer SHALL be cleared.
+`chat` SHALL show Ginger's pod chat. In cases B and C it SHALL start with Alice's message "Thanks for looking after Ginger this week!". In cases A and D it SHALL start empty and show the chat empty state until the first message is sent. A message the participant sends SHALL be shown as theirs with the current time, and the composer SHALL be cleared.
 
 After a short typing indicator, Telli SHALL answer:
 - a message about feeding (mentioning feed, food, eat, meal, breakfast, dinner or "how much" as whole words, so "great" or "weather" don't count) with "Ginger eats twice a day, at 7am and 6pm: half a cup of dry food (Purina Pro Plan) plus a spoonful of wet food. It's in Care & Feeding.", where "Care & Feeding" is a link that opens `care-feeding`;
@@ -144,6 +144,14 @@ After a short typing indicator, Telli SHALL answer:
 #### Scenario: Unrelated question
 - **WHEN** a reviewer in case C sends "Does Ginger like toys?"
 - **THEN** Telli answers "I couldn't find that in Ginger's pod." and the run is not completed
+
+#### Scenario: Owner's empty chat
+- **WHEN** a reviewer in case A opens `chat`
+- **THEN** the chat empty state "Be the first to write a message." is shown above the composer, with no messages
+
+#### Scenario: First message in the owner's chat
+- **WHEN** a reviewer in case A sends "Hello" from the empty chat
+- **THEN** the empty state is replaced by the reviewer's message with the current time
 
 ### Requirement: Cases
 The showcase SHALL have exactly these four cases, in this order. Each case's run SHALL complete once, without a completion view, when its goal is reached:

@@ -22,19 +22,13 @@ export const codeFamily = (code: string | null): string | null => {
 
 export type FlowListItem<F> = { type: 'flow'; flow: F } | { type: 'group'; family: string; flows: F[] }
 
-// A family with two or more flows becomes one group at the place of its first flow; every other flow stays a row.
+// Every flow with a family joins its group, placed at its first flow; a flow without a family stays a row.
 export const groupFlowsByFamily = <F extends { code: string | null }>(flows: readonly F[]): FlowListItem<F>[] => {
-  const familySizes = new Map<string, number>()
-  for (const flow of flows) {
-    const family = codeFamily(flow.code)
-    if (family !== null) familySizes.set(family, (familySizes.get(family) ?? 0) + 1)
-  }
-
   const items: FlowListItem<F>[] = []
   const groups = new Map<string, F[]>()
   for (const flow of flows) {
     const family = codeFamily(flow.code)
-    if (family === null || (familySizes.get(family) ?? 0) < 2) {
+    if (family === null) {
       items.push({ flow, type: 'flow' })
       continue
     }

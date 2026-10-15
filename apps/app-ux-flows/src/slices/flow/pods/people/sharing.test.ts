@@ -3,14 +3,12 @@ import { describe, expect, it } from 'vitest'
 import {
   bogdan,
   FIRST_INVITE_LINK,
-  formatLongDate,
   formatShortDate,
   geo,
   geoInvite,
   inviteExpiresOn,
   inviteSentOn,
   memberCount,
-  memberJoinedOn,
   nextInviteLink,
   pendingLabel,
 } from './sharing'
@@ -41,10 +39,6 @@ describe('invite dates', () => {
     expect(formatShortDate(inviteSentOn(geoInvite, today), 'en')).toBe('Sat, Oct 10')
     expect(formatShortDate(inviteExpiresOn(geoInvite, today), 'en')).toBe('Sat, Oct 17')
     expect(formatShortDate(inviteExpiresOn({ ...geoInvite, sentDaysAgo: 0 }, today), 'en')).toBe('Mon, Oct 19')
-  })
-
-  it('writes the join date out in full', () => {
-    expect(formatLongDate(memberJoinedOn(geo, today), 'en')).toBe('September 21, 2026')
   })
 })
 

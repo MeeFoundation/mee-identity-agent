@@ -52,8 +52,6 @@ export const inviteSentOn = (invite: PendingInvite, today: Date) => daysBefore(t
 export const inviteExpiresOn = (invite: PendingInvite, today: Date) =>
   daysBefore(today, invite.sentDaysAgo - INVITE_LIFETIME_DAYS)
 
-export const memberJoinedOn = (member: Member, today: Date) => daysBefore(today, member.joinedDaysAgo)
-
 export type PendingLabel = { key: 'sentToday' } | { key: 'pendingFor'; count: number }
 
 export const pendingLabel = (invite: PendingInvite): PendingLabel =>
@@ -62,10 +60,6 @@ export const pendingLabel = (invite: PendingInvite): PendingLabel =>
 // "Sat, Oct 17" in English.
 export const formatShortDate = (date: Date, language: string) =>
   new Intl.DateTimeFormat(language, { day: 'numeric', month: 'short', weekday: 'short' }).format(date)
-
-// "September 21, 2026" in English.
-export const formatLongDate = (date: Date, language: string) =>
-  new Intl.DateTimeFormat(language, { dateStyle: 'long' }).format(date)
 
 export const bogdan: Member = { id: 'bogdan', joinedDaysAgo: 60, name: 'Bogdan', role: 'owner' }
 

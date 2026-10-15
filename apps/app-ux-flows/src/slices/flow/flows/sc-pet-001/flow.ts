@@ -13,6 +13,7 @@ import {
   conversationAtom,
   createdPodAtom,
   DEFAULT_SUGGESTED_TEMPLATE,
+  firstPodCardDismissedAtom,
   newPodOriginAtom,
   podImageAtom,
   podNameAtom,
@@ -112,6 +113,7 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
     store.set(telliProgressAtom, { stage: 'idle', turn: 0 })
     store.set(usedActionTurnAtom, null)
     store.set(newPodOriginAtom, 'home')
+    store.set(firstPodCardDismissedAtom, false)
     store.set(categoryFromTelliAtom, false)
     return store
   },

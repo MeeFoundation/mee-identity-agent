@@ -21,7 +21,7 @@ import {
 
 export const ChatScreen = () => {
   const { t, i18n } = useTranslation()
-  const { ChatThread, ChatTypingIndicator, GroupChatComposer, GroupChatMessage, PodScreen } =
+  const { ChatEmptyState, ChatThread, ChatTypingIndicator, GroupChatComposer, GroupChatMessage, PodScreen } =
     useFlowComponents<ScPet003Components>()
   const { complete, goToScreen } = useFlowNavigation<ScPet003ScreenId>()
   const store = useStore()
@@ -56,7 +56,10 @@ export const ChatScreen = () => {
 
   return (
     <PodScreen topBar={<ScPet003TopBar tab="chat" />}>
-      <ChatThread label={t('flows.scPet003.chat.threadLabel')}>
+      <ChatThread
+        empty={chat.length === 0 ? <ChatEmptyState /> : undefined}
+        label={t('flows.scPet003.chat.threadLabel')}
+      >
         {chat.map((entry) => (
           <GroupChatMessage author={authorOf(entry)} key={entry.id} time={timeOf(entry.sentAt)}>
             {'text' in entry ? (
