@@ -1,3 +1,4 @@
-import { MyInfoView } from '../components/my-info-view'
+import { bogdan } from '../../../pods/people/sharing'
+import { MemberInfoView } from '../components/member-info-view'
 
-export const MyInfoScreen = () => <MyInfoView showToast />
+export const MyInfoScreen = () => <MemberInfoView memberId={bogdan.id} showToast />

@@ -3,16 +3,10 @@ import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
-import { MemberDetailView } from '../components/member-detail-view'
+import { MemberInfoView } from '../components/member-info-view'
 import { MembersView } from '../components/members-view'
 import { SheetTitle } from '../components/sheet-title'
-import {
-  removeMemberAtom,
-  type ScPpl002Components,
-  type ScPpl002ScreenId,
-  selectedMemberAtom,
-  todayAtom,
-} from '../model'
+import { removeMemberAtom, type ScPpl002Components, type ScPpl002ScreenId, selectedMemberAtom } from '../model'
 
 export const RemoveConfirmScreen = () => {
   const { t } = useTranslation()
@@ -20,7 +14,6 @@ export const RemoveConfirmScreen = () => {
   const { back, complete, goToScreen } = useFlowNavigation<ScPpl002ScreenId>()
   const store = useStore()
   const member = useAtomValue(selectedMemberAtom)
-  const today = useAtomValue(todayAtom)
   const removeMember = useSetAtom(removeMemberAtom)
 
   // Only on arrival: a new run opened at this screen has no member selected.
@@ -38,7 +31,7 @@ export const RemoveConfirmScreen = () => {
 
   return (
     <>
-      <MemberDetailView member={member} today={today} />
+      <MemberInfoView memberId={member.id} />
       <BottomSheet
         onDismiss={back}
         title={<SheetTitle i18nKey="flows.scPpl002.removeConfirm.title" values={{ name: member.name }} />}
