@@ -14,5 +14,11 @@ export const HomeScreen = () => {
     goToScreen(podOpensOn === 'notes' ? 'ginger-notes' : 'ginger-info')
   }
 
-  return <GingerHomeView onAppTabSelect={(tab) => track('app_tab_selected', { tab })} onOpenPod={openPod} />
+  return (
+    <GingerHomeView
+      onAppTabSelect={(tab) => track('app_tab_selected', { tab })}
+      onOpenPod={openPod}
+      onSearchSelect={() => track('search_selected')}
+    />
+  )
 }

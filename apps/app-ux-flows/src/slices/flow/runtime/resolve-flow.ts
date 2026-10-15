@@ -13,6 +13,7 @@ export type CaseChoice = {
   id: string
   code: string
   nameKey: string
+  hidden: boolean
 }
 
 // An explanation and the open questions about one part of a showcase.
@@ -54,7 +55,12 @@ export type ResolvedFlow<S extends string, C extends ComponentEnvironment, I ext
 const cache = new WeakMap<object, Map<string, unknown>>()
 
 export const listCases = (flow: AnyFlow): CaseChoice[] =>
-  Object.entries(flow.cases ?? {}).map(([id, { code, nameKey }]) => ({ code, id, nameKey }))
+  Object.entries(flow.cases ?? {}).map(([id, { code, nameKey, hidden }]) => ({
+    code,
+    hidden: hidden === true,
+    id,
+    nameKey,
+  }))
 
 export const isCaseOf = (flow: AnyFlow, caseId: string) => flow.cases !== undefined && Object.hasOwn(flow.cases, caseId)
 

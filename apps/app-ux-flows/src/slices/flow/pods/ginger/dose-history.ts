@@ -52,7 +52,7 @@ export const toDoseHistory = (
     .sort(byNewest)
 }
 
-const localDay = (iso: string) => {
+export const localDay = (iso: string) => {
   const date = new Date(iso)
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`

@@ -2,6 +2,7 @@ import type { AnalyticsAdapter } from '@/shared/analytics/analytics-event'
 import { createConsoleAdapter } from '@/shared/analytics/console-adapter'
 import { createAnalytics } from '@/shared/analytics/fan-out'
 import { createMatomoAdapter, type MatomoConfig, type MatomoDimensionIds } from '@/shared/analytics/matomo-adapter'
+import { type DevMode, devMode } from '@/shared/lib/dev-mode'
 
 const runtimeConfigKeys = [
   'VITE_ANALYTICS_ENABLED',
@@ -15,7 +16,7 @@ const runtimeConfigKeys = [
   'VITE_MATOMO_DIMENSION_VARIANT_SOURCE',
 ] as const
 
-type AnalyticsEnv = Pick<ImportMetaEnv, 'DEV' | (typeof runtimeConfigKeys)[number]>
+type AnalyticsEnv = Pick<ImportMetaEnv, (typeof runtimeConfigKeys)[number]>
 
 export type AnalyticsConfig = {
   enabled: boolean
@@ -32,7 +33,8 @@ const parseBoolean = (value: string | undefined, fallback: boolean) => {
   return fallback
 }
 
-export const parseAnalyticsConfig = (env: AnalyticsEnv): AnalyticsConfig => {
+// Dev mode writes events to the console; turned on through the URL, it also keeps reviewers' runs out of Matomo.
+export const parseAnalyticsConfig = (env: AnalyticsEnv, mode: DevMode): AnalyticsConfig => {
   const invalid: string[] = []
 
   const parseId = (name: keyof AnalyticsEnv) => {
@@ -56,10 +58,10 @@ export const parseAnalyticsConfig = (env: AnalyticsEnv): AnalyticsConfig => {
   }
 
   return {
-    console: enabled && (env.DEV || parseBoolean(env.VITE_ANALYTICS_DEBUG, false)),
+    console: enabled && (mode.on || parseBoolean(env.VITE_ANALYTICS_DEBUG, false)),
     enabled,
     invalid,
-    matomo: enabled && url !== '' && siteId !== undefined ? { dimensions, siteId, url } : null,
+    matomo: enabled && !mode.fromUrl && url !== '' && siteId !== undefined ? { dimensions, siteId, url } : null,
   }
 }
 
@@ -88,6 +90,7 @@ export const resolveAnalyticsEnv = (
 
 const analyticsConfig = parseAnalyticsConfig(
   resolveAnalyticsEnv(import.meta.env, typeof window === 'undefined' ? undefined : window.__UX_FLOWS_CONFIG__),
+  devMode,
 )
 
 if (import.meta.env.DEV && analyticsConfig.invalid.length > 0) {

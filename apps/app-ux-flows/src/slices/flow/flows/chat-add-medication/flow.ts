@@ -28,6 +28,7 @@ export const chatAddMedicationFlow = defineFlow<
   ChatAddMedicationComponents,
   ChatAddMedicationInitialState
 >({
+  code: 'SC-PET-005',
   components: { ...defaultComponents, ...podComponents, ...chatComponents },
   createStore(initialState) {
     const store = createJotaiStore()
@@ -44,6 +45,7 @@ export const chatAddMedicationFlow = defineFlow<
     'ginger-notes': figmaFrame('EXP-PET-002-B - Ginger (notes)', '1212-28435'),
     'medication-added': figmaFrame('EXP-PET-002-C - Medication added', '1203-26069'),
   },
+  hidden: true,
   id: 'chat-add-medication',
   initialScreen: 'ginger-notes',
   kind: 'showcase',

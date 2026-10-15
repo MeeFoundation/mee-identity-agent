@@ -13,6 +13,7 @@ export type CatalogueEntry = {
   code: string | null
   nameKey: string | null
   descriptionKey: string | null
+  hidden: boolean
   screens: readonly CatalogueScreen[]
 }
 
@@ -32,6 +33,7 @@ const listCatalogueEntry = (flow: AnyFlow, variantId: string | null, caseId: str
     caseId,
     code: resolved.variantCode ?? resolved.caseCode,
     descriptionKey: choice?.descriptionKey ?? null,
+    hidden: choice?.hidden === true,
     nameKey: choice?.nameKey ?? null,
     screens: Object.keys(flow.screens)
       .filter((screenId) => Object.hasOwn(resolved.screens, screenId))

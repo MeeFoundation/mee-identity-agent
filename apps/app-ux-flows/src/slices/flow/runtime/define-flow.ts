@@ -19,6 +19,8 @@ type VariantDefinition<S extends string, C extends ComponentEnvironment, I exten
   descriptionKey?: string
   // Design identifier such as `EXP-PET-002-A`, shown verbatim.
   code?: string
+  // Shown only in development builds.
+  hidden?: true
   components?: Partial<C>
   screens?: Partial<Record<S, ScreenComponent>>
   initialState?: I
@@ -41,6 +43,8 @@ type CaseDefinition<S extends string, I extends object> = {
   code: string
   nameKey: string
   descriptionKey?: string
+  // Shown only in development builds.
+  hidden?: true
   goalKey?: string
   hints?: Hints<S>
   initialState?: I
@@ -61,6 +65,8 @@ type FlowBase<S extends string, C extends ComponentEnvironment, I extends object
   code?: string
   titleKey: string
   descriptionKey?: string
+  // Shown only in development builds.
+  hidden?: true
   initialScreen: NoInfer<S>
   // `null` marks a screen that only some variants implement.
   screens: Record<S, ScreenComponent | null>

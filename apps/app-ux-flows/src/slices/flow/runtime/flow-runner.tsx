@@ -65,6 +65,11 @@ export const FlowRunner = <S extends string, C extends ComponentEnvironment, I e
     store: flow.createStore(initialState),
   }))
   const completedRunId = useRef<number | null>(null)
+  // The run on screen; a screen's timer may still call `complete` for a run that was restarted.
+  const currentRunId = useRef(run.id)
+  useLayoutEffect(() => {
+    currentRunId.current = run.id
+  }, [run.id])
   const showCompletionView = run.status === 'completed' && run.completionView
 
   const tracker = useFlowRunAnalytics({
@@ -87,7 +92,7 @@ export const FlowRunner = <S extends string, C extends ComponentEnvironment, I e
     () => ({
       back: goBack,
       complete: (options) => {
-        if (completedRunId.current === run.id) return
+        if (completedRunId.current === run.id || currentRunId.current !== run.id) return
         completedRunId.current = run.id
         const completionView = options?.showCompletionView ?? true
         setRun((previous) => ({ ...previous, completionView, status: 'completed' }))

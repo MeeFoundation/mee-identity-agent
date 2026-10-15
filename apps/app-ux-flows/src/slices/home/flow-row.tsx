@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '@/shared/ui/button'
 
 import { FlowCatalogue, type ScreenHref } from './flow-catalogue'
+import { HiddenBadge } from './hidden-badge'
 import type { FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
 import type { FlowKind } from '@/slices/flow/runtime/define-flow'
 import type { CaseChoice } from '@/slices/flow/runtime/resolve-flow'
@@ -12,6 +13,7 @@ type VariantChoice = {
   id: string
   nameKey: string
   descriptionKey?: string
+  hidden: boolean
 }
 
 export type FlowStartChoice = {
@@ -22,8 +24,10 @@ export type FlowStartChoice = {
 export type FlowLauncher = {
   id: string
   kind: FlowKind
+  code: string | null
   titleKey: string
   descriptionKey: string | null
+  hidden: boolean
   variantChoices: readonly VariantChoice[] | null
   caseChoices: readonly CaseChoice[] | null
   assignedVariantId: string | null
@@ -33,11 +37,12 @@ export type FlowLauncher = {
 type ChoiceButtonProps = {
   label: string
   description?: string
+  hidden: boolean
   onClick: () => void
 }
 
 // The description stays available on hover (title) and to assistive technology, without taking a line.
-const ChoiceButton = ({ label, description, onClick }: ChoiceButtonProps) => {
+const ChoiceButton = ({ label, description, hidden, onClick }: ChoiceButtonProps) => {
   const descriptionId = useId()
 
   return (
@@ -50,6 +55,7 @@ const ChoiceButton = ({ label, description, onClick }: ChoiceButtonProps) => {
         variant="outlined"
       >
         {label}
+        {hidden && <HiddenBadge />}
       </Button>
       {description && (
         <span className="sr-only" id={descriptionId}>
@@ -83,6 +89,7 @@ export const FlowRow = ({ flow, onStartFlow, screenHref, onOpenScreen }: FlowRow
               </span>
             )}
             <span className="truncate">{t(flow.titleKey)}</span>
+            {flow.hidden && <HiddenBadge />}
           </h3>
           {description && (
             <p className="line-clamp-1 text-muted-foreground text-sm" title={description}>
@@ -95,6 +102,7 @@ export const FlowRow = ({ flow, onStartFlow, screenHref, onOpenScreen }: FlowRow
             flow.variantChoices.map((choice) => (
               <ChoiceButton
                 description={choice.descriptionKey ? t(choice.descriptionKey) : undefined}
+                hidden={choice.hidden}
                 key={choice.id}
                 label={t(choice.nameKey)}
                 onClick={() => onStartFlow(flow.id, { variantId: choice.id })}
@@ -103,6 +111,7 @@ export const FlowRow = ({ flow, onStartFlow, screenHref, onOpenScreen }: FlowRow
           ) : flow.caseChoices ? (
             flow.caseChoices.map((choice) => (
               <ChoiceButton
+                hidden={choice.hidden}
                 key={choice.id}
                 label={`${choice.code} · ${t(choice.nameKey)}`}
                 onClick={() => onStartFlow(flow.id, { caseId: choice.id })}

@@ -56,6 +56,7 @@ Keep these layers separate. Don't derive one from another unless the code explic
 ## Flow conventions
 
 - **Variants that differ in one block** use an initial-state flag that the shared view reads, not a screen override per variant. A screen only some variants have is `null` in the base flow and implemented by those variants.
+- **Hidden flows, variants and cases:** mark unfinished work `hidden: true`. It shows only in dev mode (the dev server, or a deployed app opened with `?mode=dev`), with a "Hidden in production" label; production builds treat it as undeclared, so its URLs fall back like unknown ones. A flow whose variants or cases are all hidden is hidden as a whole. Don't hide a variant during a live study: participants assigned to it are reassigned.
 - **Experiments** show no briefing. If the outcome is observed by a moderator, they don't call `complete()`. Task wording lives in the spec, never in the app.
 - **Analytics:** declare events in the flow's `*Events` type. Use the same event name for the same intent in every variant, and tell paths apart with a property such as `entry_point`. Record taps on inert controls so wrong turns are measurable. Never send record content.
 - **Shared code:** flow-specific views stay in the flow folder, and flows don't import from each other. Reusable pod pieces go in `src/slices/flow/pods/`, and generic UI goes in `src/shared/ui/` (registered in `podComponents`).

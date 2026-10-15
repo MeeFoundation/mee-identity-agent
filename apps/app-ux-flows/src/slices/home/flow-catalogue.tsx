@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { HiddenBadge } from './hidden-badge'
 import type { CatalogueEntry, FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
 
 export type ScreenHref = (
@@ -34,9 +35,10 @@ export const FlowCatalogue = ({ catalogue, assignedVariantId, screenHref, onOpen
         {catalogue.entries.map((entry) => (
           <section className="flex flex-col gap-2" key={`${entry.variantId ?? ''}:${entry.caseId ?? ''}`}>
             <header className="flex flex-col gap-0.5">
-              <h4 className="font-semibold text-gray-900">
-                {entry.code && <span className="mr-2 font-mono text-xs">{entry.code}</span>}
+              <h4 className="flex flex-wrap items-center gap-x-2 font-semibold text-gray-900">
+                {entry.code && <span className="font-mono text-xs">{entry.code}</span>}
                 {entry.nameKey ? t(entry.nameKey) : t('home.catalogue.baseFlow')}
+                {entry.hidden && <HiddenBadge />}
               </h4>
               {entry.descriptionKey && <p className="text-muted-foreground text-xs">{t(entry.descriptionKey)}</p>}
             </header>

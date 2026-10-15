@@ -12,20 +12,21 @@ import { chatAddMedicationFlow } from './flow'
 import { chatStageAtom, nextStage, sendMessageAtom } from './model'
 
 describe('chat-add-medication showcase', () => {
-  it('is a registered showcase without variants or a display code', () => {
+  it('is a registered showcase SC-PET-005 without variants', () => {
     expect(chatAddMedicationFlow.kind).toBe('showcase')
     expect(chatAddMedicationFlow.variants).toBeUndefined()
-    expect(chatAddMedicationFlow.code).toBeUndefined()
+    expect(chatAddMedicationFlow.code).toBe('SC-PET-005')
     expect(findFlow('chat-add-medication')).toBe(chatAddMedicationFlow)
     expect(listFlows().map((flow) => flow.id)).toEqual([
       'exp-pet-002',
       'exp-pet-003',
       'exp-pet-004',
       'exp-pet-005',
-      'chat-add-medication',
-      'exp-demo-001',
       'sc-pet-001',
       'sc-pet-002',
+      'sc-pet-003',
+      'sc-pet-004',
+      'chat-add-medication',
       'sc-ppl-001',
       'sc-ppl-002',
       'sc-ppl-003',

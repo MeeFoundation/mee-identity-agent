@@ -1,7 +1,12 @@
-import { Children, type ReactNode } from 'react'
+import { createInstance } from 'i18next'
+import { Children, type ComponentProps, createElement, type ReactNode } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { I18nextProvider } from 'react-i18next'
 import { describe, expect, it } from 'vitest'
 
 import { en } from '@/app/locales/en'
+
+import { HomeTopBar } from '@/shared/ui/home-top-bar'
 
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { categoriesWithStructure } from '../../pods/catalog/templates'
@@ -92,13 +97,14 @@ const runWithPod = (name: string, category: string | null = null) => {
 }
 
 describe('SC-PET-001 Create Ginger', () => {
-  it('is a registered showcase with the code SC-PET-001, cases instead of variants, listed last', () => {
+  it('is a registered showcase with the code SC-PET-001, cases instead of variants, listed before SC-PET-002', () => {
     expect(scPet001Flow.kind).toBe('showcase')
     expect(scPet001Flow.code).toBe('SC-PET-001')
     expect(scPet001Flow.variants).toBeUndefined()
     expect(scPet001Flow.initialScreen).toBe('home')
     expect(findFlow('sc-pet-001')).toBe(scPet001Flow)
-    expect(listFlows().at(-5)).toBe(scPet001Flow)
+    const ids = listFlows().map(({ id }) => id)
+    expect(ids[ids.indexOf('sc-pet-001') + 1]).toBe('sc-pet-002')
     expect(resolveFlow(scPet001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PET-001-A'],
       ['b', 'SC-PET-001-B'],
@@ -537,5 +543,28 @@ describe('SC-PET-001 Create Ginger', () => {
       podImage: null,
       podName: 'Ginger',
     })
+  })
+
+  it('shows the Home top bar on home, with a search field that does nothing', () => {
+    let topBar: ComponentProps<typeof HomeTopBar> | undefined
+    const effects = renderScreen(resolveFlow(scPet001Flow, null), 'home', {
+      components: {
+        HomeTopBar: (props: ComponentProps<typeof HomeTopBar>) => {
+          topBar = props
+          return null
+        },
+      },
+    })
+    if (!topBar) throw new Error('home did not render the Home top bar')
+
+    const i18n = createInstance()
+    i18n.init({ initAsync: false, lng: 'en', resources: { en: { translation: en } } })
+    const markup = renderToStaticMarkup(createElement(I18nextProvider, { i18n }, createElement(HomeTopBar, topBar)))
+
+    expect(markup).toContain('<h1 class="font-semibold text-gray-900 text-xl">Welcome, Alice</h1>')
+    expect(markup).toContain('Device-to-device sharing, pod members only.')
+    expect(markup).toMatch(/<button[^>]*type="button"[^>]*>.*Search, or ask Telli…<\/span><\/button>/)
+    expect(topBar.onSearchSelect).toBeUndefined()
+    expect(effects.navigations).toEqual([])
   })
 })

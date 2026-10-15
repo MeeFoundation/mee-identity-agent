@@ -1,7 +1,9 @@
+import { createStore } from 'jotai'
 import { describe, expect, it } from 'vitest'
 
 import { expPet002Flow } from './flows/exp-pet-002/flow'
-import { findFlow, hasScreen, listFlows } from './registry'
+import { createRegistry, findFlow, hasScreen, listFlows } from './registry'
+import { defineFlow } from './runtime/define-flow'
 import { resolveFlow } from './runtime/resolve-flow'
 
 const variantIdPattern = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/
@@ -29,6 +31,47 @@ describe('flow registry', () => {
     expect(hasScreen(flow, 'medical')).toBe(true)
     expect(hasScreen(flow, 'does-not-exist')).toBe(false)
     expect(hasScreen(flow, 'constructor')).toBe(false)
+  })
+
+  describe('hidden flows, variants and cases', () => {
+    const base = {
+      components: {},
+      createStore: () => createStore(),
+      initialScreen: 'home' as const,
+      screens: { home: () => null },
+      titleKey: 'fixture.title',
+    }
+    const visible = defineFlow({ ...base, id: 'visible', kind: 'showcase' })
+    const hidden = defineFlow({ ...base, hidden: true, id: 'hidden', kind: 'showcase' })
+    const withHiddenCase = defineFlow({
+      ...base,
+      cases: { a: { code: 'SC-1-A', hidden: true, nameKey: 'a' }, b: { code: 'SC-1-B', nameKey: 'b' } },
+      id: 'with-hidden-case',
+      kind: 'showcase',
+    })
+    const fixtures = [visible, hidden, withHiddenCase]
+
+    it('keeps every flow when hidden ones are shown, as in development builds', () => {
+      const registry = createRegistry(fixtures, true)
+
+      expect(registry.listFlows()).toEqual(fixtures)
+      expect(registry.findFlow('with-hidden-case')).toBe(withHiddenCase)
+    })
+
+    it('leaves out hidden flows and cases otherwise, as in production builds', () => {
+      const registry = createRegistry(fixtures, false)
+
+      expect(registry.listFlows().map(({ id }) => id)).toEqual(['visible', 'with-hidden-case'])
+      expect(registry.findFlow('hidden')).toBeUndefined()
+      expect(Object.keys(registry.findFlow('with-hidden-case')?.cases ?? {})).toEqual(['b'])
+    })
+
+    it('returns the same flow on every lookup', () => {
+      const registry = createRegistry(fixtures, false)
+
+      expect(registry.findFlow('with-hidden-case')).toBe(registry.findFlow('with-hidden-case'))
+      expect(registry.findFlow('visible')).toBe(visible)
+    })
   })
 
   describe.each(listFlows().map((flow) => [flow.id, flow] as const))('flow %s', (_, flow) => {

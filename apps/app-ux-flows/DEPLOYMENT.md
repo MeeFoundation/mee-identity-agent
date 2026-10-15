@@ -24,7 +24,7 @@ Open http://localhost:8080. If port 8080 is busy on your machine (for example, l
 
 - The container listens on port **8080** and runs nginx as a non-root user (uid 101).
 - `GET /healthz` returns `200 ok`. The image declares a Docker `HEALTHCHECK` that uses it.
-- Client-side routes such as `/flows/exp-demo-001/ginger-info?variant=b` serve `index.html`. A missing path with a file extension returns 404.
+- Client-side routes such as `/flows/exp-pet-002/ginger-info?variant=b` serve `index.html`. A missing path with a file extension returns 404.
 
 ## Runtime configuration
 
@@ -53,6 +53,15 @@ docker run --rm -p 8080:8080 \
 At startup the container writes the variables that are set (and only those) to `/config.js` as `window.__UX_FLOWS_CONFIG__`, and the app reads it before it loads. A variable set on the container wins over the build-time value, even when it is empty. A variable that isn't set falls back to the build-time value. In images built with this Dockerfile there are no build-time values, so the variable is simply unset. Other environment variables are never exposed to the browser. To change the configuration, restart the container with new values; no rebuild is needed.
 
 In local development, `public/config.js` is an empty object, so `.env.local` applies as before.
+
+## Dev mode
+
+A deployed app can show what the local dev server shows: the screen catalogue, display codes and Figma links, variant information, and flows, variants and cases marked `hidden`. Open any URL with `?mode=dev`, for example `https://ux-flows.example.com/?mode=dev`.
+
+- Dev mode lasts for that browser tab, across navigation and reloads, until the tab is closed. Other tabs aren't affected.
+- To leave it, use **Turn off** next to "Dev mode" on the home page, or open any URL with `?mode=off`.
+- While dev mode is on, nothing is sent to Matomo, even when Matomo is configured. Events are written to the browser console instead.
+- Dev links are for reviewers, not participants: a participant opening one sees unfinished work and their runs aren't tracked. Dev mode isn't access control; the hidden code is part of the bundle either way.
 
 ## Caching
 

@@ -1,6 +1,8 @@
 import { createRoute, useNavigate, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
 
 import { useAnalytics } from '@/shared/analytics/analytics-provider'
+import { devMode } from '@/shared/lib/dev-mode'
 
 import type { FlowSearch } from './flow-search'
 import { rootRoute } from './root'
@@ -12,6 +14,7 @@ import { browserAssignmentStore } from '@/slices/flow/variants/assignment-store'
 import { listVariantChoices } from '@/slices/flow/variants/select-variant'
 import type { FlowStartChoice } from '@/slices/home/flow-row'
 import { HomePage } from '@/slices/home/home-page'
+import { browserOpenGroupsStorage } from '@/slices/home/open-groups'
 
 const toSearch = (choice?: FlowStartChoice): FlowSearch => ({
   ...(choice?.variantId && { variant: choice.variantId }),
@@ -23,6 +26,14 @@ const HomeRoute = () => {
   const navigate = useNavigate()
   const router = useRouter()
   const analytics = useAnalytics()
+  const [openGroups, setOpenGroups] = useState(() => browserOpenGroupsStorage.read())
+
+  const toggleGroup = (groupId: string) => {
+    const next = new Set(openGroups)
+    if (!next.delete(groupId)) next.add(groupId)
+    browserOpenGroupsStorage.write(next)
+    setOpenGroups(next)
+  }
 
   const startNewSession = () => {
     browserAssignmentStore.clear()
@@ -33,10 +44,14 @@ const HomeRoute = () => {
 
   return (
     <HomePage
+      devModeNote={devMode.fromUrl}
       flows={flows}
       onOpenScreen={(href) => navigate({ href })}
       onStartFlow={(flowId, choice) => navigate({ params: { flowId }, search: toSearch(choice), to: '/flows/$flowId' })}
       onStartNewSession={startNewSession}
+      onToggleGroup={toggleGroup}
+      onTurnOffDevMode={() => window.location.assign('/?mode=off')}
+      openGroups={openGroups}
       screenHref={(flowId, screenId, { variantId, caseId }) =>
         router.buildLocation({
           params: { flowId, screenId },
@@ -44,6 +59,7 @@ const HomeRoute = () => {
           to: '/flows/$flowId/$screenId',
         }).href
       }
+      showCodes={devMode.on}
     />
   )
 }
@@ -53,10 +69,12 @@ export const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   loader: () => ({
     flows: listFlows().map((flow) => ({
-      assignedVariantId: import.meta.env.DEV ? browserAssignmentStore.read(flow.id) : null,
+      assignedVariantId: devMode.on ? browserAssignmentStore.read(flow.id) : null,
       caseChoices: flow.cases ? listCases(flow) : null,
-      catalogue: import.meta.env.DEV ? listFlowCatalogue(flow) : null,
+      catalogue: devMode.on ? listFlowCatalogue(flow) : null,
+      code: flow.code ?? null,
       descriptionKey: flow.descriptionKey ?? null,
+      hidden: flow.hidden === true,
       id: flow.id,
       kind: flow.kind,
       titleKey: flow.titleKey,

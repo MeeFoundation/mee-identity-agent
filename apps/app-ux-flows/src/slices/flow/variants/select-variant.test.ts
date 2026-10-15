@@ -19,7 +19,7 @@ const baseFlow = defineFlow<'home', Record<string, never>, object>({
 
 const variants = {
   alpha: { nameKey: 'alpha.name' },
-  beta: { descriptionKey: 'beta.description', nameKey: 'beta.name' },
+  beta: { descriptionKey: 'beta.description', hidden: true as const, nameKey: 'beta.name' },
   control: { nameKey: 'control.name' },
 }
 
@@ -150,9 +150,9 @@ describe('selectVariant', () => {
 describe('listVariantChoices', () => {
   it('lists choices with the default variant first for explicit flows', () => {
     expect(listVariantChoices(explicitFlow)).toEqual([
-      { descriptionKey: undefined, id: 'control', nameKey: 'control.name' },
-      { descriptionKey: undefined, id: 'alpha', nameKey: 'alpha.name' },
-      { descriptionKey: 'beta.description', id: 'beta', nameKey: 'beta.name' },
+      { descriptionKey: undefined, hidden: false, id: 'control', nameKey: 'control.name' },
+      { descriptionKey: undefined, hidden: false, id: 'alpha', nameKey: 'alpha.name' },
+      { descriptionKey: 'beta.description', hidden: true, id: 'beta', nameKey: 'beta.name' },
     ])
   })
 
