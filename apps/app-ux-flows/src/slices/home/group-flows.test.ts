@@ -41,7 +41,7 @@ describe('groupFlowsByFamily', () => {
   const summarize = (items: ReturnType<typeof groupFlowsByFamily<{ id: string; code: string | null }>>) =>
     items.map((item) => (item.type === 'flow' ? item.flow.id : [item.family, item.flows.map((flow) => flow.id)]))
 
-  it('groups a family of two or more flows at the place of its first flow, keeping their order', () => {
+  it('groups a family at the place of its first flow, keeping their order', () => {
     const flows = [
       { code: 'EXP-PET-002', id: 'exp-pet-002' },
       { code: 'SC-PPL-001', id: 'sc-ppl-001' },
@@ -51,11 +51,11 @@ describe('groupFlowsByFamily', () => {
 
     expect(summarize(groupFlowsByFamily(flows))).toEqual([
       ['EXP-PET', ['exp-pet-002', 'exp-pet-003', 'exp-pet-004']],
-      'sc-ppl-001',
+      ['SC-PPL', ['sc-ppl-001']],
     ])
   })
 
-  it('keeps a single-flow family and a flow without a code as plain rows', () => {
+  it('groups a single-flow family and keeps a flow without a code as a plain row', () => {
     const flows = [
       { code: null, id: 'no-code' },
       { code: 'SC-PET-001', id: 'sc-pet-001' },
@@ -66,7 +66,7 @@ describe('groupFlowsByFamily', () => {
     expect(summarize(groupFlowsByFamily(flows))).toEqual([
       'no-code',
       ['SC-PET', ['sc-pet-001', 'chat-add-medication']],
-      'sc-ppl-001',
+      ['SC-PPL', ['sc-ppl-001']],
     ])
   })
 })
