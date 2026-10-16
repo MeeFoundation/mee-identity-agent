@@ -997,6 +997,28 @@ export const en = {
     title: 'Page not found',
   },
   pods: {
+    attachments: {
+      actionsSheet: {
+        delete: 'Delete file',
+        description: '{{detail}} · added by you',
+        descriptionByMember: '{{detail}} · added by {{name}}',
+        rename: 'Rename',
+        save: 'Save to device',
+      },
+      addSheet: {
+        description: 'Everyone in this pod can see it, add to it, and change it.',
+        document: 'Document',
+        mediaFile: 'Media file',
+        title: 'Add to Files',
+      },
+      detail: '{{size}} · {{date}}',
+      size: {
+        b: '{{value}} B',
+        gb: '{{value}} GB',
+        kb: '{{value}} KB',
+        mb: '{{value}} MB',
+      },
+    },
     catalog: {
       forms: {
         pet: 'Pet information',
@@ -1305,6 +1327,10 @@ export const en = {
       notifications: 'Notifications',
       notificationsNew: 'Notifications, new',
       telli: 'Ask Telli',
+    },
+    attachmentRow: {
+      menu: 'More actions for {{name}}',
+      open: '{{name}}, {{detail}}',
     },
     bottomSheet: {
       close: 'Close',
