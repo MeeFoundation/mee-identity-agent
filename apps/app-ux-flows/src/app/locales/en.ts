@@ -29,6 +29,12 @@ export const en = {
   },
   flows: {
     chatAddMedication: {
+      cases: {
+        a: {
+          description: 'Tell Telli that Ginger needs Clavamox and add it from the reply.',
+          name: 'Add from chat',
+        },
+      },
       chat: {
         addMedication: 'Add medication?',
         placeholder: 'Message Telli...',
