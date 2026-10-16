@@ -388,7 +388,7 @@ Every card SHALL keep the draft it was shown with, and activating "Create pod" S
 - when the draft has a name, the pod SHALL be created at once from the draft, without showing `new-pod`. The chat is the confirmation. `pod-created` SHALL then be shown for the pod, as after "Create Pod" in the sheet;
 - when the draft has no name, `new-pod` SHALL open pre-filled from the draft, as defined in "New Pod with an optional category".
 
-Once the pod is created, the card it was created from, directly or through the sheet, if any, SHALL show the status "Pod created" and the action "Open pod". That action SHALL open the pod on `pod-notes`. Every other card's action SHALL be unavailable.
+Once the pod is created, however it was created, every card SHALL show the status "Pod created" and the action "Open pod", since a run has only one pod. That action SHALL open the pod on `pod-notes`. No card's action SHALL be unavailable.
 
 #### Scenario: Act early
 - **WHEN** a tester in case C activates "Create pod" on Telli's first card, after the second card has appeared
@@ -400,7 +400,11 @@ Once the pod is created, the card it was created from, directly or through the s
 
 #### Scenario: Card after creation
 - **WHEN** a tester returns to `telli` after creating the pod from a card
-- **THEN** that card shows "Pod created" and "Open pod", and every other card's "Create pod" is unavailable
+- **THEN** every card shows "Pod created" and "Open pod"
+
+#### Scenario: Pod created elsewhere
+- **WHEN** a tester in case B creates the pod with the Add Pod button and then opens `telli`
+- **THEN** Telli's card shows "Pod created" and "Open pod", and "Open pod" shows `pod-notes`
 
 #### Scenario: Open pod lands on Notes
 - **WHEN** a tester activates "Open pod" on the card the pod was created from

@@ -88,9 +88,6 @@ export type TelliProgress = {
 
 export const telliProgressAtom = atom<TelliProgress>({ stage: 'idle', turn: 0 })
 
-// The turn whose card opened the New Pod sheet, so only that card offers "Open pod" afterwards.
-export const usedActionTurnAtom = atom<number | null>(null)
-
 export type NewPodOrigin = 'home' | 'telli'
 
 export const newPodOriginAtom = atom<NewPodOrigin>('home')
@@ -133,7 +130,6 @@ export const applyQuickActionAtom = atom(null, (get, set, turn: number) => {
   set(chosenCategoryAtom, action.draft.category ?? null)
   set(categoryFromTelliAtom, action.draft.category !== undefined)
   set(newPodOriginAtom, 'telli')
-  set(usedActionTurnAtom, turn)
 })
 
 // Replaces the chosen image, releasing the previous one unless the created pod shows it.

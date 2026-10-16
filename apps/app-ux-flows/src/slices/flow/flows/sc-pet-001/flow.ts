@@ -25,7 +25,6 @@ import {
   suggestionReadyAtom,
   type TelliTurn,
   telliProgressAtom,
-  usedActionTurnAtom,
 } from './model'
 import { HomeScreen } from './screens/home-screen'
 import { NewPodScreen } from './screens/new-pod-screen'
@@ -111,7 +110,6 @@ export const scPet001Flow = defineFlow<ScPet001ScreenId, ScPet001Components, ScP
     store.set(noteTextAtom, '')
     store.set(conversationAtom, initialState?.conversation ?? [])
     store.set(telliProgressAtom, { stage: 'idle', turn: 0 })
-    store.set(usedActionTurnAtom, null)
     store.set(newPodOriginAtom, 'home')
     store.set(firstPodCardDismissedAtom, false)
     store.set(categoryFromTelliAtom, false)

@@ -12,7 +12,6 @@ import {
   type QuickAction,
   type ScPet001Components,
   type ScPet001ScreenId,
-  usedActionTurnAtom,
 } from '../model'
 
 type QuickActionCardProps = {
@@ -26,7 +25,6 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
   const { ChatActionCard } = useFlowComponents<ScPet001Components>()
   const { goToScreen } = useFlowNavigation<ScPet001ScreenId>()
   const pod = useAtomValue(createdPodAtom)
-  const usedTurn = useAtomValue(usedActionTurnAtom)
   const applyQuickAction = useSetAtom(applyQuickActionAtom)
   const createPodFromQuickAction = useSetAtom(createPodFromQuickActionAtom)
   const { name, category } = action.draft
@@ -42,14 +40,10 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
     goToScreen('pod-created')
   }
 
-  const cardAction = !pod
-    ? { label: t('flows.scPet001.telli.createPod'), onAction: createPod }
-    : usedTurn === turn
-      ? {
-          label: t('flows.scPet001.telli.openPod'),
-          onAction: () => goToScreen('pod-notes'),
-        }
-      : { disabled: true, label: t('flows.scPet001.telli.createPod'), onAction: () => {} }
+  // A run has one pod, so once it exists every card leads to it, however it was created.
+  const cardAction = pod
+    ? { label: t('flows.scPet001.telli.openPod'), onAction: () => goToScreen('pod-notes') }
+    : { label: t('flows.scPet001.telli.createPod'), onAction: createPod }
 
   return (
     <ChatActionCard
@@ -57,7 +51,7 @@ export const QuickActionCard = ({ action, turn }: QuickActionCardProps) => {
       avatarLetter={name?.charAt(0).toUpperCase()}
       icon={name ? undefined : Grid}
       rows={categoryLabel ? [{ label: t('flows.scPet001.telli.category'), value: categoryLabel }] : []}
-      status={pod && usedTurn === turn ? t('flows.scPet001.telli.podCreated') : undefined}
+      status={pod ? t('flows.scPet001.telli.podCreated') : undefined}
       title={name ?? t('flows.scPet001.telli.newPod')}
     />
   )
