@@ -28,6 +28,13 @@ export const chatAddMedicationFlow = defineFlow<
   ChatAddMedicationComponents,
   ChatAddMedicationInitialState
 >({
+  cases: {
+    a: {
+      code: 'SC-PET-005-A',
+      descriptionKey: 'flows.chatAddMedication.cases.a.description',
+      nameKey: 'flows.chatAddMedication.cases.a.name',
+    },
+  },
   code: 'SC-PET-005',
   components: { ...defaultComponents, ...podComponents, ...chatComponents },
   createStore(initialState) {

@@ -56,7 +56,7 @@ export const expPet002Flow = defineFlow<ExpPet002ScreenId, ExpPet002Components, 
     'medication-added': MedicationAddedScreen,
   },
   titleKey: 'flows.expPet002.title',
-  variantSelection: 'automatic',
+  variantSelection: 'explicit',
   variants: {
     a: {
       code: 'EXP-PET-002-A',
