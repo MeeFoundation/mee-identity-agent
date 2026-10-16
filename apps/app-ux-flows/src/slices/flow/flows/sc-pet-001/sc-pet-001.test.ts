@@ -41,7 +41,6 @@ import {
   shouldOfferSuggestionAtom,
   suggestionReadyAtom,
   telliProgressAtom,
-  usedActionTurnAtom,
 } from './model'
 
 // Resolves an i18next key such as `flows.scPet001.goal` against the English strings.
@@ -420,6 +419,29 @@ describe('SC-PET-001 Create Ginger', () => {
       expect(again.navigations).toEqual(['pod-notes'])
     })
 
+    it('offers Open pod on every card once the pod exists, even when it was created elsewhere', () => {
+      const store = caseRun('c')
+      playTurns(store, 2)
+      store.set(podNameAtom, 'Ginger')
+      store.set(createPodAtom)
+      const cardActions: { label: string; onAction: () => void; disabled?: boolean }[] = []
+      const ChatActionCard = ({ action }: { action: { label: string; onAction: () => void; disabled?: boolean } }) => {
+        cardActions.push(action)
+        return null
+      }
+      const telli = renderScreen(resolveFlow(scPet001Flow, null, 'c'), 'telli', {
+        components: { ChatActionCard },
+        store,
+      })
+
+      expect(cardActions.map(({ disabled, label }) => ({ disabled, label }))).toEqual([
+        { disabled: undefined, label: 'Open pod' },
+        { disabled: undefined, label: 'Open pod' },
+      ])
+      cardActions[0]?.onAction()
+      expect(telli.navigations).toEqual(['pod-notes'])
+    })
+
     it('leaves pod-created for the pod, by Go to, without completing the run itself', () => {
       const store = runWithPod('Ginger', podCategoryIris.pets)
       const sheet = renderWithButtons('pod-created', store)
@@ -482,11 +504,9 @@ describe('SC-PET-001 Create Ginger', () => {
       expect(store.get(chosenCategoryAtom)).toBe(podCategoryIris.pets)
       expect(store.get(categoryFromTelliAtom)).toBe(true)
       expect(store.get(newPodOriginAtom)).toBe('telli')
-      expect(store.get(usedActionTurnAtom)).toBe(0)
 
       store.set(applyQuickActionAtom, 1)
       expect(store.get(podNameAtom)).toBe('Ginger')
-      expect(store.get(usedActionTurnAtom)).toBe(1)
     })
 
     it('drops the Telli caption once the category is changed', () => {
@@ -508,7 +528,6 @@ describe('SC-PET-001 Create Ginger', () => {
         category: podCategoryIris.pets,
         name: 'Ginger',
       })
-      expect(store.get(usedActionTurnAtom)).toBe(0)
     })
 
     it('creates nothing straight from a card without a name', () => {
@@ -517,7 +536,6 @@ describe('SC-PET-001 Create Ginger', () => {
       store.set(createPodFromQuickActionAtom, 0)
 
       expect(store.get(createdPodAtom)).toBeNull()
-      expect(store.get(usedActionTurnAtom)).toBeNull()
     })
 
     it('applies no quick action once the pod exists', () => {
@@ -527,7 +545,6 @@ describe('SC-PET-001 Create Ginger', () => {
       store.set(createPodAtom)
       store.set(applyQuickActionAtom, 0)
 
-      expect(store.get(usedActionTurnAtom)).toBe(1)
       expect(store.get(podNameAtom)).toBe('Ginger')
       expect(store.get(createdPodAtom)).toMatchObject({ category: podCategoryIris.pets, name: 'Ginger' })
     })
