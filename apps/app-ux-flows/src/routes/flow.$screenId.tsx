@@ -134,6 +134,7 @@ export const flowScreenRoute = createRoute({
   },
   component: FlowScreenRoute,
   getParentRoute: () => rootRoute,
+  loaderDeps: ({ search }) => ({ case: search.case, variant: search.variant }),
   loader: ({ context }) => ({ flow: context.flow, variantSource: context.variantSource }),
   path: 'flows/$flowId/$screenId',
   validateSearch: validateFlowSearch,

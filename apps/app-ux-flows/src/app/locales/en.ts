@@ -1066,6 +1066,82 @@ export const en = {
         undo: 'Undo',
       },
     },
+    scAtt001: {
+      add: 'Add attachment',
+      cases: {
+        a: {
+          description: 'The owner shares a new photo with the pod.',
+          goal: "Add a photo to Sofia's pod.",
+          name: 'Add a file',
+        },
+        b: {
+          description: "The owner fixes a file's name.",
+          goal: 'Rename "About Sophia.databook.mc" so it ends in ".pdf".',
+          name: 'Rename a file',
+        },
+        c: {
+          description: 'The owner removes a file nobody needs.',
+          goal: 'Delete "Activities-tracker.xls" from the pod.',
+          name: 'Delete a file',
+        },
+      },
+      description:
+        "Add, rename, save and delete the files in Sofia's pod. Files sit in one flat list, with no folders.",
+      empty: {
+        message: 'Files you add are shared with everyone in this pod.',
+        title: 'No files yet',
+      },
+      hints: {
+        actions: 'What you can do with one file.',
+        add: 'Picking is mocked: each choice adds a sample file.',
+        files: 'Every file in the pod, newest first.',
+        rename: 'Give the file a new name.',
+      },
+      pod: {
+        avatar: 'S',
+        subtitle: 'Attachments',
+        title: 'About Sofia',
+      },
+      questions: {
+        deleteWithoutAsking: 'Should a file be deleted without asking first?',
+        everyoneChanges: 'Everyone in the pod can change every file. Is that clear from the screen?',
+      },
+      rename: {
+        field: 'File name',
+        taken: 'A file with that name already exists.',
+        title: 'Rename file',
+      },
+      screens: {
+        actions: {
+          about: 'What you can do with one file. Delete takes effect straight away.',
+          questions: {
+            confirmDelete: 'Should Delete ask for confirmation?',
+          },
+        },
+        add: {
+          about: 'Two kinds of file. Picking is mocked: each choice adds a sample file.',
+          questions: {
+            kinds: 'Is it clear what "Media file" and "Document" each include?',
+          },
+        },
+        files: {
+          about: 'Every file in one flat list, newest first. The "Add attachment" button is always in reach.',
+          questions: {
+            sortOrSearch: 'Should the list be sortable, or searchable?',
+          },
+        },
+        rename: {
+          about: 'Not in the design. A sheet with the current name, kept unique in the pod.',
+          questions: {
+            lockExtension: 'Should the extension be locked?',
+          },
+        },
+      },
+      title: "Sofia's files",
+      toast: {
+        saved: 'Saved to your device',
+      },
+    },
     scPpl003: {
       cases: {
         a: {
@@ -1151,6 +1227,7 @@ export const en = {
       turnOff: 'Turn off',
     },
     families: {
+      attachments: 'Attachments',
       onboarding: 'Onboarding',
       people: 'People',
       pets: 'Pet care',

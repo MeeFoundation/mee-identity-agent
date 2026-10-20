@@ -38,8 +38,8 @@ describe('SC-PPL-003 Sofia’s pod, shared with me', () => {
     expect(scPpl003Flow.code).toBe('SC-PPL-003')
     expect(scPpl003Flow.initialScreen).toBe('notes')
     expect(findFlow('sc-ppl-003')).toBe(scPpl003Flow)
-    expect(listFlows().at(-4)).toBe(scPpl003Flow)
-    expect(listFlows().at(-5)?.id).toBe('sc-ppl-002')
+    expect(listFlows().at(-5)).toBe(scPpl003Flow)
+    expect(listFlows().at(-6)?.id).toBe('sc-ppl-002')
     expect(resolveFlow(scPpl003Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PPL-003-A'],
       ['b', 'SC-PPL-003-B'],
