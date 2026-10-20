@@ -140,7 +140,10 @@ export const FlowRunner = <S extends string, C extends ComponentEnvironment, I e
     [tracker, screenId],
   )
 
-  const runtime = useMemo(() => ({ analytics, components, navigation }), [analytics, components, navigation])
+  const runtime = useMemo(
+    () => ({ analytics, components, navigation, screenId }),
+    [analytics, components, navigation, screenId],
+  )
 
   const Screen: ScreenComponent | undefined = flow.screens[screenId]
   if (!Screen) throw new Error(`Flow "${flow.flowId}" has no screen "${screenId}" in its resolved variant`)

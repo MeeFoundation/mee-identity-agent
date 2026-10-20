@@ -25,4 +25,4 @@
 ## 5. Verification
 
 - [x] 5.1 Run `pnpm --filter app-ux-flows test`, `pnpm check-types` and `pnpm lint` from the repo root, all passing
-- [ ] 5.2 Go through cases C, D and E in the browser against the spec scenarios. That includes the scenario where a matching detail is hidden and comes back (case D: Replace, then edit the email back)
+- [x] 5.2 Go through cases C, D and E in the browser against the spec scenarios. That includes the scenario where a matching detail is hidden and comes back (case D: Replace, then edit the email back)

@@ -33,13 +33,13 @@ describe('SC-PPL-003 Sofia’s pod, shared with me', () => {
     vi.useRealTimers()
   })
 
-  it('is a registered showcase with two cases, listed last and starting on the notes', () => {
+  it('is a registered showcase with two cases, listed after SC-PPL-002 and starting on the notes', () => {
     expect(scPpl003Flow.kind).toBe('showcase')
     expect(scPpl003Flow.code).toBe('SC-PPL-003')
     expect(scPpl003Flow.initialScreen).toBe('notes')
     expect(findFlow('sc-ppl-003')).toBe(scPpl003Flow)
-    expect(listFlows().at(-1)).toBe(scPpl003Flow)
-    expect(listFlows().at(-2)?.id).toBe('sc-ppl-002')
+    expect(listFlows().at(-4)).toBe(scPpl003Flow)
+    expect(listFlows().at(-5)?.id).toBe('sc-ppl-002')
     expect(resolveFlow(scPpl003Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PPL-003-A'],
       ['b', 'SC-PPL-003-B'],

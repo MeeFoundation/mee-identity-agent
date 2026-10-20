@@ -34,6 +34,7 @@ const render = (element: ReactElement, components: ComponentEnvironment = podCom
             analytics: { track: () => {} },
             components,
             navigation: { back: () => {}, complete: () => {}, goToScreen: () => {}, restart: () => {} },
+            screenId: 'test',
           },
         },
         element,

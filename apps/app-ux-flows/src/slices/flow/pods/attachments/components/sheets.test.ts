@@ -48,6 +48,7 @@ const renderSheet = (element: ReactElement) => {
             analytics: { track: () => {} },
             components: { ...podComponents, BottomSheet, SheetActionList },
             navigation: { back: () => {}, complete: () => {}, goToScreen: () => {}, restart: () => {} },
+            screenId: 'test',
           },
         },
         element,
