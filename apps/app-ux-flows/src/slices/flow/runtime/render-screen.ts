@@ -69,6 +69,7 @@ export const renderScreen = <S extends string, C extends ComponentEnvironment>(
               analytics: { track: (event, props) => effects.tracked.push({ event, props }) },
               components: { ...flow.components, ...components },
               navigation,
+              screenId,
             },
           },
           createElement(Screen),

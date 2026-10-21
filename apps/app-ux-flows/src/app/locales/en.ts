@@ -185,6 +185,180 @@ export const en = {
         },
       },
     },
+    scOnb001: {
+      description:
+        'The first-run intro that shows pods as rooms in a home on your phone, Telli tidying a pod, and Paula joining it from her phone.',
+      goal: 'Go through the intro and get started with Tellipod.',
+      hints: {
+        existingDevice: 'A stand-in. Replay the intro to try it again.',
+        gingerPod: 'Inviting Telli is optional. Try it, or just go on.',
+        paula: 'The same pod on two phones.',
+        restore: 'A stand-in. Replay the intro to try it again.',
+        rooms: 'Read the intro and move on with Next, or tap Ginger.',
+        telliHandoff: 'The intro ends here.',
+        welcome: 'Get Started finishes the intro.',
+      },
+      questions: {
+        demoRequired: 'Should the Telli demo be required, or stay optional as it is now?',
+        fourBeats: 'Four beats: is anything missing, or could one go?',
+        roomsMetaphor: 'Does the "rooms in a home" picture make pods clear before people have any of their own?',
+      },
+      screens: {
+        existingDevice: {
+          about: 'A stand-in for the existing "How would you like to proceed?" sheet.',
+        },
+        gingerPod: {
+          about: 'Telli only enters a pod you invite it into, and only suggests. Nothing is saved until you add it.',
+          questions: {
+            optionalDemo: 'Is "Invite Telli" clear as an optional demo?',
+            suggestedLabel: 'Is "(suggested)" enough to tell Telli\'s info from yours?',
+          },
+        },
+        paula: {
+          about: "The same pod on Paula's phone, shared directly between devices with pod members only.",
+          questions: {
+            deviceToDevice: 'Does "device-to-device" mean anything to people at this point?',
+            samePod: 'Is it clear that Paula sees the same pod, not a copy?',
+          },
+        },
+        restore: {
+          about: 'A stand-in for the restore flow.',
+        },
+        rooms: {
+          about: 'Pods as rooms in a home on your phone: a trip, a cat and a kid each get one.',
+          questions: {
+            examples: 'Are "Kyoto trip", "Ginger" and "Sofia" good examples?',
+            gingerTappable: 'Is it obvious that the Ginger tag can be tapped?',
+          },
+        },
+        telliHandoff: {
+          about: "A stand-in for Telli's naming chat, which is not part of this prototype.",
+        },
+        welcome: {
+          about: 'Pods live on your devices. From here the existing onboarding takes over.',
+          questions: {
+            links: 'Should the two links be this prominent on a first run?',
+          },
+        },
+      },
+      title: 'Tellipod intro: Rooms',
+    },
+    scOnb002: {
+      description: 'The Rooms intro without a Next button: you move through it by tapping what lights up in the scene.',
+      goal: 'Go through the intro and get started with Tellipod.',
+      hints: {
+        existingDevice: 'A stand-in. Replay the intro to try it again.',
+        gingerPod: 'Tap what lights up: invite Telli, add what it suggests, then invite Paula.',
+        paula: "Wait for Paula's message, then tap Home.",
+        restore: 'A stand-in. Replay the intro to try it again.',
+        rooms: 'Tap the Ginger tag to go on.',
+        telliHandoff: 'The intro ends here.',
+        welcome: 'Get Started finishes the intro.',
+      },
+      questions: {
+        engaging: 'Does tapping the scene make the story more engaging than a Next button, or slower?',
+        nextCue: 'With no Next button, is it always clear what to tap next?',
+        requiredDemo:
+          'Tapping forward now requires the Telli demo. Is that the right trade-off against Rooms, where it is optional?',
+      },
+      screens: {
+        existingDevice: {
+          about: 'A stand-in for the existing "How would you like to proceed?" sheet.',
+        },
+        gingerPod: {
+          about:
+            'Telli only enters a pod you invite it into, and only suggests. Each step leads to the next: invite Telli, add its suggestions, then invite Paula.',
+          questions: {
+            inviteHint:
+              '"Invite Telli" still says "Demo, optional" although it\'s the way forward. Should the hint change?',
+            invitePaula: 'Does "Invite Paula" on the pod card read as sharing this pod?',
+          },
+        },
+        paula: {
+          about: 'The same pod on Paula\'s phone, shared directly between devices. "Home" returns to all your pods.',
+          questions: {
+            home: 'Is "Home" clear as the way to move on?',
+          },
+        },
+        restore: {
+          about: 'A stand-in for the restore flow.',
+        },
+        rooms: {
+          about:
+            'Pods as rooms in a home on your phone. The Ginger tag is the only way forward, so it is drawn large and ringed.',
+          questions: {
+            ringCue: 'Without a Next button, is the ringed Ginger tag enough of a cue?',
+          },
+        },
+        telliHandoff: {
+          about: "A stand-in for Telli's naming chat, which is not part of this prototype.",
+        },
+        welcome: {
+          about: 'Pods live on your devices. From here the existing onboarding takes over.',
+          questions: {
+            ring: 'Does the ring on Get Started still help after every beat had one?',
+          },
+        },
+      },
+      title: 'Tellipod intro: Tap through',
+    },
+    scOnb003: {
+      description:
+        'The intro without the isometric home: a flat pod card grows from a deck of pods, opens, is shared and joins your list.',
+      goal: 'Go through the intro and get started with Tellipod.',
+      hints: {
+        existingDevice: 'A stand-in. Replay the intro to try it again.',
+        gingerPod: 'Invite Telli and add what it suggests, or just tap Next.',
+        paula: 'The same pod on two phones. Tap Next.',
+        restore: 'A stand-in. Replay the intro to try it again.',
+        rooms: 'Watch the pods stack up, then tap Next.',
+        telliHandoff: 'The intro ends here.',
+        welcome: 'Get Started finishes the intro.',
+      },
+      questions: {
+        deckReads: 'Does the deck on the first beat read as "your pods", or as a stack of cards?',
+        flatClearer: 'Is a flat pod card clearer than the isometric home for explaining what a pod is?',
+        samePod: "Is it clear that the pod on Paula's phone is the same pod?",
+      },
+      screens: {
+        existingDevice: {
+          about: 'A stand-in for the existing "How would you like to proceed?" sheet.',
+        },
+        gingerPod: {
+          about: 'Telli only enters a pod you invite it into, and only suggests. The demo is optional.',
+          questions: {
+            enoughShown: 'Does the open card show enough of what a pod holds?',
+          },
+        },
+        paula: {
+          about: "The same pod on Paula's phone, shared directly between devices.",
+          questions: {
+            deviceToDevice: 'Does the flat version still say "device to device"?',
+          },
+        },
+        restore: {
+          about: 'A stand-in for the restore flow.',
+        },
+        rooms: {
+          about:
+            'Pods as cards in a deck: Home, Kyoto trip, Sofia and Ginger, each with a note, a file and a message. Ginger lands on top because it is the one the story follows.',
+          questions: {
+            separatePods: 'Do the cards read as separate private pods?',
+          },
+        },
+        telliHandoff: {
+          about: "A stand-in for Telli's naming chat, which is not part of this prototype.",
+        },
+        welcome: {
+          about:
+            'The pod joins your list, now with Telli and Paula in it. From here the existing onboarding takes over.',
+          questions: {
+            oneOfMany: 'Does the list make clear Ginger is one pod of many?',
+          },
+        },
+      },
+      title: 'Tellipod intro: Living pod',
+    },
     scPet001: {
       cases: {
         a: {
@@ -892,6 +1066,82 @@ export const en = {
         undo: 'Undo',
       },
     },
+    scAtt001: {
+      add: 'Add attachment',
+      cases: {
+        a: {
+          description: 'The owner shares a new photo with the pod.',
+          goal: "Add a photo to Sofia's pod.",
+          name: 'Add a file',
+        },
+        b: {
+          description: "The owner fixes a file's name.",
+          goal: 'Rename "About Sophia.databook.mc" so it ends in ".pdf".',
+          name: 'Rename a file',
+        },
+        c: {
+          description: 'The owner removes a file nobody needs.',
+          goal: 'Delete "Activities-tracker.xls" from the pod.',
+          name: 'Delete a file',
+        },
+      },
+      description:
+        "Add, rename, save and delete the files in Sofia's pod. Files sit in one flat list, with no folders.",
+      empty: {
+        message: 'Files you add are shared with everyone in this pod.',
+        title: 'No files yet',
+      },
+      hints: {
+        actions: 'What you can do with one file.',
+        add: 'Picking is mocked: each choice adds a sample file.',
+        files: 'Every file in the pod, newest first.',
+        rename: 'Give the file a new name.',
+      },
+      pod: {
+        avatar: 'S',
+        subtitle: 'Attachments',
+        title: 'About Sofia',
+      },
+      questions: {
+        deleteWithoutAsking: 'Should a file be deleted without asking first?',
+        everyoneChanges: 'Everyone in the pod can change every file. Is that clear from the screen?',
+      },
+      rename: {
+        field: 'File name',
+        taken: 'A file with that name already exists.',
+        title: 'Rename file',
+      },
+      screens: {
+        actions: {
+          about: 'What you can do with one file. Delete takes effect straight away.',
+          questions: {
+            confirmDelete: 'Should Delete ask for confirmation?',
+          },
+        },
+        add: {
+          about: 'Two kinds of file. Picking is mocked: each choice adds a sample file.',
+          questions: {
+            kinds: 'Is it clear what "Media file" and "Document" each include?',
+          },
+        },
+        files: {
+          about: 'Every file in one flat list, newest first. The "Add attachment" button is always in reach.',
+          questions: {
+            sortOrSearch: 'Should the list be sortable, or searchable?',
+          },
+        },
+        rename: {
+          about: 'Not in the design. A sheet with the current name, kept unique in the pod.',
+          questions: {
+            lockExtension: 'Should the extension be locked?',
+          },
+        },
+      },
+      title: "Sofia's files",
+      toast: {
+        saved: 'Saved to your device',
+      },
+    },
     scPpl003: {
       cases: {
         a: {
@@ -977,6 +1227,8 @@ export const en = {
       turnOff: 'Turn off',
     },
     families: {
+      attachments: 'Attachments',
+      onboarding: 'Onboarding',
       people: 'People',
       pets: 'Pet care',
     },
@@ -997,6 +1249,28 @@ export const en = {
     title: 'Page not found',
   },
   pods: {
+    attachments: {
+      actionsSheet: {
+        delete: 'Delete file',
+        description: '{{detail}} · added by you',
+        descriptionByMember: '{{detail}} · added by {{name}}',
+        rename: 'Rename',
+        save: 'Save to device',
+      },
+      addSheet: {
+        description: 'Everyone in this pod can see it, add to it, and change it.',
+        document: 'Document',
+        mediaFile: 'Media file',
+        title: 'Add to Files',
+      },
+      detail: '{{size}} · {{date}}',
+      size: {
+        b: '{{value}} B',
+        gb: '{{value}} GB',
+        kb: '{{value}} KB',
+        mb: '{{value}} MB',
+      },
+    },
     catalog: {
       forms: {
         pet: 'Pet information',
@@ -1296,6 +1570,169 @@ export const en = {
         },
       },
     },
+    tellipodIntro: {
+      art: {
+        demo: {
+          added: "You added the suggested info. Ginger's pod now has you and Telli.",
+          before: "Inside Ginger's pod. A note says: feeds 7am and 6pm, half cup dry. Telli waits outside the door.",
+          suggested:
+            'Telli came in and suggested info from the note: meals 7:00 AM and 6:00 PM; portion half a cup of dry food. It waits for you to add it.',
+        },
+        paula:
+          "Your phone and Paula's phone. A one-time link opened the same Ginger pod on her phone, joined directly by one line. Paula says: Ginger's fed!",
+        rooms:
+          "Illustration: a small home standing on a phone. Its rooms are pods named Kyoto trip, Ginger and Sofia. A cat sits in Ginger's room.",
+        welcome: "Your home again. Ginger's pod now has you, Telli and Paula, and a new message.",
+      },
+      beats: {
+        gingerPod: {
+          headline: { accent: 'You decide.', lead: 'Telli tidies.\n', tail: '' },
+          subline: 'Telli, your AI assistant, sees only\npods you invite it into.',
+        },
+        paula: {
+          headline: { accent: 'Same pod', lead: 'Invite Paula.\n', tail: ', her phone.' },
+          subline: 'Direct device-to-device sharing,\npod members only.',
+        },
+        rooms: {
+          headline: { accent: 'Pods', lead: '', tail: ' are small\nprivate rooms.' },
+          subline: 'One for your kid, a trip, your cat.',
+        },
+        welcome: {
+          headline: { accent: 'Tellipod', lead: 'Welcome to ', tail: '.\nHost your world.' },
+          subline: 'Pods live on your devices,\nnot in a corporate data center.',
+        },
+      },
+      demo: {
+        addAll: 'Add all suggested info',
+        addAllHint: 'Demo, optional. Nothing is saved.',
+        addRow: 'Add {{label}}',
+        editRow: 'Edit {{label}}',
+        inviteTelli: 'Invite Telli',
+        inviteTelliHint: 'Demo, optional. Opens the door for Telli. Nothing is shared.',
+        suggested: '(suggested)',
+        telliWaiting: 'Telli, waiting outside the door',
+      },
+      intro: {
+        back: 'Back',
+        existingDevice: 'Already have Tellipod on another device?',
+        getStarted: 'Get Started',
+        getStartedHint: 'Opens Telli, your assistant',
+        logo: 'Tellipod',
+        next: 'Next',
+        restore: 'Restoring from backup?',
+        skip: 'Skip',
+        skipHint: 'Goes to the last step',
+        skipLabel: 'Skip intro',
+        step: 'Step {{step}} of 4',
+      },
+      living: {
+        art: {
+          rooms:
+            'Four pods stacked like cards: Home, Kyoto trip, Sofia and, on top, Ginger. Each card shows a note, a file and a message.',
+        },
+        beats: {
+          rooms: {
+            headline: { accent: 'Pods', lead: '', tail: ' for every\npart of life.' },
+            subline: 'One for a trip, your kid, your cat.',
+          },
+        },
+        labels: {
+          files: 'Files',
+          note: 'Note',
+          paulaJoined: 'Paula joined',
+          paulaSays: 'Paula:',
+          petSitter: 'Pet sitter',
+        },
+        pods: {
+          ginger: {
+            category: 'Pets',
+            chat: { text: 'Vet on Friday, 10am', time: '10:02' },
+            file: 'Vaccines.pdf',
+            name: 'Ginger',
+            note: 'Loves the sunny window seat.',
+          },
+          home: {
+            category: 'Home',
+            chat: { text: 'Plumber comes at 3', time: '11:20' },
+            file: 'Lease.pdf',
+            memberInitial: 'A',
+            name: 'Home',
+            note: 'Bins go out Sunday night.',
+          },
+          kyoto: {
+            category: 'Travel',
+            chat: { text: 'Booked the ryokan!', time: '9:12' },
+            file: 'Itinerary.pdf',
+            memberInitial: 'M',
+            name: 'Kyoto trip',
+            note: 'Flight JL 5 lands 7:40 AM.',
+          },
+          sofia: {
+            category: 'People',
+            chat: { text: 'I’ll do Tuesday', time: '8:30' },
+            file: 'Insurance card.jpg',
+            memberInitial: 'G',
+            name: 'Sofia',
+            note: 'Soccer Tue & Thu, 5 pm.',
+          },
+        },
+      },
+      pod: {
+        chat: 'Chat',
+        gingerTag: "Enter Ginger's pod",
+        gingerTagHint: 'Same as Next',
+        gingerTagTapHint: 'Opens Ginger’s pod',
+        home: 'Home',
+        homeHint: 'Back to all your pods',
+        info: 'Info',
+        invitePaula: 'Invite Paula',
+        invitePaulaHint: 'Shares Ginger’s pod with Paula',
+        meals: 'Meals',
+        mealsValue: '7:00 AM · 6:00 PM',
+        memberNames: {
+          paula: 'Paula',
+          telli: 'Telli',
+          you: 'you',
+        },
+        members: 'Members: {{names}}',
+        message: 'Ginger’s fed!',
+        messagePlaceholder: 'Message…',
+        messageTime: '7:05',
+        newMessage: 'New message',
+        note: 'feeds 7am & 6pm, ½ cup dry',
+        notes: 'Notes',
+        noteTag: '#ginger',
+        oneTimeLink: 'One-time link',
+        paulaInitial: 'P',
+        paulaPhone: 'Paula’s phone',
+        portion: 'Portion',
+        portionValue: '½ cup, dry food',
+        sofiaInitial: 'S',
+        synced: 'Synced',
+        tags: {
+          ginger: 'Ginger',
+          kyoto: 'Kyoto trip',
+          sofia: 'Sofia',
+        },
+        yourPhone: 'Your phone',
+      },
+      standIns: {
+        badge: 'Prototype stand-in',
+        existingDevice: {
+          body: 'This link opens the existing “How would you like to proceed?” sheet. Only the intro is built in this prototype.',
+          title: 'Already have Tellipod on another device?',
+        },
+        replay: 'Replay intro',
+        restore: {
+          body: 'This link opens the restore flow. Only the intro is built in this prototype.',
+          title: 'Restoring from backup?',
+        },
+        telliHandoff: {
+          body: 'Get Started continues into Telli’s naming chat in the existing onboarding. Only the intro is built in this prototype.',
+          title: 'Hey, I’m Telli!',
+        },
+      },
+    },
   },
   ui: {
     appTabBar: {
@@ -1305,6 +1742,10 @@ export const en = {
       notifications: 'Notifications',
       notificationsNew: 'Notifications, new',
       telli: 'Ask Telli',
+    },
+    attachmentRow: {
+      menu: 'More actions for {{name}}',
+      open: '{{name}}, {{detail}}',
     },
     bottomSheet: {
       close: 'Close',

@@ -1,26 +1,15 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true,
     "paths": {
-      "@mee/core": [
-        "../../packages/core/src/index.ts"
-      ],
-      "@mee/core/*": [
-        "../../packages/core/src/*"
-      ],
-      "@mee/ui": [
-        "../../packages/ui/src/index.ts"
-      ],
-      "@mee/ui/*": [
-        "../../packages/ui/src/*"
-      ]
-    }
+      "@/*": ["./src/*"],
+      "@mee/core": ["../../packages/core/src/index.ts"],
+      "@mee/core/*": ["../../packages/core/src/*"],
+      "@mee/ui": ["../../packages/ui/src/index.ts"],
+      "@mee/ui/*": ["../../packages/ui/src/*"]
+    },
+    "strict": true,
+    "types": ["jest"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "extends": "expo/tsconfig.base",
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

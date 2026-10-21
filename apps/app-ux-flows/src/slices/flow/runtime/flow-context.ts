@@ -15,6 +15,8 @@ type FlowRuntime = {
   components: ComponentEnvironment
   navigation: FlowNavigation<string>
   analytics: FlowEventSink
+  // The screen the route shows; one component can serve several screens and follow it.
+  screenId: string
 }
 
 export const FlowRuntimeContext = createContext<FlowRuntime | null>(null)
@@ -30,6 +32,8 @@ export const useFlowNavigation = <S extends string = never>(): FlowNavigation<S>
 
 export const useFlowComponents = <C extends ComponentEnvironment>(): C =>
   useFlowRuntime('useFlowComponents').components as C
+
+export const useFlowScreen = <S extends string = string>(): S => useFlowRuntime('useFlowScreen').screenId as S
 
 export const useFlowAnalytics = <E extends FlowEventMap = never>(): FlowAnalytics<E> =>
   useFlowRuntime('useFlowAnalytics').analytics as FlowAnalytics<E>

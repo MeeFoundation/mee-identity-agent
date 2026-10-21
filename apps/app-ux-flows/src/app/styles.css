@@ -184,3 +184,14 @@
     margin-inline: --spacing(4);
   }
 }
+
+/* SC-ONB-001 stand-in screens fade in, as the prototype's handoff does */
+@theme {
+  --animate-intro-fade: intro-fade 300ms ease-out both;
+
+  @keyframes intro-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}

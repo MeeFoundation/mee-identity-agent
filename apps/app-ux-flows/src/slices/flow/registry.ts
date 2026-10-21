@@ -5,6 +5,10 @@ import { expPet002Flow } from './flows/exp-pet-002/flow'
 import { expPet003Flow } from './flows/exp-pet-003/flow'
 import { expPet004Flow } from './flows/exp-pet-004/flow'
 import { expPet005Flow } from './flows/exp-pet-005/flow'
+import { scAtt001Flow } from './flows/sc-att-001/flow'
+import { scOnb001Flow } from './flows/sc-onb-001/flow'
+import { scOnb002Flow } from './flows/sc-onb-002/flow'
+import { scOnb003Flow } from './flows/sc-onb-003/flow'
 import { scPet001Flow } from './flows/sc-pet-001/flow'
 import { scPet002Flow } from './flows/sc-pet-002/flow'
 import { scPet003Flow } from './flows/sc-pet-003/flow'
@@ -44,6 +48,10 @@ export const flowDefinitions: readonly AnyFlow[] = [
   scPpl001Flow,
   scPpl002Flow,
   scPpl003Flow,
+  scAtt001Flow,
+  scOnb001Flow,
+  scOnb002Flow,
+  scOnb003Flow,
 ]
 
 export const { listFlows, findFlow } = createRegistry(flowDefinitions, devMode.on)

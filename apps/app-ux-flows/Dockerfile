@@ -3,9 +3,8 @@
 #   docker build -f apps/app-ux-flows/Dockerfile -t app-ux-flows .
 
 FROM node:22.19.0-bookworm-slim AS build
-ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 WORKDIR /repo
-RUN corepack enable
+RUN npm install -g pnpm@12.14.0
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
 RUN pnpm fetch

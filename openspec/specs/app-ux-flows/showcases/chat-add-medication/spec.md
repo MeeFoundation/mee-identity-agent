@@ -7,7 +7,7 @@ Defines the showcase "Add medication from chat" in `app-ux-flows`. It demonstrat
 ## Requirements
 
 ### Requirement: Showcase identity and screens
-The application SHALL register a showcase flow with flow id `chat-add-medication`, title "Add medication from chat" and the description "Tell Telli about a medication in the pod chat and add it as a form in one tap." It SHALL have no display code and no variants.
+The application SHALL register a showcase flow with flow id `chat-add-medication`, title "Add medication from chat" and the description "Tell Telli about a medication in the pod chat and add it as a form in one tap." It SHALL have the display code `SC-PET-005` and no variants. On the home page it SHALL be listed after SC-PET-004, in the SC-PET family.
 
 The flow SHALL declare these screens:
 - `ginger-notes`: the pod's Notes tab.
@@ -28,6 +28,10 @@ The flow SHALL declare these screens:
 #### Scenario: Start the showcase
 - **WHEN** a viewer starts "Add medication from chat" from the home page
 - **THEN** the Ginger pod's Notes tab is shown at `/flows/chat-add-medication/ginger-notes`, with no `variant` URL parameter
+
+#### Scenario: Display code
+- **WHEN** a development build shows the home page
+- **THEN** "Add medication from chat" shows the code `SC-PET-005` and is listed after SC-PET-004 in the showcases' "Pet care" group
 
 ### Requirement: Showcase pod and medication record
 A run SHALL start from the same Ginger pod fixture and the same default medication record as EXP-PET-002 (`app-ux-flows/experiments/exp-pet-002`, "Pod fixture and server-provided medication record"). As in EXP-PET-002, the record SHALL be replaceable through the flow's initial state, and no screen SHALL fetch data. At run start the Medication form SHALL NOT yet be added, and the chat SHALL hold no messages.
