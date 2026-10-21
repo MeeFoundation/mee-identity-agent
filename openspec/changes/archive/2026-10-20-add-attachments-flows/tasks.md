@@ -7,10 +7,10 @@
 
 ## 2. Screens
 
-- [ ] 2.1 Build the `FilesView` (pod top bar with letter avatar "S", title "About Sofia", subtitle "Attachments", list of `AttachmentItem`, floating "Add attachment" button, empty state "No files yet", toast slot) and the `files` screen; verify in the browser that the four sample files show newest first, with no folders
-- [ ] 2.2 Build the `add` screen with `AddAttachmentSheet`, wiring Media file and Document to `addFileAtom` and case A's completion; verify in the browser that case A completes on Media file and not on Document
-- [ ] 2.3 Build the `actions` screen with `AttachmentActionsSheet` ("added by you" / "added by Geo"), wiring Save to device (toast), Rename (to `rename`) and Delete file (removes the row and completes case C for "Activities-tracker.xls" only); verify in the browser
-- [ ] 2.4 Build the `rename` screen (bottom sheet "Rename file", "File name" field with focus and the current name, Save/Cancel, taken-name error) and case B's completion; verify in the browser that Enter saves, Cancel changes nothing and a taken name disables Save
+- [x] 2.1 Build the `FilesView` (pod top bar with letter avatar "S", title "About Sofia", subtitle "Attachments", list of `AttachmentItem`, floating "Add attachment" button, empty state "No files yet", toast slot) and the `files` screen; verify in the browser that the four sample files show newest first, with no folders
+- [x] 2.2 Build the `add` screen with `AddAttachmentSheet`, wiring Media file and Document to `addFileAtom` and case A's completion; verify in the browser that case A completes on Media file and not on Document
+- [x] 2.3 Build the `actions` screen with `AttachmentActionsSheet` ("added by you" / "added by Geo"), wiring Save to device (toast), Rename (to `rename`) and Delete file (removes the row and completes case C for "Activities-tracker.xls" only); verify in the browser
+- [x] 2.4 Build the `rename` screen (bottom sheet "Rename file", "File name" field with focus and the current name, Save/Cancel, taken-name error) and case B's completion; verify in the browser that Enter saves, Cancel changes nothing and a taken name disables Save
 - [x] 2.5 Make `actions` and `rename` fall back to `files` when no file is selected or it no longer exists; verify with a test that opening either screen on a fresh store lands on `files`
 
 ## 3. Flow definition and strings
@@ -24,5 +24,5 @@
 
 - [x] 4.1 Run `pnpm check-types` and `pnpm lint` from the repo root; verify both pass with no errors
 - [x] 4.2 Run `pnpm --filter app-ux-flows test` and verify the whole suite passes
-- [ ] 4.3 Run through cases A, B and C in the browser, including the empty list after deleting every file, and verify each shows "Goal reached" only for its own goal
+- [x] 4.3 Run through cases A, B and C in the browser, including the empty list after deleting every file, and verify each shows "Goal reached" only for its own goal
 - [x] 4.4 Run `openspec validate add-attachments-flows --strict` and verify it passes

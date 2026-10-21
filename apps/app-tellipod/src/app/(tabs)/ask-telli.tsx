@@ -1,9 +1,12 @@
-import { Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next'
+
+import { useAppChrome } from '@/shared/chrome'
+import { PlaceholderScreen } from '@/shared/ui'
 
 export default function AskTelliScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Ask Telli</Text>
-    </View>
-  );
+  const { t } = useTranslation()
+
+  useAppChrome({ header: 'home' })
+
+  return <PlaceholderScreen name={t('screens.askTelli')} />
 }
