@@ -359,6 +359,175 @@ export const en = {
       },
       title: 'Tellipod intro: Living pod',
     },
+    scOnb004: {
+      actions: {
+        back: 'Back',
+        close: 'Close',
+        contactCard: 'Fill in from my contact card',
+        continue: 'Continue',
+        gotIt: "Got it, let's set up",
+        later: "I'll do this later",
+        manual: 'Enter details manually',
+        next: 'Next',
+        pairAnother: 'Pair another device',
+        pairOtherDevice: 'Pair with my other device',
+        replay: 'Replay intro',
+        setupThisPhone: 'Set up on this phone',
+        showMeAround: 'Show me around',
+        skip: 'Skip',
+        skipToSetup: 'I know Tellipod, skip to setup',
+      },
+      contacts: {
+        askingMessage: 'Tellipod uses your contact card to fill in your name and how people can reach you.',
+        askingTitle: 'Tellipod Would Like to Access Your Contacts',
+        cancel: 'Cancel',
+        choosingMessage: 'Choose which contacts to share with Tellipod.',
+        choosingTitle: 'Select Contacts to Share',
+        continue: 'Continue',
+        dontAllow: "Don't Allow",
+        pickerTitle: 'Contacts',
+        select: 'Select Contacts',
+        shareAll: 'Share All',
+      },
+      description:
+        'The next first-run: a one-minute tour of pods, then set up a local profile. No account.',
+      devices: {
+        headline: 'Do you use more than one device?',
+        laterNote: 'You can pair another device later in Settings.',
+        otherDevices: 'Other devices',
+        subline: 'Your spaces live only on this phone until you pair another device.',
+        thisPhone: "{{name}}'s Tellipod",
+      },
+      goal: 'Go through the intro and get started with Tellipod.',
+      hints: {
+        devices: 'Pair another device, or finish for now.',
+        landing: 'Start the tour, or skip if you already know Tellipod.',
+        next: 'The intro ends here.',
+        pairing: 'A stand-in. Replay the intro to try it again.',
+        podAnything: 'Wait for the examples, or pick a tab.',
+        profileChoose: 'Fill from a contact card, or type it yourself.',
+        profileForm: 'First name is enough to continue.',
+        setup: 'Set up on this phone, or pair another device.',
+        shareOnce: 'Watch the vet number update.',
+        yoursToKeep: 'Wait for the closing line, then set up.',
+      },
+      landing: {
+        headline: 'Get to know Tellipod in a minute',
+      },
+      pager: 'Step {{current}} of {{total}}',
+      profile: {
+        country: 'Country',
+        deviceOnly: 'Saved on your device only. No cloud, no servers.',
+        email: 'Email',
+        firstName: 'First name',
+        firstNameError: 'Enter your first name',
+        headline: 'Set up your profile',
+        lastName: 'Last name',
+        phone: 'Phone',
+        privacy: "We'll only use this to show who you are in pods you share.",
+        realName: 'Use your real name so people recognize you.',
+        subline: "This is how you'll appear to others on Tellipod.",
+      },
+      questions: {
+        simulatedContacts: 'Should simulated contacts stay in a demo, or only a manual form?',
+        skipMissesPod: 'Does skipping to setup make it too easy to miss what a pod is?',
+        tourClearer: 'Is a one-minute tour clearer than the four-beat rooms story?',
+      },
+      screens: {
+        devices: {
+          about: 'Spaces live on this phone until you pair another.',
+          questions: {
+            later: 'Is "I\'ll do this later" the right way out?',
+          },
+        },
+        landing: {
+          about: 'Offer a short tour or skip straight to local setup.',
+          questions: {
+            minute: 'Is "in a minute" a promise we can keep?',
+          },
+        },
+        next: {
+          about: 'Stand-in: what comes after setup is not built here.',
+        },
+        pairing: {
+          about: 'Stand-in: pairing is not built in this prototype.',
+        },
+        podAnything: {
+          about: 'Pods are for anything you share: a trip, care, pets, a reno, a book club.',
+          questions: {
+            examples: 'Do the five examples help, or is one enough?',
+          },
+        },
+        profileChoose: {
+          about: 'Appear as yourself. Data stays on the device.',
+          questions: {
+            contactCard: 'Is "contact card" meaningful before a real OS prompt?',
+          },
+        },
+        profileForm: {
+          about: 'First name is enough to continue.',
+          questions: {
+            extraFields: 'Are email and phone too much for a first run?',
+          },
+        },
+        setup: {
+          about: 'Two steps: name, then other devices. No password.',
+          questions: {
+            pairingEarly: 'Is pairing this early a distraction?',
+          },
+        },
+        shareOnce: {
+          about: 'Share once; everyone sees the same vet number.',
+          questions: {
+            readsAs: 'Does the share play read as device-to-device, or as chat?',
+          },
+        },
+        yoursToKeep: {
+          about: 'No accounts, data centers, ads or tracking.',
+          questions: {
+            closing: 'Does the closing line land after the "No …" list?',
+          },
+        },
+      },
+      setup: {
+        headline: "Let's set up your Tellipod",
+        subline: 'Just two quick steps: your name, then your other devices. No account or password.',
+      },
+      standIn: {
+        body: 'This part of setup is still being designed. Only the intro is built in this prototype.',
+        nextTitle: 'What comes next',
+        pairingTitle: 'Pairing another device',
+      },
+      title: 'Tellipod intro: Onboarding v2',
+      tour: {
+        podAnything: {
+          filesLabel: 'Files',
+          formLabel: 'Form',
+          headline: 'A pod for anything',
+          message: 'Message…',
+          noteLabel: 'Note',
+          tabsLabel: 'Pod examples',
+        },
+        shareOnce: {
+          headline: 'Share it once. Everyone stays up to date.',
+          newPod: 'New pod',
+          partner: 'Partner',
+          pod: 'Pet care',
+          share: 'Share',
+          vet: 'Vet',
+          vetPhone: 'Vet phone',
+          walker: 'Dog walker',
+        },
+        yoursToKeep: {
+          closing: 'Just you and the people you choose.',
+          headline: 'Yours to keep',
+          noAccounts: 'No accounts.',
+          noAds: 'No ads.',
+          noDataCenters: 'No data centers.',
+          noTracking: 'No tracking.',
+        },
+      },
+    },
     scPet001: {
       cases: {
         a: {

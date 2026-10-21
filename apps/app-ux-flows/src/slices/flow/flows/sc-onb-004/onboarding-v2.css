@@ -1,0 +1,287 @@
+@keyframes onb-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-tour-pop {
+  0% {
+    opacity: 0;
+    transform: translate(var(--from-x, 0), var(--from-y, 24px)) scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(0) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-tour-squash {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.5);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(0) scale(1.12, 0.86);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-tour-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes onb-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-phone-in {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-caption-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes onb-share-press {
+  0%,
+  80% {
+    transform: none;
+  }
+  86% {
+    transform: scale(0.88);
+  }
+  94%,
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes onb-tap-press {
+  0%,
+  78% {
+    transform: none;
+  }
+  85% {
+    transform: scale(0.92);
+  }
+  92%,
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes onb-card-open {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.85, 0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-face-bump {
+  0% {
+    transform: none;
+  }
+  35% {
+    transform: scale(1.18) translateY(-3px);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@keyframes onb-number-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes onb-dot-fly {
+  0% {
+    opacity: 0;
+    transform: translate(0) scale(0.4);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+  55% {
+    transform: translate(var(--mid-x), var(--mid-y)) scale(1.15);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(var(--end-x), var(--end-y)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--end-x), var(--end-y)) scale(0.3);
+  }
+}
+
+@keyframes onb-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes onb-line-dim {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.35;
+  }
+}
+
+@keyframes onb-final-line {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-onb-step-in {
+  animation: 0.32s cubic-bezier(0.23, 1, 0.32, 1) onb-step-in;
+}
+
+.animate-onb-squash {
+  transform-origin: center bottom;
+  animation: 0.76s cubic-bezier(0.34, 1.3, 0.64, 1) both onb-tour-squash;
+}
+
+.animate-onb-pop {
+  animation: 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both onb-tour-pop;
+}
+
+.animate-onb-bob {
+  animation: 1.8s ease-in-out infinite alternate both onb-tour-bob;
+}
+
+.animate-onb-rise {
+  animation: 0.42s cubic-bezier(0.23, 1, 0.32, 1) both onb-rise-in;
+}
+
+.animate-onb-phone-in {
+  animation: 0.42s cubic-bezier(0.23, 1, 0.32, 1) both onb-phone-in;
+}
+
+.animate-onb-caption-in {
+  animation: 0.42s cubic-bezier(0.23, 1, 0.32, 1) both onb-caption-in;
+}
+
+.animate-onb-share-press {
+  animation: 1.6s ease-out both onb-share-press;
+}
+
+.animate-onb-tap-press {
+  animation: 2.2s ease-out both onb-tap-press;
+}
+
+.animate-onb-card-open {
+  transform-origin: center top;
+  animation: 0.52s cubic-bezier(0.34, 1.3, 0.64, 1) both onb-card-open;
+}
+
+.animate-onb-face-bump {
+  animation: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both onb-face-bump;
+}
+
+.animate-onb-number-pop {
+  display: inline-block;
+  animation: 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both onb-number-pop;
+}
+
+.animate-onb-dot-fly {
+  animation: 1.2s cubic-bezier(0.45, 0, 0.35, 1) both onb-dot-fly;
+}
+
+.animate-onb-caret {
+  animation: 0.9s step-end infinite onb-caret;
+}
+
+.animate-onb-line-dim {
+  animation: 0.7s ease-out both onb-line-dim;
+}
+
+.animate-onb-final-line {
+  animation: 0.8s cubic-bezier(0.23, 1, 0.32, 1) both onb-final-line;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-onb-step-in,
+  .animate-onb-squash,
+  .animate-onb-pop,
+  .animate-onb-bob,
+  .animate-onb-rise,
+  .animate-onb-phone-in,
+  .animate-onb-caption-in,
+  .animate-onb-share-press,
+  .animate-onb-tap-press,
+  .animate-onb-card-open,
+  .animate-onb-face-bump,
+  .animate-onb-number-pop,
+  .animate-onb-dot-fly,
+  .animate-onb-caret,
+  .animate-onb-line-dim,
+  .animate-onb-final-line {
+    animation: none;
+  }
+}
