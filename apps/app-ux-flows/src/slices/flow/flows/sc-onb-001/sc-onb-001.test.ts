@@ -21,7 +21,7 @@ describe('SC-ONB-001 Tellipod intro: Rooms', () => {
     expect(scOnb001Flow.code).toBe('SC-ONB-001')
     expect(scOnb001Flow.initialScreen).toBe('rooms')
     expect(findFlow('sc-onb-001')).toBe(scOnb001Flow)
-    expect(listFlows().at(-3)).toBe(scOnb001Flow)
+    expect(listFlows().at(-4)).toBe(scOnb001Flow)
     expect(resolveFlow(scOnb001Flow, null).cases).toEqual([])
   })
 

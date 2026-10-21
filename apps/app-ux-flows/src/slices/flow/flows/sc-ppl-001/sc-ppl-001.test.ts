@@ -49,7 +49,7 @@ describe('SC-PPL-001 Tidy Sofia’s notes', () => {
     expect(scPpl001Flow.code).toBe('SC-PPL-001')
     expect(scPpl001Flow.initialScreen).toBe('notes')
     expect(findFlow('sc-ppl-001')).toBe(scPpl001Flow)
-    expect(listFlows().at(-7)).toBe(scPpl001Flow)
+    expect(listFlows().at(-8)).toBe(scPpl001Flow)
     expect(resolveFlow(scPpl001Flow, null).cases.map(({ id, code }) => [id, code])).toEqual([
       ['a', 'SC-PPL-001-A'],
       ['b', 'SC-PPL-001-B'],
