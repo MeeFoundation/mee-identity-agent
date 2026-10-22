@@ -1,8 +1,17 @@
 import type { FC, ReactNode } from 'react'
-import { Pressable, type StyleProp, StyleSheet, Text, View, type ViewStyle } from 'react-native'
+import {
+  type AccessibilityState,
+  Pressable,
+  type StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  type ViewStyle,
+} from 'react-native'
 
 type CellInfoBase = {
   onPress?: () => void
+  accessibilityState?: AccessibilityState
   style?: StyleProp<ViewStyle>
 }
 
@@ -394,6 +403,7 @@ export const CellInfo: FC<CellInfoProps> = (props) => {
       <Pressable
         accessibilityLabel={accessibilityLabel}
         accessibilityRole="button"
+        accessibilityState={props.accessibilityState}
         onPress={props.onPress}
         style={rowStyle}
       >

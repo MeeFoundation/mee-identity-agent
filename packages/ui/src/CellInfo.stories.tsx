@@ -158,7 +158,7 @@ const variantOrder: CellInfoProps['variant'][] = [
   'add-info-in-chat',
 ]
 
-const CellInfoStory = (_props: { cell: CellInfoProps }) => null
+const CellInfoStory = () => null
 
 const meta = {
   component: CellInfoStory,
@@ -169,47 +169,45 @@ const meta = {
       </View>
     ),
   ],
-  render: ({ cell }) => <CellInfo {...cell} />,
 } satisfies Meta<typeof CellInfoStory>
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Member: Story = { args: { cell: variants.member } }
+export const Member: Story = { render: () => <CellInfo {...variants.member} /> }
 
-export const MiniGroup: Story = { args: { cell: variants['mini-group'] } }
+export const MiniGroup: Story = { render: () => <CellInfo {...variants['mini-group']} /> }
 
-export const Info: Story = { args: { cell: variants.info } }
+export const Info: Story = { render: () => <CellInfo {...variants.info} /> }
 
-export const InfoWithNewBadge: Story = { args: { cell: { ...variants.info, isNew: true, newLabel: 'NEW' } } }
+export const InfoWithNewBadge: Story = { render: () => <CellInfo {...variants.info} isNew newLabel="NEW" /> }
 
-export const SuggestedInfo: Story = { args: { cell: variants['suggested-info'] } }
+export const SuggestedInfo: Story = { render: () => <CellInfo {...variants['suggested-info']} /> }
 
-export const AnotherUserSubmitted: Story = { args: { cell: variants['another-user-submitted'] } }
+export const AnotherUserSubmitted: Story = { render: () => <CellInfo {...variants['another-user-submitted']} /> }
 
-export const ConflictingData: Story = { args: { cell: variants['conflicting-data'] } }
+export const ConflictingData: Story = { render: () => <CellInfo {...variants['conflicting-data']} /> }
 
-export const InfoAddedInChat: Story = { args: { cell: variants['info-added-in-chat'] } }
+export const InfoAddedInChat: Story = { render: () => <CellInfo {...variants['info-added-in-chat']} /> }
 
-export const AddInfoInChat: Story = { args: { cell: variants['add-info-in-chat'] } }
+export const AddInfoInChat: Story = { render: () => <CellInfo {...variants['add-info-in-chat']} /> }
 
-export const MemberWithoutRole: Story = { args: { cell: { ...variants.member, roleLabel: undefined } } }
+export const MemberWithoutRole: Story = { render: () => <CellInfo {...variants.member} roleLabel={undefined} /> }
 
 export const LongText: Story = {
-  args: {
-    cell: {
-      ...variants.info,
-      label: 'A very long label that cannot fit in the row width',
-      value: 'A very long value that cannot fit in the row width and is cut off with an ellipsis',
-    },
-  },
+  render: () => (
+    <CellInfo
+      {...variants.info}
+      label="A very long label that cannot fit in the row width"
+      value="A very long value that cannot fit in the row width and is cut off with an ellipsis"
+    />
+  ),
 }
 
-export const Pressable: Story = { args: { cell: { ...variants.info, onPress: () => undefined } } }
+export const Pressable: Story = { render: () => <CellInfo {...variants.info} onPress={() => undefined} /> }
 
 export const AllVariants: Story = {
-  args: { cell: variants.member },
   render: () => (
     <View>
       {variantOrder.map((variant) => (

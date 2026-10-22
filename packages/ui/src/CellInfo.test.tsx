@@ -75,4 +75,44 @@ describe('CellInfo', () => {
 
     expect(onPress).toHaveBeenCalledTimes(1)
   })
+
+  it('reports the accessibility state of a pressable row and updates it', async () => {
+    const { rerender } = await render(
+      <CellInfo
+        accessibilityState={{ expanded: true }}
+        icon={null}
+        name="Contact info"
+        onPress={jest.fn()}
+        variant="mini-group"
+      />,
+    )
+    expect(screen.getByRole('button', { expanded: true, name: 'Contact info' })).toBeTruthy()
+
+    await rerender(
+      <CellInfo
+        accessibilityState={{ expanded: false }}
+        icon={null}
+        name="Contact info"
+        onPress={jest.fn()}
+        variant="mini-group"
+      />,
+    )
+
+    expect(screen.getByRole('button', { expanded: false, name: 'Contact info' })).toBeTruthy()
+  })
+
+  it('reports no state when none is given', async () => {
+    await render(<CellInfo label="Phone" onPress={jest.fn()} value="555 0100" variant="info" />)
+
+    expect(screen.getByRole('button', { name: 'Phone, 555 0100' })).toBeTruthy()
+    expect(screen.queryByRole('button', { expanded: true })).toBeNull()
+    expect(screen.queryByRole('button', { expanded: false })).toBeNull()
+  })
+
+  it('does not report a state on a static row', async () => {
+    await render(<CellInfo accessibilityState={{ expanded: true }} label="Phone" value="555 0100" variant="info" />)
+
+    expect(screen.queryByRole('button')).toBeNull()
+    expect(screen.getByText('Phone')).toBeTruthy()
+  })
 })
