@@ -3,17 +3,21 @@ export const colors = {
   alphaDark7: '#02061712',
   alphaDark10: '#0206171a',
   alphaDark15: '#02061726',
+  alphaWhite80: '#ffffffcc',
   strokeDefaultMain: '#ffffff',
   strokeGrayAccent: '#cbd5e1',
   surfaceBrandLight: '#dfecee',
   surfaceBrandSolid: '#3b5b63',
   surfaceDefaultMain: '#ffffff',
+  surfaceErrorSolid: '#b91c1c',
   surfaceGrayLight: '#f1f5f9',
+  textBrandMain: '#4f868e',
   textBrandSolid: '#3b5b63',
   textDefaultPlaceholder: '#64748b',
   textDefaultSubtle: '#475569',
   textDefaultTitle: '#0f172a',
   textGrayOnSoftBackground: '#0f172a',
+  textGraySolid: '#334155',
 } as const
 
 export const spacing = {
@@ -22,6 +26,7 @@ export const spacing = {
   2: 8,
   2.5: 10,
   3: 12,
+  4: 16,
   5: 20,
   px: 1,
 } as const
@@ -54,8 +59,10 @@ export const typography = {
   lgBold: { fontFamily: fontFamilies.bold, fontSize: 18, letterSpacing: 0.09, lineHeight: 28 },
   xlSemibold: { fontFamily: fontFamilies.semibold, fontSize: 20, letterSpacing: 0.1, lineHeight: 30 },
   xsRegular: { fontFamily: fontFamilies.regular, fontSize: 12, letterSpacing: 0.06, lineHeight: 16 },
+  xxsMedium: { fontFamily: fontFamilies.medium, fontSize: 10, letterSpacing: 0.05, lineHeight: 14 },
 } as const
 
 export const motion = {
+  footerDuration: 250,
   headerDuration: 200,
 } as const

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native'
 import type { BottomTabBarProps } from 'expo-router/js-tabs'
 import { createStore, Provider } from 'jotai'
+import { useState } from 'react'
 import { View } from 'react-native'
 
 import { AppFooter } from './app-footer'
@@ -25,10 +26,21 @@ const FooterStory = ({ activeIndex, navigateToTab = () => undefined, unread }: F
 
   return (
     <Provider store={store}>
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+      <View style={{ paddingTop: 64 }}>
         <AppFooter {...props} />
       </View>
     </Provider>
+  )
+}
+
+const InteractiveFooterStory = ({ unread }: Pick<FooterStoryProps, 'unread'>) => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  return (
+    <FooterStory
+      activeIndex={activeIndex}
+      navigateToTab={(key) => setActiveIndex(Math.max(routeNames.indexOf(key), 0))}
+      unread={unread}
+    />
   )
 }
 
@@ -49,3 +61,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 
 export const WithUnreadNotifications: Story = { args: { unread: 3 } }
+
+export const Interactive: Story = {
+  render: ({ unread }) => <InteractiveFooterStory unread={unread} />,
+}
