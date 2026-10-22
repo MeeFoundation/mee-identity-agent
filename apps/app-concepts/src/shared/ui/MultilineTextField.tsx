@@ -1,5 +1,13 @@
-import { type FC, useRef, useState } from 'react'
-import { type StyleProp, StyleSheet, type TextStyle, TouchableOpacity, View, type ViewStyle } from 'react-native'
+import { type ElementRef, type FC, useRef, useState } from 'react'
+import {
+  type TextInput as RNTextInput,
+  type StyleProp,
+  StyleSheet,
+  type TextStyle,
+  TouchableOpacity,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import type { SvgProps } from 'react-native-svg'
 
@@ -36,7 +44,7 @@ export const MultilineTextField: FC<MultilineTextFieldProps> = ({
   disabled,
   propsStyles,
 }) => {
-  const inputRef = useRef<TextInput>(null)
+  const inputRef = useRef<ElementRef<typeof RNTextInput>>(null)
   const [isFocused, setIsFocused] = useState(false)
 
   const focusHandler = () => {
@@ -62,12 +70,14 @@ export const MultilineTextField: FC<MultilineTextFieldProps> = ({
         onFocus={focusHandler}
         placeholder={placeholder}
         placeholderTextColor={colors['gray-400']}
-        ref={inputRef}
-        style={[
-          styles.input,
-          { height: LINE_HEIGHT * numberOfLines + PADDING_VERTICAL * 2 },
-          propsStyles?.input,
-        ] satisfies StyleProp<TextStyle>}
+        ref={inputRef as never}
+        style={
+          [
+            styles.input,
+            { height: LINE_HEIGHT * numberOfLines + PADDING_VERTICAL * 2 },
+            propsStyles?.input,
+          ] satisfies StyleProp<TextStyle>
+        }
         textAlignVertical="top"
         value={value}
       />

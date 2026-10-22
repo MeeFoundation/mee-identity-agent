@@ -9,7 +9,7 @@ import type { Attachment, UserMessage } from '@/entities/chat'
 
 import { useFormattedTime } from '@/shared/lib/date-time'
 import { cn } from '@/shared/lib/styling'
-import * as DropdownMenu from '@/shared/ui/DropdownMenu'
+import { DropdownMenu, type DropdownMenuItem } from '@/shared/ui/DropdownMenu'
 import { Typography } from '@/shared/ui/Typography'
 
 import { getAttachmentTip } from '../lib/get-attachment-tip'
@@ -199,47 +199,45 @@ const ChatBubble: FC<ChatBubbleProps> = ({ message, position, className }) => {
     setReplyToMessageId(message.id)
   }, [setReplyToMessageId, message.id])
 
+  const menuItems = useMemo<DropdownMenuItem[]>(
+    () => [{ id: 'reply', onSelect: handleSelectForReply, title: chatT('bubble_actions.reply.text') }],
+    [chatT, handleSelectForReply],
+  )
+
   return (
     <View className={cn(position === 'left' ? 'items-start' : 'items-end', className)}>
       {replyEl}
 
-      <DropdownMenu.Root>
-        <DropdownMenu.Trigger
-          className={cn(
-            'rounded-[10] px-3 py-2',
-            position === 'left' ? 'max-w-full border border-black/7 bg-white' : 'max-w-[80%] bg-primary',
-          )}
-        >
-          {/* render username for incomming messages only  */}
-          {position !== 'left' ? null : <ChatBubbleUsername message={message} position={position} />}
+      <DropdownMenu
+        className={cn(
+          'rounded-[10] px-3 py-2',
+          position === 'left' ? 'max-w-full border border-black/7 bg-white' : 'max-w-[80%] bg-primary',
+        )}
+        items={menuItems}
+      >
+        {/* render username for incomming messages only  */}
+        {position !== 'left' ? null : <ChatBubbleUsername message={message} position={position} />}
 
-          {/* render attachments for outgoing full-width */}
-          {position !== 'right' ? null : attachnetsEl}
+        {/* render attachments for outgoing full-width */}
+        {position !== 'right' ? null : attachnetsEl}
 
-          <View className="flex-row items-end gap-2.5">
-            <View className="shrink">
-              {
-                <>
-                  {position !== 'left' ? null : attachnetsEl}
-                  {!message.text ? null : <ChatBubbleText position={position} text={message.text} />}
-                </>
-              }
-            </View>
-
-            {position === 'right' ? (
-              <View>
-                <ChatBubbleTime message={message} position={position} />
-              </View>
-            ) : null}
+        <View className="flex-row items-end gap-2.5">
+          <View className="shrink">
+            {
+              <>
+                {position !== 'left' ? null : attachnetsEl}
+                {!message.text ? null : <ChatBubbleText position={position} text={message.text} />}
+              </>
+            }
           </View>
-        </DropdownMenu.Trigger>
 
-        <DropdownMenu.MenuContent>
-          <DropdownMenu.MenuItem key="reply" onSelect={handleSelectForReply}>
-            {chatT('bubble_actions.reply.text')}
-          </DropdownMenu.MenuItem>
-        </DropdownMenu.MenuContent>
-      </DropdownMenu.Root>
+          {position === 'right' ? (
+            <View>
+              <ChatBubbleTime message={message} position={position} />
+            </View>
+          ) : null}
+        </View>
+      </DropdownMenu>
     </View>
   )
 }

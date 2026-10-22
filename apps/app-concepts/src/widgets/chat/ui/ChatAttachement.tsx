@@ -61,17 +61,16 @@ const ChatAttachmentAction: FC<ChatAttachmentActionProps> = ({ width = 24, heigh
 /* -------------------------------------------------------------------------------------------------
  * ChatAttachment
  * -----------------------------------------------------------------------------------------------*/
-type ChatAttachmentProps = TouchableOpacityProps
+type ChatAttachmentProps = ViewProps & Pick<TouchableOpacityProps, 'onPress'>
 
 const ChatAttachment: FC<ChatAttachmentProps> = ({ className, ...rest }) => {
-  const Component = rest.onPress ? TouchableOpacity : View
+  const rootClassName = cn('w-full flex-row gap-1 rounded-md border border-gray-200 bg-gray-100 px-2.5 py-2', className)
 
-  return (
-    <Component
-      className={cn('w-full flex-row gap-1 rounded-md border border-gray-200 bg-gray-100 px-2.5 py-2', className)}
-      {...rest}
-    />
-  )
+  if (rest.onPress) {
+    return <TouchableOpacity className={rootClassName} {...rest} />
+  }
+
+  return <View className={rootClassName} {...rest} />
 }
 
 /* -----------------------------------------------------------------------------------------------*/

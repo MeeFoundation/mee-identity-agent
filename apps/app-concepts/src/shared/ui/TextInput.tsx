@@ -1,10 +1,9 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import { createContext, type FC, useCallback, useContext, useMemo, useState } from 'react'
 import {
-  type NativeSyntheticEvent,
   TextInput as NativeTextInput,
   type TextInputProps as NativeTextInputProps,
-  type TextInputFocusEventData,
+  type TextInputFocusEvent,
   View,
   type ViewProps,
 } from 'react-native'
@@ -61,7 +60,7 @@ const TextInput: FC<TextInputProps> = ({ className, invalid, size, ...props }) =
   const [_focused, setFocused] = useState(false)
 
   const handleFocus = useCallback(
-    (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    (event: TextInputFocusEvent) => {
       setFocused(true)
       ctx?.setFocused(true)
       props.onFocus?.(event)
@@ -70,7 +69,7 @@ const TextInput: FC<TextInputProps> = ({ className, invalid, size, ...props }) =
   )
 
   const handleBlur = useCallback(
-    (event: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    (event: TextInputFocusEvent) => {
       setFocused(false)
       ctx?.setFocused(false)
       props.onBlur?.(event)

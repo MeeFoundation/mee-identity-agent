@@ -7,3 +7,39 @@ allowBuilds:
   esbuild: true
   lefthook: true
   unrs-resolver: true
+
+minimumReleaseAgeExclude:
+  - '@expo/cli@55.0.37 || 57.0.32 || 58.1.14'
+  - '@expo/config-plugins@55.0.12 || 57.0.11 || 58.0.10'
+  - expo-modules-autolinking@55.0.28 || 58.0.14
+  - expo-modules-core@55.0.27 || 57.0.24 || 58.0.24
+  - expo@55.0.32 || 57.0.31 || 58.0.17
+  - '@expo/router-server@57.0.14 || 58.0.16'
+  - expo-modules-jsi@57.1.3 || 58.0.17
+  - '@expo/ui@57.0.26'
+  - expo-router@57.0.29 || 58.0.25
+  - '@expo/config@58.0.7'
+  - '@expo/env@2.5.3'
+  - '@expo/fingerprint@0.21.6'
+  - '@expo/inline-modules@0.2.7'
+  - '@expo/local-build-cache-provider@58.0.7'
+  - '@expo/log-box@58.0.13'
+  - '@expo/metro-config@58.0.16'
+  - '@expo/prebuild-config@58.0.15'
+  - '@noxcturnal/noxcturnal-darwin-arm64@0.1.8'
+  - '@noxcturnal/noxcturnal-darwin-x64@0.1.8'
+  - '@noxcturnal/noxcturnal-linux-arm64-gnu@0.1.8'
+  - '@noxcturnal/noxcturnal-linux-arm64-musl@0.1.8'
+  - '@noxcturnal/noxcturnal-linux-x64-gnu@0.1.8'
+  - '@noxcturnal/noxcturnal-linux-x64-musl@0.1.8'
+  - '@noxcturnal/noxcturnal-win32-arm64-msvc@0.1.8'
+  - '@noxcturnal/noxcturnal-win32-x64-msvc@0.1.8'
+  - babel-preset-expo@58.0.19
+  - expo-asset@58.0.18
+  - expo-constants@58.0.13
+  - noxcturnal@0.1.8
+  - '@expo/metro-runtime@58.0.15'
+  - expo-linking@58.0.14
+  - expo-splash-screen@58.0.11
+  - expo-status-bar@58.0.4
+
