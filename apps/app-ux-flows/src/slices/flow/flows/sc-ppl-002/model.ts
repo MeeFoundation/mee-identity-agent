@@ -1,8 +1,5 @@
 import { atom } from 'jotai'
 
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import {
   addShared,
   adopt,
@@ -18,6 +15,8 @@ import {
   setDetailAbout,
 } from '../../pods/people/member-info'
 import { bogdan, type Member, memberCount, nextInviteLink, type PendingInvite } from '../../pods/people/sharing'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type ScPpl002ScreenId =
   | 'info'

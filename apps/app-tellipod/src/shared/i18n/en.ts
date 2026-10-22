@@ -14,6 +14,10 @@ export const en = {
     welcome: 'Welcome',
     welcomeNamed: 'Welcome, {{name}}',
   },
+  onboarding: {
+    start: 'Start',
+    title: 'Onboarding',
+  },
   pod: {
     breadcrumb: {
       immediateFamily: 'Immediate Family',
@@ -24,10 +28,6 @@ export const en = {
       info: 'Info',
       notes: 'Notes',
     },
-  },
-  onboarding: {
-    start: 'Start',
-    title: 'Onboarding',
   },
   screens: {
     askTelli: 'Ask Telli',

@@ -2,8 +2,6 @@ import { useAtomValue, useSetAtom, useStore } from 'jotai'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
-
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { ScPet003TopBar } from '../components/sc-pet-003-top-bar'
 import {
@@ -18,6 +16,7 @@ import {
   telliTypingAtom,
   toastAtom,
 } from '../model'
+import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
 
 export const ChatScreen = () => {
   const { t, i18n } = useTranslation()

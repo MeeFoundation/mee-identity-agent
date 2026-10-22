@@ -1,11 +1,10 @@
 import { atom } from 'jotai'
 
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import type { Attachment } from '../../pods/attachments/model'
 import { sofiaAttachments } from '../../pods/attachments/sofia-fixture'
 import { andrew, geo } from '../../pods/people/sharing'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type ScAtt001ScreenId = 'files' | 'add' | 'actions' | 'rename'
 

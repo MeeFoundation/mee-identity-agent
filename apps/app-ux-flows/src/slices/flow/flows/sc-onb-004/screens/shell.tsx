@@ -4,15 +4,7 @@ import { cn } from '@/shared/lib/cn'
 
 import '../onboarding-v2.css'
 
-export const FlowPage = ({
-  children,
-  footer,
-  top,
-}: {
-  children: ReactNode
-  footer?: ReactNode
-  top?: ReactNode
-}) => (
+export const FlowPage = ({ children, footer, top }: { children: ReactNode; footer?: ReactNode; top?: ReactNode }) => (
   <div className="flex h-full flex-col bg-gray-50">
     {top}
     <div className="flex min-h-0 flex-1 animate-onb-step-in flex-col overflow-y-auto px-6 py-4">{children}</div>
@@ -29,6 +21,4 @@ export const Wordmark = ({ className }: { className?: string }) => (
   </span>
 )
 
-export const ActionStack = ({ children }: { children: ReactNode }) => (
-  <div className="grid gap-3">{children}</div>
-)
+export const ActionStack = ({ children }: { children: ReactNode }) => <div className="grid gap-3">{children}</div>

@@ -1,10 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
 import { createStore, Provider } from 'jotai'
 
+import { OnboardingScreen, onboardedAtom } from '.'
 import { chromeAtom } from '@/shared/chrome'
 import { mmkvStorage } from '@/shared/storage'
-
-import { onboardedAtom, OnboardingScreen } from '.'
 
 jest.mock('@/shared/storage', () => {
   const data = new Map<string, string>()

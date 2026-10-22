@@ -4,10 +4,9 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 import { describe, expect, it, vi } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import type { FlowLauncher } from './flow-row'
 import { HomePage } from './home-page'
+import { en } from '@/app/locales/en'
 import type { FlowKind } from '@/slices/flow/runtime/define-flow'
 
 type ButtonProps = { children: ReactNode; onClick?: () => void }

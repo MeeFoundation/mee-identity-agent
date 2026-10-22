@@ -1,4 +1,4 @@
-import { type FC, useLayoutEffect, useRef, useState } from 'react'
+import { type ElementRef, type FC, useLayoutEffect, useRef, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -6,7 +6,6 @@ import {
   type GestureResponderEvent,
   StyleSheet,
   TouchableWithoutFeedback,
-  type View,
 } from 'react-native'
 
 type BackdropProps = {
@@ -15,7 +14,7 @@ type BackdropProps = {
 }
 
 export const Backdrop: FC<BackdropProps> = ({ onClick, color = 'transparent' }) => {
-  const mainRef = useRef<View>(null)
+  const mainRef = useRef<ElementRef<typeof Animated.View>>(null)
   const backdropOpacity = new Animated.Value(0)
   const windowWidth = Dimensions.get('window').width
   const windowHeight = Dimensions.get('window').height

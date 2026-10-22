@@ -1,3 +1,4 @@
+export { AnimatedView } from './animated-view'
 export {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -7,6 +8,5 @@ export {
   ShieldLockIcon,
   ThreeDotsVerticalIcon,
 } from './icons'
-export { AnimatedView } from './animated-view'
 export { PlaceholderScreen } from './placeholder-screen'
 export { colors, fontFamilies, motion, radii, sizes, spacing, typography } from './tokens'

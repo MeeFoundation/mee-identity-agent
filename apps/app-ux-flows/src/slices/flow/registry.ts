@@ -1,5 +1,3 @@
-import { devMode } from '@/shared/lib/dev-mode'
-
 import { chatAddMedicationFlow } from './flows/chat-add-medication/flow'
 import { expPet002Flow } from './flows/exp-pet-002/flow'
 import { expPet003Flow } from './flows/exp-pet-003/flow'
@@ -20,6 +18,7 @@ import { scPpl003Flow } from './flows/sc-ppl-003/flow'
 import { withoutHidden } from './hidden'
 import type { AnyFlow, ComponentEnvironment } from './runtime/define-flow'
 import type { ResolvedFlow } from './runtime/resolve-flow'
+import { devMode } from '@/shared/lib/dev-mode'
 
 // Dev mode keeps every flow; otherwise what is hidden is left out, once, so lookups keep their identity.
 export const createRegistry = (definitions: readonly AnyFlow[], showHidden: boolean) => {

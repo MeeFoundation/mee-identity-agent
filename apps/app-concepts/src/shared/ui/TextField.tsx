@@ -1,7 +1,8 @@
 import { BottomSheetTextInput } from '@gorhom/bottom-sheet'
-import { type ComponentProps, type FC, useRef, useState } from 'react'
+import { type ComponentProps, type ElementRef, type FC, useRef, useState } from 'react'
 import {
   Animated,
+  type TextInput as RNTextInput,
   type StyleProp,
   StyleSheet,
   Text,
@@ -51,7 +52,7 @@ export const TextField: FC<TextFieldProps> = ({
   isBottomSheetTextInput,
   isLabelInside,
 }) => {
-  const inputRef = useRef<TextInput>(null)
+  const inputRef = useRef<ElementRef<typeof RNTextInput>>(null)
   const [isFocused, setIsFocused] = useState(false)
   const insideLabelTranslateYValue = useAnimatedValue(value ? 0 : 9)
 
@@ -118,7 +119,8 @@ export const TextField: FC<TextFieldProps> = ({
     onSubmitEditing: blurHandler,
     placeholder: placeholder,
     placeholderTextColor: colors['gray-400'],
-    ref: inputRef,
+    // gesture-handler/bottom-sheet inputs type their ref loosely; at runtime it is the native TextInput instance
+    ref: inputRef as never,
     style: [
       inputStyle,
       errorText && textFieldStyles.errorBorder,

@@ -1,8 +1,7 @@
 import { atom } from 'jotai'
 
-import type { ChatComponents } from '@/shared/ui/chat-components'
-
 import type { GingerPodComponents, MedicationRecord, Pod } from '../../pods/ginger/model'
+import type { ChatComponents } from '@/shared/ui/chat-components'
 
 export type ChatAddMedicationScreenId = 'ginger-notes' | 'chat' | 'ginger-info' | 'medication-added'
 

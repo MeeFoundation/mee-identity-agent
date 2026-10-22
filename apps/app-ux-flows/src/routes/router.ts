@@ -1,11 +1,10 @@
 import { createRouter } from '@tanstack/react-router'
 
-import { NotFoundPage } from '@/slices/not-found/not-found-page'
-
 import { flowRoute } from './flow'
 import { flowScreenRoute } from './flow.$screenId'
 import { homeRoute } from './home'
 import { rootRoute } from './root'
+import { NotFoundPage } from '@/slices/not-found/not-found-page'
 
 export const router = createRouter({
   defaultNotFoundComponent: NotFoundPage,

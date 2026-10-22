@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import {
   apoquelMedication,
   createDoseHistory,
@@ -34,6 +31,8 @@ import { DoseHistoryScreen } from './screens/dose-history-screen'
 import { GiveDoseScreen } from './screens/give-dose-screen'
 import { MedicalScreen } from './screens/medical-screen'
 import { UndoDoseScreen } from './screens/undo-dose-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

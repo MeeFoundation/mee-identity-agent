@@ -1,10 +1,9 @@
 import { createInstance } from 'i18next'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { formatAttachmentDate, formatFileSize, toAttachmentDetail } from './format'
 import { sofiaAttachments } from './sofia-fixture'
+import { en } from '@/app/locales/en'
 
 const i18n = createInstance()
 i18n.init({

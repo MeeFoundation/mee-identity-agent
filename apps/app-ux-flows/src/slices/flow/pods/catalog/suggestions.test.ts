@@ -1,10 +1,9 @@
 import { createInstance } from 'i18next'
 import { beforeAll, describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { podCategoryIris } from './categories'
 import { findSuggestion } from './suggestions'
+import { en } from '@/app/locales/en'
 
 const i18n = createInstance()
 

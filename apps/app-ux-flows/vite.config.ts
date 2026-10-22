@@ -16,7 +16,7 @@ export default defineConfig({
       '@/slices': fromSrc('slices'),
     },
   },
-  server:{
+  server: {
     port: 5179,
   },
   test: {

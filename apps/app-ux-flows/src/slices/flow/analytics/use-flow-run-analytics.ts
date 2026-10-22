@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 
+import { createFlowRunTracker, selectFlowRunTracker } from './flow-run-tracker'
+import { browserRunStorage } from './run-storage'
 import type { VariantSource } from '@/shared/analytics/analytics-event'
 import { useAnalytics } from '@/shared/analytics/analytics-provider'
 import { createRandomId } from '@/shared/analytics/random-id'
-
-import { createFlowRunTracker, selectFlowRunTracker } from './flow-run-tracker'
-import { browserRunStorage } from './run-storage'
 
 const entryPath = typeof window === 'undefined' ? '' : window.location.pathname
 

@@ -1,15 +1,13 @@
 import { type ComponentProps, createElement, Fragment } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import { findFlow, listFlows } from '../../registry'
 import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scAtt001Flow } from './flow'
 import { filesAtom, goalAtom, selectedIdAtom, toastAtom } from './model'
+import { en } from '@/app/locales/en'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 // Resolves an i18next key such as `flows.scAtt001.title` against the English strings.
 const translate = (key: string): unknown =>

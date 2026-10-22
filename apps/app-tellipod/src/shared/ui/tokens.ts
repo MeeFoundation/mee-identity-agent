@@ -5,10 +5,10 @@ export const colors = {
   alphaDark15: '#02061726',
   strokeDefaultMain: '#ffffff',
   strokeGrayAccent: '#cbd5e1',
-  surfaceGrayLight: '#f1f5f9',
   surfaceBrandLight: '#dfecee',
   surfaceBrandSolid: '#3b5b63',
   surfaceDefaultMain: '#ffffff',
+  surfaceGrayLight: '#f1f5f9',
   textBrandSolid: '#3b5b63',
   textDefaultPlaceholder: '#64748b',
   textDefaultSubtle: '#475569',
@@ -48,8 +48,8 @@ export const fontFamilies = {
 } as const
 
 export const typography = {
-  baseRegular: { fontFamily: fontFamilies.regular, fontSize: 16, letterSpacing: 0.08, lineHeight: 24 },
   baseMedium: { fontFamily: fontFamilies.medium, fontSize: 16, letterSpacing: 0.08, lineHeight: 24 },
+  baseRegular: { fontFamily: fontFamilies.regular, fontSize: 16, letterSpacing: 0.08, lineHeight: 24 },
   baseSemibold: { fontFamily: fontFamilies.semibold, fontSize: 16, letterSpacing: 0.08, lineHeight: 24 },
   lgBold: { fontFamily: fontFamilies.bold, fontSize: 18, letterSpacing: 0.09, lineHeight: 28 },
   xlSemibold: { fontFamily: fontFamilies.semibold, fontSize: 20, letterSpacing: 0.1, lineHeight: 30 },

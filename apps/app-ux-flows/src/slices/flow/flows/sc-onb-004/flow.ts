@@ -1,7 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-
 import { defineFlow } from '../../runtime/define-flow'
 import type { ScOnb004Components, ScOnb004ScreenId } from './model'
 import { DevicesScreen } from './screens/devices-screen'
@@ -11,6 +9,7 @@ import { ProfileFormScreen } from './screens/profile-form-screen'
 import { SetupScreen } from './screens/setup-screen'
 import { NextScreen, PairingScreen } from './screens/stand-in-screen'
 import { TourScreen } from './screens/tour-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
 
 const key = (path: string) => `flows.scOnb004.${path}`
 

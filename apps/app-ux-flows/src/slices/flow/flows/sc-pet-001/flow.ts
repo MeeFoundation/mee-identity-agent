@@ -1,9 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { chatComponents } from '@/shared/ui/chat-components'
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { noteTextAtom } from '../../pods/notes/model'
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
@@ -34,6 +30,9 @@ import { PodNotesScreen } from './screens/pod-notes-screen'
 import { PodTemplateAppliedScreen } from './screens/pod-template-applied-screen'
 import { PodTemplateSuggestedScreen } from './screens/pod-template-suggested-screen'
 import { TelliScreen } from './screens/telli-screen'
+import { chatComponents } from '@/shared/ui/chat-components'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

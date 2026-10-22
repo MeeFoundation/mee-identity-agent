@@ -39,14 +39,18 @@ const LandingCluster = () => {
               reduced
                 ? undefined
                 : ({
-                    animationDelay: `${item.delay}ms`,
                     '--from-x': `${item.from.x}px`,
                     '--from-y': `${item.from.y}px`,
+                    animationDelay: `${item.delay}ms`,
                   } as CSSProperties)
             }
           >
             <span
-              className={reduced ? 'block rounded-full ring-4 ring-gray-50' : 'block animate-onb-bob rounded-full ring-4 ring-gray-50'}
+              className={
+                reduced
+                  ? 'block rounded-full ring-4 ring-gray-50'
+                  : 'block animate-onb-bob rounded-full ring-4 ring-gray-50'
+              }
               style={reduced ? undefined : { animationDelay: `${1400 + 500 * index}ms` }}
             >
               <TourFace face={item.face} />

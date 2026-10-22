@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import type { AnalyticsEvent } from '@/shared/analytics/analytics-event'
-
 import {
   createFlowRunTracker,
   type FlowRunTrackerOptions,
@@ -9,6 +7,7 @@ import {
   selectFlowRunTracker,
 } from './flow-run-tracker'
 import { createRunStorage, type RunStorage } from './run-storage'
+import type { AnalyticsEvent } from '@/shared/analytics/analytics-event'
 
 const createMemoryStorage = (): RunStorage => {
   const items = new Map<string, string>()

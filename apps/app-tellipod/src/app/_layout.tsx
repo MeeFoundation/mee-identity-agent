@@ -16,11 +16,10 @@ import { StyleSheet } from 'react-native'
 import { Easing, LinearTransition, ReduceMotion } from 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import { onboardedAtom } from '@/features/onboarding'
 import { AnimatedView, motion } from '@/shared/ui'
 import { AppHeader } from '@/widgets/app-header'
 import { registerDevTools } from '@/widgets/dev-tools'
-
-import { onboardedAtom } from '@/features/onboarding'
 
 const bodyLayout = LinearTransition.duration(motion.headerDuration)
   .easing(Easing.out(Easing.quad))
@@ -29,7 +28,7 @@ const bodyLayout = LinearTransition.duration(motion.headerDuration)
 registerDevTools()
 SplashScreen.preventAutoHideAsync()
 
-export default function RootLayout() {
+function AppLayout() {
   const onboarded = useAtomValue(onboardedAtom)
   const [fontsLoaded, fontError] = useFonts({
     PublicSans_400Regular,
@@ -71,3 +70,5 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   body: { flex: 1 },
 })
+
+export default process.env.EXPO_PUBLIC_STORYBOOK === 'true' ? require('../../.rnstorybook').default : AppLayout

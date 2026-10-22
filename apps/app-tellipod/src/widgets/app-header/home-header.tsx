@@ -2,10 +2,9 @@ import { useAtomValue } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
+import { SearchField } from './search-field'
 import { colors, PeopleIcon, radii, ShieldLockIcon, sizes, spacing, typography } from '@/shared/ui'
 import { userNameAtom } from '@/shared/user'
-
-import { SearchField } from './search-field'
 
 export const HomeHeader = () => {
   const { t } = useTranslation()

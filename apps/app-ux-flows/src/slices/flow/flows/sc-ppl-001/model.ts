@@ -1,8 +1,5 @@
 import { atom } from 'jotai'
 
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import {
   applyTidy,
   hasContactLink,
@@ -13,6 +10,8 @@ import {
 } from '../../pods/notes/tidy'
 import { type ContactInfoField, type ContactInfoRecord, contactFullName } from '../../pods/people/contact-info'
 import type { FlowStore } from '../../runtime/define-flow'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type ScPpl001ScreenId = 'notes' | 'tidy-confirm' | 'notes-tidied' | 'contact-info'
 

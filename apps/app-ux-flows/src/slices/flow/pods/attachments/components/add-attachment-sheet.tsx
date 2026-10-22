@@ -1,9 +1,8 @@
 import { FileEarmark, FileEarmarkImage } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 type AddAttachmentSheetProps = {
   onMediaFile: () => void

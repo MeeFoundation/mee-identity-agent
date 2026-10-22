@@ -3,13 +3,12 @@ import type { ReactNode } from 'react'
 import { StyleSheet } from 'react-native'
 import { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated'
 
-import { chromeAtom } from '@/shared/chrome'
-import { AnimatedView, motion, spacing } from '@/shared/ui'
-
 import { BackSearchHeader } from './back-search-header'
 import { HeaderSurface } from './header-surface'
 import { HomeHeader } from './home-header'
 import { PodHeader } from './pod-header'
+import { chromeAtom } from '@/shared/chrome'
+import { AnimatedView, motion, spacing } from '@/shared/ui'
 
 const entering = FadeIn.duration(motion.headerDuration).reduceMotion(ReduceMotion.System)
 const exiting = FadeOut.duration(motion.headerDuration).reduceMotion(ReduceMotion.System)

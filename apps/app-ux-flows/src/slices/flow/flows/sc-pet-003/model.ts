@@ -1,7 +1,5 @@
 import { atom } from 'jotai'
 
-import type { GroupChatComponents } from '@/shared/ui/group-chat-components'
-
 import {
   type CareFeedingToastValue,
   createFeedingHistory,
@@ -13,6 +11,7 @@ import {
 import { type GingerPodComponents, PARTICIPANT_ID, type PodMember } from '../../pods/ginger/model'
 import { answerFor } from '../../pods/ginger/telli-answers'
 import type { FlowStore } from '../../runtime/define-flow'
+import type { GroupChatComponents } from '@/shared/ui/group-chat-components'
 
 export type ScPet003ScreenId =
   | 'info'

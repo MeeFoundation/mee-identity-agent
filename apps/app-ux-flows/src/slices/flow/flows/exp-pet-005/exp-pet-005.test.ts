@@ -1,8 +1,6 @@
 import { createInstance } from 'i18next'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { apoquelMedication, createDoseHistory, gingerSharedPod, pastCourses } from '../../pods/ginger/apoquel-fixture'
 import { toDoseStatus } from '../../pods/ginger/dose-status'
 import { toMedicationSummary } from '../../pods/ginger/medication-fields'
@@ -23,6 +21,7 @@ import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { expPet005Flow } from './flow'
 import { type DoseOrigin, doseOriginAtom, doseSurfaceAtom, toastAtom, toEntryPoint } from './model'
+import { en } from '@/app/locales/en'
 
 const variantIds = Object.keys(expPet005Flow.variants ?? {})
 

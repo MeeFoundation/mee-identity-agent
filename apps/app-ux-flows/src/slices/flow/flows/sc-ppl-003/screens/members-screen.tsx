@@ -2,12 +2,11 @@ import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
-
 import { memberCount, memberInitial } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { SharedPodTopBar } from '../components/shared-pod-top-bar'
 import { goalAtom, podMembers, type ScPpl003Components, type ScPpl003ScreenId } from '../model'
+import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
 
 export const MembersScreen = () => {
   const { t } = useTranslation()

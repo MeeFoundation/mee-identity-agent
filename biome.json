@@ -66,6 +66,7 @@
       "!**/android/**/*",
       "!**/ios/**/*",
       "!**/.expo/**/*",
+      "!**/.rnstorybook/storybook.requires.ts",
       "!**/@types/**/*"
     ]
   },
@@ -125,6 +126,14 @@
       }
     }
   },
+  "overrides": [
+    {
+      "assist": {
+        "enabled": false
+      },
+      "includes": ["**/package.json", "**/tsconfig.json", "**/vitest.config.ts"]
+    }
+  ],
   "vcs": {
     "clientKind": "git",
     "enabled": false,

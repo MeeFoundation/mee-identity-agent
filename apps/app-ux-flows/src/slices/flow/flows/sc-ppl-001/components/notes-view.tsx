@@ -7,9 +7,9 @@ import {
   contactLinkLabelAtom,
   linkPulseAtom,
   noteBlocksAtom,
+  openTidyAtom,
   type ScPpl001Components,
   type ScPpl001ScreenId,
-  openTidyAtom,
   setBlockTextAtom,
   suggestionAtom,
 } from '../model'

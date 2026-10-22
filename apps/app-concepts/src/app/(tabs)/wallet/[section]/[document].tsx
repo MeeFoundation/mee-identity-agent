@@ -1,30 +1,28 @@
-import { BottomSheetTextInput, type BottomSheetModal } from '@gorhom/bottom-sheet'
+import { type BottomSheetModal, BottomSheetTextInput } from '@gorhom/bottom-sheet'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useAtom } from 'jotai'
 import type { FC } from 'react'
-import { useRef, useState } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { ChevronDownIcon, PencilSquareIcon, XMarkIcon } from 'react-native-heroicons/outline'
 import QRCode from 'react-native-qrcode-svg'
-
-import { colors } from '@/shared/config'
-import { hexAlphaColor } from '@/shared/lib/styling'
+import type { SFSymbols6_0 } from 'sf-symbols-typescript'
 
 import { BackButton, Header, ScreenLayout } from '@/widgets/navigation'
 
 import { AttributeRenderer, type InferAttributeValue, type ObjectAttributeSchema } from '@/entities/attribute'
 
+import { colors } from '@/shared/config'
+import { hexAlphaColor } from '@/shared/lib/styling'
 import { AppButton } from '@/shared/ui/AppButton'
 import { BottomSheetBackModal } from '@/shared/ui/BottomSheetModal'
+import { DropdownMenu, type DropdownMenuItem } from '@/shared/ui/DropdownMenu'
 import { IconSymbol } from '@/shared/ui/IconSymbol'
-import * as DropdownMenu from '@/shared/ui/DropdownMenu'
 import { Typography } from '@/shared/ui/Typography'
 
-import type { SFSymbols6_0 } from 'sf-symbols-typescript'
-
-import { SECTION_ICONS, SECTION_TITLE_KEYS, WALLET_DOCUMENTS, type DocumentSection } from '../document-registry'
-import { documentStateAtom, type DocumentState } from '../document-state.atom'
+import { type DocumentSection, SECTION_ICONS, SECTION_TITLE_KEYS, WALLET_DOCUMENTS } from '../document-registry'
+import { type DocumentState, documentStateAtom } from '../document-state.atom'
 
 /* -------------------------------------------------------------------------------------------------
  * ShareModal
@@ -40,12 +38,7 @@ const ShareModal: FC<ShareModalProps> = ({ title, modalRef }) => {
   const { t } = useTranslation()
 
   return (
-    <BottomSheetBackModal
-      enableDynamicSizing
-      ref={modalRef}
-      snapPoints={[]}
-      title={t('tabs.wallet.share_modal_title')}
-    >
+    <BottomSheetBackModal enableDynamicSizing ref={modalRef} snapPoints={[]} title={t('tabs.wallet.share_modal_title')}>
       <View style={styles.shareContent}>
         <Typography style={styles.shareSubtitle}>{title}</Typography>
         <View style={styles.qrContainer}>
@@ -63,9 +56,9 @@ const CUSTOM_BADGE_COLOR = colors.primary
 const SECTIONS: DocumentSection[] = ['life', 'work', 'health']
 
 const SECTION_SF_SYMBOLS: Record<DocumentSection, SFSymbols6_0> = {
+  health: 'checkmark.shield',
   life: 'heart',
   work: 'briefcase',
-  health: 'checkmark.shield',
 }
 
 const styles = StyleSheet.create({
@@ -76,37 +69,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
-  badgeText: {
-    fontSize: 13,
-    fontWeight: '500',
-  },
-  badgeInner: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: 5,
-  },
-  customBadgeRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-  },
-  customBadgeChip: {
-    borderRadius: 99,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  badgeEditContent: {
-    gap: 16,
-    padding: 16,
-    paddingBottom: 32,
-  },
-  badgeEditChipsRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
   badgeEditChip: {
     alignItems: 'center',
     borderRadius: 99,
@@ -116,14 +78,36 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
-  tagInput: {
-    backgroundColor: colors.white,
-    borderColor: colors['gray-200'],
-    borderRadius: 8,
+  badgeEditChipsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  badgeEditContent: {
+    gap: 16,
+    padding: 16,
+    paddingBottom: 32,
+  },
+  badgeInner: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 5,
+  },
+  badgeText: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  customBadgeChip: {
+    borderRadius: 99,
     borderWidth: 1,
-    fontSize: 16,
-    height: 44,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  customBadgeRow: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
   },
   qrContainer: {
     alignItems: 'center',
@@ -145,6 +129,15 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     opacity: 0.6,
     textAlign: 'center',
+  },
+  tagInput: {
+    backgroundColor: colors.white,
+    borderColor: colors['gray-200'],
+    borderRadius: 8,
+    borderWidth: 1,
+    fontSize: 16,
+    height: 44,
+    paddingHorizontal: 16,
   },
 })
 
@@ -188,7 +181,10 @@ const BadgeEditModal: FC<BadgeEditModalProps> = ({ modalRef, badges, onRemove, o
                 onPress={() => onRemove(badge)}
                 style={[
                   styles.badgeEditChip,
-                  { backgroundColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 10), borderColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 40) },
+                  {
+                    backgroundColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 10),
+                    borderColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 40),
+                  },
                 ]}
               >
                 <Typography style={[styles.badgeText, { color: CUSTOM_BADGE_COLOR }]}>{badge}</Typography>
@@ -220,7 +216,12 @@ type DocumentDetailsProps<TSchema extends ObjectAttributeSchema> = {
   onStateChange: (state: DocumentState) => void
 }
 
-function DocumentDetails<TSchema extends ObjectAttributeSchema>({ schema, title, state, onStateChange }: DocumentDetailsProps<TSchema>) {
+function DocumentDetails<TSchema extends ObjectAttributeSchema>({
+  schema,
+  title,
+  state,
+  onStateChange,
+}: DocumentDetailsProps<TSchema>) {
   const { t } = useTranslation()
   const router = useRouter()
   const [hasErrors, setHasErrors] = useState(false)
@@ -228,6 +229,18 @@ function DocumentDetails<TSchema extends ObjectAttributeSchema>({ schema, title,
   const badgeEditModalRef = useRef<BottomSheetModal>(null)
 
   const sectionName = t(SECTION_TITLE_KEYS[state.section])
+
+  const sectionMenuItems = useMemo<DropdownMenuItem[]>(
+    () =>
+      SECTIONS.map((section) => ({
+        checked: state.section === section,
+        id: section,
+        onSelect: () => onStateChange({ ...state, section }),
+        sfSymbol: SECTION_SF_SYMBOLS[section],
+        title: t(SECTION_TITLE_KEYS[section]),
+      })),
+    [t, state, onStateChange],
+  )
 
   return (
     <>
@@ -240,40 +253,29 @@ function DocumentDetails<TSchema extends ObjectAttributeSchema>({ schema, title,
             value={state.value as InferAttributeValue<TSchema>}
           />
         </View>
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
-            <View
-              style={[
-                styles.badge,
-                styles.badgeInner,
-                { backgroundColor: hexAlphaColor(BADGE_COLOR, 10), borderColor: hexAlphaColor(BADGE_COLOR, 40) },
-              ]}
-            >
-              <IconSymbol color={BADGE_COLOR} height={16} name={SECTION_ICONS[state.section]} width={16} />
-              <Typography style={[styles.badgeText, { color: BADGE_COLOR }]}>{sectionName}</Typography>
-              <ChevronDownIcon color={BADGE_COLOR} size={13} />
-            </View>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.MenuContent>
-            {SECTIONS.map((section) => (
-              <DropdownMenu.MenuCheckboxItem
-                key={section}
-                onValueChange={() => onStateChange({ ...state, section })}
-                value={state.section === section ? 'on' : 'off'}
-              >
-                <DropdownMenu.MenuItemTitle>{t(SECTION_TITLE_KEYS[section])}</DropdownMenu.MenuItemTitle>
-                <DropdownMenu.MenuIcon ios={{ name: SECTION_SF_SYMBOLS[section] }} />
-              </DropdownMenu.MenuCheckboxItem>
-            ))}
-          </DropdownMenu.MenuContent>
-        </DropdownMenu.Root>
+        <DropdownMenu items={sectionMenuItems}>
+          <View
+            style={[
+              styles.badge,
+              styles.badgeInner,
+              { backgroundColor: hexAlphaColor(BADGE_COLOR, 10), borderColor: hexAlphaColor(BADGE_COLOR, 40) },
+            ]}
+          >
+            <IconSymbol color={BADGE_COLOR} height={16} name={SECTION_ICONS[state.section]} width={16} />
+            <Typography style={[styles.badgeText, { color: BADGE_COLOR }]}>{sectionName}</Typography>
+            <ChevronDownIcon color={BADGE_COLOR} size={13} />
+          </View>
+        </DropdownMenu>
         <View style={styles.customBadgeRow}>
           {state.badges.map((badge) => (
             <View
               key={badge}
               style={[
                 styles.customBadgeChip,
-                { backgroundColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 10), borderColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 40) },
+                {
+                  backgroundColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 10),
+                  borderColor: hexAlphaColor(CUSTOM_BADGE_COLOR, 40),
+                },
               ]}
             >
               <Typography style={[styles.badgeText, { color: CUSTOM_BADGE_COLOR }]}>{badge}</Typography>
@@ -284,7 +286,13 @@ function DocumentDetails<TSchema extends ObjectAttributeSchema>({ schema, title,
           </TouchableOpacity>
         </View>
         <View className="gap-3">
-          <AppButton disabled={hasErrors} fullWidth onPress={() => router.canGoBack() && router.back()} text="Save" variant="primary" />
+          <AppButton
+            disabled={hasErrors}
+            fullWidth
+            onPress={() => router.canGoBack() && router.back()}
+            text="Save"
+            variant="primary"
+          />
           <AppButton fullWidth onPress={() => shareModalRef.current?.present()} text="Share" variant="secondary" />
         </View>
       </View>
@@ -331,12 +339,7 @@ export default function WalletDocumentScreen() {
     <ScreenLayout.Root>
       <WalletDocumentHeader title={title} />
       <ScreenLayout.Content>
-        <DocumentDetails
-          onStateChange={setState}
-          schema={entry.schema}
-          state={state}
-          title={title}
-        />
+        <DocumentDetails onStateChange={setState} schema={entry.schema} state={state} title={title} />
       </ScreenLayout.Content>
     </ScreenLayout.Root>
   )

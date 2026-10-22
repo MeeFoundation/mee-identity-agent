@@ -3,8 +3,6 @@ import { useId } from 'react'
 import { Capsule, CheckCircleFill, Clock, ExclamationCircle } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { formatRelativeDay, lastGivenDose, memberName } from '../dose-history'
 import { type DoseStatus, formatDoseTime, toDoseStatus } from '../dose-status'
@@ -19,6 +17,7 @@ import {
   podAtom,
   podMembersAtom,
 } from '../model'
+import { cn } from '@/shared/lib/cn'
 
 const treatments = {
   // Due is a calm prompt, not an alarm: only an overdue dose uses warning colours.

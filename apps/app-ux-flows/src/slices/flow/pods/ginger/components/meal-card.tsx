@@ -3,13 +3,12 @@ import { useId } from 'react'
 import { CheckCircleFill, Clock, ExclamationCircle, MeasuringCup } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { memberName } from '../dose-history'
 import { type DoseStatus, formatDoseTime, toDoseStatus } from '../dose-status'
 import type { Meal } from '../feeding'
 import { type GingerPodComponents, PARTICIPANT_ID, podMembersAtom } from '../model'
+import { cn } from '@/shared/lib/cn'
 
 // The dose card's treatments: only an overdue meal uses warning colours.
 const treatments = {

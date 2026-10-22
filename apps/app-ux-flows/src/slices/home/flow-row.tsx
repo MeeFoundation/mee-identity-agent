@@ -1,10 +1,9 @@
 import { useId } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@/shared/ui/button'
-
 import { FlowCatalogue, type ScreenHref } from './flow-catalogue'
 import { HiddenBadge } from './hidden-badge'
+import { Button } from '@/shared/ui/button'
 import type { FlowCatalogue as FlowCatalogueData } from '@/slices/flow/catalogue'
 import type { FlowKind } from '@/slices/flow/runtime/define-flow'
 import type { CaseChoice } from '@/slices/flow/runtime/resolve-flow'

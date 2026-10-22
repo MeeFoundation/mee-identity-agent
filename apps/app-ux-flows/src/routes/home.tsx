@@ -1,11 +1,10 @@
 import { createRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import { useAnalytics } from '@/shared/analytics/analytics-provider'
-import { devMode } from '@/shared/lib/dev-mode'
-
 import type { FlowSearch } from './flow-search'
 import { rootRoute } from './root'
+import { useAnalytics } from '@/shared/analytics/analytics-provider'
+import { devMode } from '@/shared/lib/dev-mode'
 import { browserRunStorage } from '@/slices/flow/analytics/run-storage'
 import { listFlowCatalogue } from '@/slices/flow/catalogue'
 import { listFlows } from '@/slices/flow/registry'

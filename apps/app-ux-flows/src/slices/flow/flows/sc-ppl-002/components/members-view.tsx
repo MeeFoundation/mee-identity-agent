@@ -2,8 +2,6 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { PersonPlus } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
-
 import { sharedRole } from '../../../pods/people/member-info'
 import { memberInitial, pendingLabel } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
@@ -20,6 +18,7 @@ import {
   undoRevokeAtom,
 } from '../model'
 import { MembersSubtitle, SofiaPodTopBar } from './sofia-pod-top-bar'
+import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
 
 const MembersToast = () => {
   const { t } = useTranslation()

@@ -2,10 +2,9 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native'
 import { useRouter } from 'expo-router'
 import { createStore, Provider } from 'jotai'
 
+import { AppHeader } from './app-header'
 import { chromeAtom, DEFAULT_CHROME, type HeaderVariant, type PodHeaderConfig, type PodTab } from '@/shared/chrome'
 import { userNameAtom } from '@/shared/user'
-
-import { AppHeader } from './app-header'
 
 const mounts = { content: 0, surface: 0 }
 

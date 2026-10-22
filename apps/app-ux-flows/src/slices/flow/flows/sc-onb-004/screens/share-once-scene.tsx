@@ -2,12 +2,11 @@ import { Check, RefreshCw } from 'lucide-react'
 import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import type { FaceId } from '../faces'
 import { NEW_VET, OLD_VET, type ShareStep, shareStateAt } from '../motion'
 import { TourFace } from './tour-face'
 import { useElapsed } from './use-elapsed'
+import { cn } from '@/shared/lib/cn'
 
 const SCENE = { height: 228, width: 320 }
 

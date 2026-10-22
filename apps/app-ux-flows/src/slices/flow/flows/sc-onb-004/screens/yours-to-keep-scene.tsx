@@ -1,8 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { BEAT3_CLOSE_MS, BEAT3_DIM_MS, BEAT3_LINE_DELAYS_MS, prefersReducedMotion } from '../motion'
+import { cn } from '@/shared/lib/cn'
 
 const LINES = ['noAccounts', 'noDataCenters', 'noAds', 'noTracking'] as const
 
@@ -21,10 +20,7 @@ export const YoursToKeepScene = () => {
             style={reduced ? undefined : { animationDelay: `${BEAT3_LINE_DELAYS_MS[index]}ms` }}
           >
             <span
-              className={cn(
-                'block',
-                reduced ? 'text-gray-400' : 'animate-onb-line-dim text-gray-900',
-              )}
+              className={cn('block', reduced ? 'text-gray-400' : 'animate-onb-line-dim text-gray-900')}
               style={reduced ? undefined : { animationDelay: `${BEAT3_DIM_MS}ms` }}
             >
               {t(`flows.scOnb004.tour.yoursToKeep.${line}`)}

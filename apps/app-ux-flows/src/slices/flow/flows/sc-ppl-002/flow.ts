@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import {
   andrewAddedAboutGeo,
   andrewInfo,
@@ -39,6 +36,8 @@ import { MembersScreen } from './screens/members-screen'
 import { MyInfoScreen } from './screens/my-info-screen'
 import { RemoveConfirmScreen } from './screens/remove-confirm-screen'
 import { SuggestionActionsScreen } from './screens/suggestion-actions-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

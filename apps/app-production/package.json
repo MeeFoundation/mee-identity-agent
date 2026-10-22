@@ -11,26 +11,25 @@
   },
   "dependencies": {
     "@mee/core": "workspace:*",
-    "expo": "53.0.22",
-    "expo-constants": "~17.1.7",
-    "expo-linking": "~7.1.7",
-    "expo-router": "~5.1.6",
-    "expo-splash-screen": "~0.30.10",
-    "expo-status-bar": "~2.2.3",
-    "react": "19.0.0",
-    "react-native": "0.79.5",
-    "react-native-gesture-handler": "~2.24.0",
-    "react-native-reanimated": "~3.17.4",
-    "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.11.1"
+    "expo": "^58.0.17",
+    "expo-constants": "~58.0.13",
+    "expo-linking": "~58.0.14",
+    "expo-router": "~58.0.25",
+    "expo-splash-screen": "~58.0.11",
+    "expo-status-bar": "~58.0.4",
+    "react": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-gesture-handler": "~3.3.0",
+    "react-native-reanimated": "4.7.1",
+    "react-native-safe-area-context": "~5.10.1",
+    "react-native-screens": "~4.30.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@types/react": "~19.0.10",
-    "typescript": "~5.8.3"
+    "@types/react": "~19.3.0",
+    "typescript": "~6.0.3"
   },
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "pnpm@9.1.1"
+  }
 }

@@ -1,9 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@/shared/ui/button'
-
 import type { ComponentEnvironment } from '../runtime/define-flow'
 import type { ResolvedFlow, ResolvedNote } from '../runtime/resolve-flow'
+import { Button } from '@/shared/ui/button'
 
 export type BriefingFlow = Pick<
   ResolvedFlow<string, ComponentEnvironment, object>,

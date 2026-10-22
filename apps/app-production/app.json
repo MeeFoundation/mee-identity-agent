@@ -8,12 +8,16 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mee.production"
+      "bundleIdentifier": "com.mee.production",
+      "deploymentTarget": "16.4"
     },
     "android": {
       "package": "com.mee.production"
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen"
+    ],
     "experiments": {
       "typedRoutes": true
     }

@@ -2,9 +2,8 @@ import { useRouter } from 'expo-router'
 import { useTranslation } from 'react-i18next'
 import { Pressable, StyleSheet, View } from 'react-native'
 
-import { ChevronLeftIcon, radii, sizes, spacing } from '@/shared/ui'
-
 import { SearchField } from './search-field'
+import { ChevronLeftIcon, radii, sizes, spacing } from '@/shared/ui'
 
 export const BackSearchHeader = () => {
   const { t } = useTranslation()

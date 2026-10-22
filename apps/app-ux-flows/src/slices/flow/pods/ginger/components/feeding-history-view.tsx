@@ -2,14 +2,13 @@ import { useAtomValue } from 'jotai'
 import { CheckCircleFill, XCircle } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { formatDayLabel, memberName } from '../dose-history'
 import { formatDoseTime } from '../dose-status'
 import { type FeedingEvent, feedingHistoryAtom, groupFeedingByDay, mealsAtom, toFeedingHistory } from '../feeding'
 import { type GingerPodComponents, podMembersAtom } from '../model'
 import { SubScreenTopBar } from './sub-screen-top-bar'
+import { cn } from '@/shared/lib/cn'
 
 const FeedingRow = ({ event }: { event: FeedingEvent }) => {
   const { t, i18n } = useTranslation()

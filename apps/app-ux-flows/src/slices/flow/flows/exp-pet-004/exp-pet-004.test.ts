@@ -1,8 +1,6 @@
 import { createInstance } from 'i18next'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { toMedicationFieldRows } from '../../pods/ginger/medication-fields'
 import { gingerPod, type MedicationRecord, medicationAtom, podAtom } from '../../pods/ginger/model'
 import { renderScreen } from '../../runtime/render-screen'
@@ -21,6 +19,7 @@ import {
   startEditAtom,
   toFieldDraft,
 } from './model'
+import { en } from '@/app/locales/en'
 
 const variantIds = Object.keys(expPet004Flow.variants ?? {})
 

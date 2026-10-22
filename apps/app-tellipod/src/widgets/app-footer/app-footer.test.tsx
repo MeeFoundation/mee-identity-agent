@@ -2,9 +2,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native'
 import type { BottomTabBarProps } from 'expo-router/js-tabs'
 import { createStore, Provider } from 'jotai'
 
-import { chromeAtom, DEFAULT_CHROME, unreadNotificationsAtom } from '@/shared/chrome'
-
 import { AppFooter } from './app-footer'
+import { chromeAtom, DEFAULT_CHROME, unreadNotificationsAtom } from '@/shared/chrome'
 
 const names = ['index', 'ask-telli', 'notifications', 'navigation']
 

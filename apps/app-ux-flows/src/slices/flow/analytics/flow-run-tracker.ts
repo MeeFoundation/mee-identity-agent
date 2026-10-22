@@ -1,3 +1,5 @@
+import { isReservedEventName } from './flow-events'
+import type { RunRecord, RunStorage } from './run-storage'
 import type {
   AnalyticsAdapter,
   AnalyticsDimensions,
@@ -5,9 +7,6 @@ import type {
   AnalyticsProps,
   VariantSource,
 } from '@/shared/analytics/analytics-event'
-
-import { isReservedEventName } from './flow-events'
-import type { RunRecord, RunStorage } from './run-storage'
 
 export type FlowRunTrackerOptions = {
   flowId: string

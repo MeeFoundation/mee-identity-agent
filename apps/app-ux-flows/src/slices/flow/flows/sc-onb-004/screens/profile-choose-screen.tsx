@@ -8,8 +8,8 @@ import {
   emptyProfile,
   fixtureContacts,
   formAttemptedAtom,
-  profileAtom,
   type Profile,
+  profileAtom,
   type ScOnb004Components,
   type ScOnb004ScreenId,
 } from '../model'

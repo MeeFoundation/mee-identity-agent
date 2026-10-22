@@ -1,19 +1,13 @@
-import type { ReactElement } from 'react'
-import { type ImageSourcePropType, StyleSheet, Text, View, type ViewStyle } from 'react-native'
-import { EllipsisVerticalIcon, PencilSquareIcon, TrashIcon } from 'react-native-heroicons/outline'
+import { useMemo } from 'react'
+import { type ImageSourcePropType, StyleSheet, View, type ViewStyle } from 'react-native'
+import { EllipsisVerticalIcon } from 'react-native-heroicons/outline'
+import type { SFSymbol } from 'sf-symbols-typescript'
 
 import { colors } from '@/shared/config'
 import { filterNullable } from '@/shared/lib/ts-utils'
 import { AppButton } from '@/shared/ui/AppButton'
 import { Avatar } from '@/shared/ui/Avatar'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuIcon,
-  DropdownMenuItem,
-  DropdownMenuItemTitle,
-  DropdownMenuTrigger,
-} from '@/shared/ui/DropdownMenu'
+import { DropdownMenu, type DropdownMenuItem } from '@/shared/ui/DropdownMenu'
 import { Typography } from '@/shared/ui/Typography'
 
 type Icons = 'pencil' | 'trash' | 'userGroup' | 'link'
@@ -32,34 +26,26 @@ type Props = {
   menuActions?: MenuAction[]
 }
 
-const IconTextToComponentMap: Record<Icons, ReactElement> = {
-  link: (
-    <DropdownMenuIcon androidIconName="ic_link" ios={{ hierarchicalColor: 'black', name: 'link' }}>
-      <PencilSquareIcon color="black" />
-    </DropdownMenuIcon>
-  ),
-  pencil: (
-    <DropdownMenuIcon
-      androidIconName="ic_pencil_square"
-      ios={{ hierarchicalColor: 'black', name: 'square.and.pencil' }}
-    >
-      <PencilSquareIcon color="black" />
-    </DropdownMenuIcon>
-  ),
-  trash: (
-    <DropdownMenuIcon androidIconName="ic_trash" ios={{ hierarchicalColor: colors.danger, name: 'trash' }}>
-      <TrashIcon color={colors.danger} />
-    </DropdownMenuIcon>
-  ),
-  userGroup: (
-    <DropdownMenuIcon androidIconName="ic_user_group" ios={{ hierarchicalColor: 'black', name: 'person.3' }}>
-      <TrashIcon color={colors.danger} />
-    </DropdownMenuIcon>
-  ),
+const IconToSFSymbolMap: Record<Icons, SFSymbol> = {
+  link: 'link',
+  pencil: 'square.and.pencil',
+  trash: 'trash',
+  userGroup: 'person.3',
 }
 
 export const ConnectionCard = (props: Props) => {
   const { logo, name, border, style, menuActions } = props
+  const menuItems = useMemo<DropdownMenuItem[] | undefined>(
+    () =>
+      menuActions?.map((action) => ({
+        destructive: action.key === 'delete',
+        id: action.key,
+        onSelect: action.onPress,
+        sfSymbol: IconToSFSymbolMap[action.icon],
+        title: action.name,
+      })),
+    [menuActions],
+  )
   const containerStyles = StyleSheet.flatten(filterNullable([styles.container, border && styles.border, style]))
 
   return (
@@ -70,28 +56,11 @@ export const ConnectionCard = (props: Props) => {
           {name}
         </Typography>
 
-        {menuActions && (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <AppButton onPress={() => false} size="sm" variant="tertiary">
-                <EllipsisVerticalIcon color="black" />
-              </AppButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {menuActions.map((action) => (
-                <DropdownMenuItem
-                  color={colors.danger}
-                  key={action.key}
-                  onSelect={action.onPress}
-                  textValue={action.name}
-                >
-                  <DropdownMenuItemTitle>
-                    <Text style={{ color: colors.danger }}>{action.name}</Text>
-                  </DropdownMenuItemTitle>
-                  {IconTextToComponentMap[action.icon]}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
+        {menuItems && (
+          <DropdownMenu items={menuItems}>
+            <AppButton onPress={() => false} size="sm" variant="tertiary">
+              <EllipsisVerticalIcon color="black" />
+            </AppButton>
           </DropdownMenu>
         )}
       </View>

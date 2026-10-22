@@ -2,13 +2,12 @@ import { useSetAtom } from 'jotai'
 import { type FormEvent, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { Input } from '@/shared/ui/primitives/input'
-import { Label } from '@/shared/ui/primitives/label'
-
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
 import { MembersView } from '../components/members-view'
 import { SheetTitle } from '../components/sheet-title'
 import { createInviteAtom, type ScPpl002Components, type ScPpl002ScreenId } from '../model'
+import { Input } from '@/shared/ui/primitives/input'
+import { Label } from '@/shared/ui/primitives/label'
 
 export const InviteNameScreen = () => {
   const { t } = useTranslation()
