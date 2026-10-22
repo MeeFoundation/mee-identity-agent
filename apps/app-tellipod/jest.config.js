@@ -15,5 +15,6 @@ module.exports = {
     '^react-native$': `${reactNativeDir}/index.js`,
   },
   preset: 'jest-expo',
+  roots: ['<rootDir>', '<rootDir>/../../packages/ui/src'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 }
