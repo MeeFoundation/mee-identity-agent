@@ -18,7 +18,7 @@
   "extends": "//",
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!**/dist", "!**/ios", "!**/.expo", "!**/expo-env.d.ts"]
+    "includes": ["**", "!**/dist", "!**/ios", "!**/.expo", "!**/expo-env.d.ts", "!**/.rnstorybook"]
   },
   "root": false
 }
