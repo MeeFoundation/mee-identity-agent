@@ -1,11 +1,10 @@
 import { Fragment, type MouseEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-import { Button } from '@/shared/ui/button'
-
 import { NotesToolbar } from './notes-toolbar'
 import type { NoteBlock, RecognisedLine, RecognisedStatus } from './tidy'
+import { cn } from '@/shared/lib/cn'
+import { Button } from '@/shared/ui/button'
 
 const PULSE_MS = 1000
 

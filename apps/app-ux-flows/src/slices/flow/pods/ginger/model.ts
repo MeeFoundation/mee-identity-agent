@@ -1,10 +1,9 @@
 import { atom } from 'jotai'
 
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import gingerAvatar from './assets/ginger-avatar.png'
 import type { HistoryFilter } from './dose-history'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type GingerPodComponents = DefaultComponents & PodComponents
 

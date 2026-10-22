@@ -2,10 +2,9 @@ import type { FormEvent, ReactNode } from 'react'
 import { ArrowUp, Plus } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { shouldSend } from './chat-composer'
 import telliAssistantIcon from './icons/telli-assistant.svg'
+import { cn } from '@/shared/lib/cn'
 
 // A person shows the first letter of their name; an assistant shows its icon.
 type ChatAuthorAvatar = { letter: string } | { icon: string }

@@ -2,11 +2,10 @@ import { BookOpen, FileText, Heart, Home, PawPrint, Plane } from 'lucide-react'
 import { type CSSProperties, type PointerEvent, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
-import { type PodExample, POD_EXAMPLES } from '../examples'
+import { POD_EXAMPLES, type PodExample } from '../examples'
 import { exampleIndexAt, prefersReducedMotion } from '../motion'
 import { TourFace } from './tour-face'
+import { cn } from '@/shared/lib/cn'
 
 const ICONS = [Plane, Heart, PawPrint, Home, BookOpen]
 
@@ -77,7 +76,10 @@ const PhoneCard = ({ animate, example, Icon }: { animate: boolean; example: PodE
             {example.chat.text}
           </span>
         </div>
-        <span className={cn('rounded-[10px] bg-gray-50 px-2.5 py-1.5 text-gray-500 text-xs', composer.className)} style={composer.style}>
+        <span
+          className={cn('rounded-[10px] bg-gray-50 px-2.5 py-1.5 text-gray-500 text-xs', composer.className)}
+          style={composer.style}
+        >
           {t(key('message'))}
         </span>
       </div>
@@ -147,7 +149,7 @@ export const PodAnythingScene = () => {
         onPointerUp={onPointerUp}
       >
         <div className={reduced ? '' : 'animate-onb-phone-in'} key={index}>
-          {example ? <PhoneCard Icon={Icon} animate={!reduced} example={example} /> : null}
+          {example ? <PhoneCard animate={!reduced} example={example} Icon={Icon} /> : null}
         </div>
       </div>
       <div className="mt-3 flex h-12 w-full max-w-[66ch] items-start justify-center">

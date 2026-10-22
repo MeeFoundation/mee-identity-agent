@@ -1,10 +1,9 @@
 import { createInstance } from 'i18next'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { formatDayLabel, groupByDay, lastGivenDose, memberName, toDoseHistory } from './dose-history'
 import { CURRENT_MEDICATION_ID, type DoseEvent, type MedicationDose, PARTICIPANT_ID } from './model'
+import { en } from '@/app/locales/en'
 
 const now = new Date('2026-10-13T10:00:00')
 const daysAgo = (days: number, hour = 8) => {

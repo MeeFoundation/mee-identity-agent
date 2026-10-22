@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import { gingerMembers, gingerSharedPod } from '../../pods/ginger/apoquel-fixture'
 import {
   careInstructionsAtom,
@@ -30,6 +27,8 @@ import { FeedMealScreen } from './screens/feed-meal-screen'
 import { FeedingHistoryScreen } from './screens/feeding-history-screen'
 import { InfoScreen } from './screens/info-screen'
 import { UndoMealScreen } from './screens/undo-meal-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const key = (path: string) => `flows.scPet004.${path}`
 const caseKey = (caseId: string, path: string) => key(`cases.${caseId}.${path}`)

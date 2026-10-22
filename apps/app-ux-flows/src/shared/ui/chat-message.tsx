@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import telliAssistantIcon from './icons/telli-assistant.svg'
+import { cn } from '@/shared/lib/cn'
 
 type ChatMessageProps = {
   author: 'user' | 'agent'

@@ -8,7 +8,12 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "check-types": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest",
+    "storybook:android": "EXPO_PUBLIC_STORYBOOK=true expo run:android",
+    "storybook:generate": "sb-rn-get-stories --config-path .rnstorybook",
+    "storybook:ios": "EXPO_PUBLIC_STORYBOOK=true expo run:ios",
+    "storybook:start": "EXPO_PUBLIC_STORYBOOK=true expo start",
+    "lint": "biome check ."
   },
   "dependencies": {
     "@expo-google-fonts/public-sans": "^0.4.2",
@@ -39,17 +44,21 @@
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
+    "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native/metro-config": "0.86.3",
+    "@storybook/addon-ondevice-actions": "^10.7.0",
+    "@storybook/addon-ondevice-controls": "^10.7.0",
+    "@storybook/react-native": "^10.7.0",
     "@testing-library/react-native": "^14.1.0",
     "@types/jest": "^30.0.0",
     "@types/react": "~19.3.0",
     "jest": "^30.5.2",
     "jest-expo": "^58.0.11",
     "react-test-renderer": "^19.3.1",
+    "storybook": "^10.6.3",
     "typescript": "~6.0.3"
   },
   "engines": {
     "node": ">=18"
-  },
-  "packageManager": "pnpm@9.1.1"
+  }
 }

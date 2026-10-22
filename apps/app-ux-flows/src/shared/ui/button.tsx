@@ -1,9 +1,8 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { ReactNode } from 'react'
 
-import { cn } from '@/shared/lib/cn'
-
 import { Button as ButtonPrimitive } from './primitives/button'
+import { cn } from '@/shared/lib/cn'
 
 const buttonVariants = cva('', {
   compoundVariants: [

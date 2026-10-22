@@ -1,7 +1,5 @@
 import { ChevronDown } from 'react-bootstrap-icons'
 
-import { useOverlayContainer } from '@/shared/lib/overlay-container'
-
 import {
   Select,
   SelectIcon,
@@ -14,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './primitives/select'
+import { useOverlayContainer } from '@/shared/lib/overlay-container'
 
 type SelectOption<T extends string> = {
   value: T

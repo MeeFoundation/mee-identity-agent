@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import type { AnalyticsAdapter } from '@/shared/analytics/analytics-event'
-
 import { createAnalyticsAdapters, parseAnalyticsConfig, resolveAnalyticsEnv } from './analytics'
+import type { AnalyticsAdapter } from '@/shared/analytics/analytics-event'
 
 const productionMode = { fromUrl: false, on: false }
 const devBuildMode = { fromUrl: false, on: true }

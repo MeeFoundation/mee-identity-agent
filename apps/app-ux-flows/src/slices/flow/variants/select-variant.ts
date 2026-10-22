@@ -1,7 +1,6 @@
-import type { VariantSource } from '@/shared/analytics/analytics-event'
-
 import type { AnyFlow } from '../runtime/define-flow'
 import type { AssignmentStore } from './assignment-store'
+import type { VariantSource } from '@/shared/analytics/analytics-event'
 
 type WeightedVariant = {
   id: string

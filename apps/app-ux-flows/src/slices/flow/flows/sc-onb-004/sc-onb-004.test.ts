@@ -1,26 +1,13 @@
 import { type ComponentProps, createElement } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
-import type { DefaultComponents } from '@/shared/ui/default-components'
-
-import { familyTitleKeys } from '@/slices/home/flow-families'
-
 import { findFlow, listFlows } from '../../registry'
 import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scOnb003Flow } from '../sc-onb-003/flow'
 import { POD_EXAMPLES } from './examples'
 import { scOnb004Flow } from './flow'
-import {
-  contactsPromptAtom,
-  emptyProfile,
-  fixtureContacts,
-  profileAtom,
-  SCREEN_IDS,
-  skippedTourAtom,
-} from './model'
+import { contactsPromptAtom, emptyProfile, fixtureContacts, profileAtom, SCREEN_IDS, skippedTourAtom } from './model'
 import {
   beat3StateAt,
   EXAMPLE_INTERVAL_MS,
@@ -30,6 +17,9 @@ import {
   SHARE_SYNCED_MS,
   shareStateAt,
 } from './motion'
+import { en } from '@/app/locales/en'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import { familyTitleKeys } from '@/slices/home/flow-families'
 
 const translate = (key: string): unknown =>
   key.split('.').reduce<unknown>((node, part) => (node as Record<string, unknown> | undefined)?.[part], en)

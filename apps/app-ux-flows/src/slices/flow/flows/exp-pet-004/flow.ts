@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import { gingerPod, medicationAtom, podAtom } from '../../pods/ginger/model'
 import { noteTextAtom } from '../../pods/notes/model'
 import { defineFlow } from '../../runtime/define-flow'
@@ -24,6 +21,8 @@ import { HomeScreen } from './screens/home-screen'
 import { MedicalScreen } from './screens/medical-screen'
 import { MedicationScreen } from './screens/medication-screen'
 import { MedicationUpdatedScreen } from './screens/medication-updated-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 export const expPet004Flow = defineFlow<ExpPet004ScreenId, ExpPet004Components, ExpPet004InitialState>({
   code: 'EXP-PET-004',

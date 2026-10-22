@@ -1,9 +1,8 @@
 import { createInstance } from 'i18next'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { type ContactInfoRecord, contactFullName, toContactInfoFieldRows } from './contact-info'
+import { en } from '@/app/locales/en'
 
 const i18n = createInstance()
 

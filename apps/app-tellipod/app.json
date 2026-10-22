@@ -1,25 +1,20 @@
 {
   "expo": {
-    "name": "Tellipod",
-    "slug": "mee-tellipod",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "scheme": "meetellipod",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.mee.tellipod"
-    },
     "android": {
       "package": "com.mee.tellipod"
     },
-    "plugins": [
-      "expo-router",
-      "expo-splash-screen",
-      "expo-status-bar",
-      "expo-font"
-    ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "ios": {
+      "bundleIdentifier": "com.mee.tellipod",
+      "supportsTablet": true
+    },
+    "name": "Tellipod",
+    "orientation": "portrait",
+    "plugins": ["expo-router", "expo-splash-screen", "expo-status-bar", "expo-font"],
+    "scheme": "meetellipod",
+    "slug": "mee-tellipod",
+    "version": "1.0.0"
   }
 }

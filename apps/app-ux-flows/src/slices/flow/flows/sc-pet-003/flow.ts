@@ -1,9 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { groupChatComponents } from '@/shared/ui/group-chat-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import {
   careInstructionsAtom,
   feedingHistoryAtom,
@@ -37,6 +33,9 @@ import { FeedingHistoryScreen } from './screens/feeding-history-screen'
 import { InfoScreen } from './screens/info-screen'
 import { ScheduleSheetScreen } from './screens/schedule-sheet-screen'
 import { UndoMealScreen } from './screens/undo-meal-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { groupChatComponents } from '@/shared/ui/group-chat-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const key = (path: string) => `flows.scPet003.${path}`
 const caseKey = (caseId: string, path: string) => key(`cases.${caseId}.${path}`)

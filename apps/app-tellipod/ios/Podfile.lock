@@ -1532,6 +1532,53 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - react-native-slider (5.2.1):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-cxxstableapi
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - react-native-slider/common (= 5.2.1)
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
+  - react-native-slider/common (5.2.1):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-cxxstableapi
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - React-NativeModulesApple (0.88.0):
     - hermes-engine
     - React-bridging
@@ -1947,6 +1994,29 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - RNDateTimePicker (8.6.0):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-cxxstableapi
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - RNGestureHandler (3.3.0):
     - hermes-engine
     - RCTRequired
@@ -2267,7 +2337,7 @@ DEPENDENCIES:
   - "ExpoModulesJSI (from `../../../node_modules/.pnpm/expo-modules-jsi@58.0.16_react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@_0ef0d2d35f6af95cb604b7234d02a641/node_modules/expo-modules-jsi/apple`)"
   - "ExpoModulesWorklets (from `../../../node_modules/.pnpm/expo-modules-core@58.0.23_react-native-worklets@0.13.0_@babel+core@7.29.7_supports-colo_06c7f9984ad19387d208dd1a4d5bc2e1/node_modules/expo-modules-core/ExpoModulesWorklets.podspec`)"
   - "ExpoModulesWorkletsAdapter (from `../../../node_modules/.pnpm/expo-modules-core@58.0.23_react-native-worklets@0.13.0_@babel+core@7.29.7_supports-colo_06c7f9984ad19387d208dd1a4d5bc2e1/node_modules/expo-modules-core`)"
-  - "ExpoRouter (from `../../../node_modules/.pnpm/expo-router@58.0.24_791363a515f324bf9f0c5b722d33cab9/node_modules/expo-router/ios`)"
+  - "ExpoRouter (from `../../../node_modules/.pnpm/expo-router@58.0.24_036dc5514845e0a3a1d0832648b037a0/node_modules/expo-router/ios`)"
   - "ExpoSplashScreen (from `../../../node_modules/.pnpm/expo-splash-screen@58.0.10_expo@58.0.16_supports-color@8.1.1_typescript@6.0.3/node_modules/expo-splash-screen/ios`)"
   - fast_float (from `build/rndeps-facades/fast_float`)
   - FBLazyVector (from `build/rncore-facades/FBLazyVector`)
@@ -2317,6 +2387,7 @@ DEPENDENCIES:
   - "React-mutationobservernativemodule (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon/react/nativemodule/mutationobserver`)"
   - "react-native-mmkv (from `../../../node_modules/.pnpm/react-native-mmkv@3.3.3_react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@r_c3d5dbb0562a25f2ecd65fcd09a38a34/node_modules/react-native-mmkv`)"
   - "react-native-safe-area-context (from `../../../node_modules/.pnpm/react-native-safe-area-context@5.10.1_react-native@0.88.0_@babel+core@7.29.7_supports-c_d6ac823f1af6b44bfe01d0258b789aeb/node_modules/react-native-safe-area-context`)"
+  - "react-native-slider (from `../../../node_modules/.pnpm/@react-native-community+slider@5.2.1/node_modules/@react-native-community/slider`)"
   - "React-NativeModulesApple (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)"
   - "React-networking (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon/react/networking`)"
   - "React-oscompat (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon/oscompat`)"
@@ -2355,6 +2426,7 @@ DEPENDENCIES:
   - "ReactCommon/turbomodule/core (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon`)"
   - "ReactNativeDependencies (from `../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec`)"
   - "RNCMaskedView (from `../../../node_modules/.pnpm/@react-native-masked-view+masked-view@0.3.2_react-native@0.88.0_@babel+core@7.29.7_supp_fb6a80e5b9c49d145f47181523af0f29/node_modules/@react-native-masked-view/masked-view`)"
+  - "RNDateTimePicker (from `../../../node_modules/.pnpm/@react-native-community+datetimepicker@8.6.0_expo@58.0.16_react-native@0.88.0_@babel+co_3c635b78ca6bd497470c801d695c14bd/node_modules/@react-native-community/datetimepicker`)"
   - "RNGestureHandler (from `../../../node_modules/.pnpm/react-native-gesture-handler@3.3.0_react-native@0.88.0_@babel+core@7.29.7_supports-colo_4fd93ecfcc59049e8d2d45b16ca7fddd/node_modules/react-native-gesture-handler`)"
   - "RNReanimated (from `../../../node_modules/.pnpm/react-native-reanimated@4.7.1_react-native-worklets@0.13.0_@babel+core@7.29.7_supports-_20722e214ebd995365de625bc6f9990b/node_modules/react-native-reanimated`)"
   - "RNScreens (from `../../../node_modules/.pnpm/react-native-screens@4.30.0_react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1_222e2fc7f2ad1cbb6f0b1c391019903e/node_modules/react-native-screens`)"
@@ -2399,7 +2471,7 @@ EXTERNAL SOURCES:
   ExpoModulesWorkletsAdapter:
     :path: "../../../node_modules/.pnpm/expo-modules-core@58.0.23_react-native-worklets@0.13.0_@babel+core@7.29.7_supports-colo_06c7f9984ad19387d208dd1a4d5bc2e1/node_modules/expo-modules-core"
   ExpoRouter:
-    :path: "../../../node_modules/.pnpm/expo-router@58.0.24_791363a515f324bf9f0c5b722d33cab9/node_modules/expo-router/ios"
+    :path: "../../../node_modules/.pnpm/expo-router@58.0.24_036dc5514845e0a3a1d0832648b037a0/node_modules/expo-router/ios"
   ExpoSplashScreen:
     :path: "../../../node_modules/.pnpm/expo-splash-screen@58.0.10_expo@58.0.16_supports-color@8.1.1_typescript@6.0.3/node_modules/expo-splash-screen/ios"
   fast_float:
@@ -2497,6 +2569,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/.pnpm/react-native-mmkv@3.3.3_react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@r_c3d5dbb0562a25f2ecd65fcd09a38a34/node_modules/react-native-mmkv"
   react-native-safe-area-context:
     :path: "../../../node_modules/.pnpm/react-native-safe-area-context@5.10.1_react-native@0.88.0_@babel+core@7.29.7_supports-c_d6ac823f1af6b44bfe01d0258b789aeb/node_modules/react-native-safe-area-context"
+  react-native-slider:
+    :path: "../../../node_modules/.pnpm/@react-native-community+slider@5.2.1/node_modules/@react-native-community/slider"
   React-NativeModulesApple:
     :path: "../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-networking:
@@ -2573,6 +2647,8 @@ EXTERNAL SOURCES:
     :podspec: "../../../node_modules/.pnpm/react-native@0.88.0_@babel+core@7.29.7_supports-color@8.1.1__@react-native+metro-config_46ef46b324b6b45ce961088bdeaf302f/node_modules/react-native/third-party-podspecs/ReactNativeDependencies.podspec"
   RNCMaskedView:
     :path: "../../../node_modules/.pnpm/@react-native-masked-view+masked-view@0.3.2_react-native@0.88.0_@babel+core@7.29.7_supp_fb6a80e5b9c49d145f47181523af0f29/node_modules/@react-native-masked-view/masked-view"
+  RNDateTimePicker:
+    :path: "../../../node_modules/.pnpm/@react-native-community+datetimepicker@8.6.0_expo@58.0.16_react-native@0.88.0_@babel+co_3c635b78ca6bd497470c801d695c14bd/node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../../../node_modules/.pnpm/react-native-gesture-handler@3.3.0_react-native@0.88.0_@babel+core@7.29.7_supports-colo_4fd93ecfcc59049e8d2d45b16ca7fddd/node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -2655,6 +2731,7 @@ SPEC CHECKSUMS:
   React-mutationobservernativemodule: 11d77d3f7360578f07847843544ada23cc473049
   react-native-mmkv: ec4d4e5d4f08c8dcd3fd69e92733bb6b248fc3f1
   react-native-safe-area-context: b1c9f15a36e597e9cef4c5526e209ef2645bc2e0
+  react-native-slider: 92596cf8c74eb17d7c7879a277a7a5488a3e06f2
   React-NativeModulesApple: 52f3def085f129de1307e3eb78e26729ff70f421
   React-networking: 1e6441349ac72bfd4f7a79c300c3dd76993a7058
   React-oscompat: e64123dd8199f9e99cede19fa542c3da3445481e
@@ -2693,6 +2770,7 @@ SPEC CHECKSUMS:
   ReactCommon: 145a14b942b19fc2fe38927f261955ada56978aa
   ReactNativeDependencies: d3b7423ba1e52525e42085c8470109abde583d2e
   RNCMaskedView: 89bb912716973f9715102cfe932f3ca6793b21f9
+  RNDateTimePicker: c540de7fec7bb410b2624f120ec0105acf679eca
   RNGestureHandler: e19fcf39b0212e0eb8bc7ca1e645500eb492f6be
   RNReanimated: 254c1416cee0ec59b0e0e2d0dbe02d73a5f636ca
   RNScreens: d8ca12efabbcfaf7c35ac3244f191ee463b528ec

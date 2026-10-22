@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
+import { type BriefingFlow, CaseLabel } from './briefing-content'
 import { useOverlayContainer } from '@/shared/lib/overlay-container'
 import { Button } from '@/shared/ui/button'
 import { Dialog, DialogBackdrop, DialogPopup, DialogPortal, DialogTitle } from '@/shared/ui/primitives/dialog'
-
-import { type BriefingFlow, CaseLabel } from './briefing-content'
 
 type MissionCardProps = {
   flow: BriefingFlow

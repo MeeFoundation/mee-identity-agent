@@ -1,9 +1,9 @@
 import { type CSSProperties, type ReactNode, useLayoutEffect, useRef, useState } from 'react'
 
 import { HomeIndicator } from './home-indicator'
-import { OverlayContainerContext } from '@/shared/lib/overlay-container'
 import { StatusBar } from './status-bar'
 import { useFrameScale } from './use-frame-scale'
+import { OverlayContainerContext } from '@/shared/lib/overlay-container'
 
 const SCREEN_WIDTH = 393
 const SCREEN_HEIGHT = 852

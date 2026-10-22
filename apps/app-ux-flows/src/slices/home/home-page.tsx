@@ -1,11 +1,10 @@
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@/shared/ui/button'
-
 import type { ScreenHref } from './flow-catalogue'
 import { FlowGroup } from './flow-group'
 import { type FlowLauncher, FlowRow, type FlowStartChoice } from './flow-row'
 import { groupFlowsByFamily, groupFlowsByKind } from './group-flows'
+import { Button } from '@/shared/ui/button'
 import type { FlowKind } from '@/slices/flow/runtime/define-flow'
 
 const sectionTitleKeys = {

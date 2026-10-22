@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import type { NoteBlock } from '../../pods/notes/tidy'
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
@@ -24,6 +21,8 @@ import { ContactInfoScreen } from './screens/contact-info-screen'
 import { NotesScreen } from './screens/notes-screen'
 import { NotesTidiedScreen } from './screens/notes-tidied-screen'
 import { TidyConfirmScreen } from './screens/tidy-confirm-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

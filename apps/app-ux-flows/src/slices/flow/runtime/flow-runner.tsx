@@ -1,8 +1,6 @@
 import { Provider } from 'jotai'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 
-import type { VariantSource } from '@/shared/analytics/analytics-event'
-
 import type { FlowEventSink } from '../analytics/flow-events'
 import { useFlowRunAnalytics } from '../analytics/use-flow-run-analytics'
 import { MissionCard } from '../briefing/mission-card'
@@ -10,6 +8,7 @@ import { CompletionView } from './completion-view'
 import type { ComponentEnvironment, FlowStore, ScreenComponent } from './define-flow'
 import { type FlowNavigation, FlowRuntimeContext } from './flow-context'
 import type { ResolvedFlow } from './resolve-flow'
+import type { VariantSource } from '@/shared/analytics/analytics-event'
 
 type FlowRun = {
   id: number

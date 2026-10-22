@@ -58,7 +58,7 @@ describe('useAppChrome', () => {
 
   it('applies chrome again when a screen regains focus after another blurred', async () => {
     const { store, wrapper } = setup()
-    const b = await renderHook(() => useAppChrome({ header: 'pod', footer: 'hidden' }), { wrapper })
+    const b = await renderHook(() => useAppChrome({ footer: 'hidden', header: 'pod' }), { wrapper })
     await act(async () => b.unmount())
     expect(store.get(chromeAtom)).toEqual(DEFAULT_CHROME)
 

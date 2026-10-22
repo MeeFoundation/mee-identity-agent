@@ -2,12 +2,11 @@ import { useAtomValue } from 'jotai'
 import { CheckCircleFill, XCircle } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { memberName } from '../dose-history'
 import { formatDoseTime } from '../dose-status'
 import { toMedicationSummary } from '../medication-fields'
 import { CURRENT_MEDICATION_ID, type DoseEvent, medicationAtom, medicationCoursesAtom, podMembersAtom } from '../model'
+import { cn } from '@/shared/lib/cn'
 
 type DoseRowProps = {
   dose: DoseEvent

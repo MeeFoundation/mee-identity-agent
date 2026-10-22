@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react'
 
-import { cn } from '@/shared/lib/cn'
-
 import podBackground from './icons/pod-background.svg'
+import { cn } from '@/shared/lib/cn'
 
 type PodScreenProps = {
   topBar: ReactNode

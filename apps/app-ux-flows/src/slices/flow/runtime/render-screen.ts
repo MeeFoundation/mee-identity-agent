@@ -4,13 +4,11 @@ import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 
-import { en } from '@/app/locales/en'
-
-import type { AnalyticsProps } from '@/shared/analytics/analytics-event'
-
 import type { ComponentEnvironment, FlowStore } from './define-flow'
 import { type FlowNavigation, FlowRuntimeContext } from './flow-context'
 import type { ResolvedFlow } from './resolve-flow'
+import { en } from '@/app/locales/en'
+import type { AnalyticsProps } from '@/shared/analytics/analytics-event'
 
 type TrackedEvent = { event: string; props?: AnalyticsProps }
 

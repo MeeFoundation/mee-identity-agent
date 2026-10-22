@@ -3,8 +3,6 @@ import { useLayoutEffect } from 'react'
 import { ChatFill, Copy, EnvelopeFill, type Icon } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-
 import { copyToClipboard, InviteLinkField } from '../../../pods/people/components/invite-link-field'
 import { formatShortDate, inviteExpiresOn } from '../../../pods/people/sharing'
 import { useFlowComponents, useFlowNavigation } from '../../../runtime/flow-context'
@@ -17,6 +15,7 @@ import {
   selectedInviteAtom,
   todayAtom,
 } from '../model'
+import { cn } from '@/shared/lib/cn'
 
 type ShareTarget = 'messages' | 'mail' | 'copy'
 

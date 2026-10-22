@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { BEATS } from '../../pods/tellipod-intro/model'
 import { findFlow, listFlows } from '../../registry'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scOnb001Flow } from './flow'
+import { en } from '@/app/locales/en'
 import { familyTitleKeys } from '@/slices/home/flow-families'
 
 // Resolves an i18next key such as `flows.scOnb001.title` against the English strings.

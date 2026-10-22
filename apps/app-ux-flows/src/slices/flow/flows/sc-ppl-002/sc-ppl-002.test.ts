@@ -1,8 +1,6 @@
 import { Children, type ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { addedByPerson, bogdanInfo, sharedRole } from '../../pods/people/member-info'
 import { FIRST_INVITE_LINK } from '../../pods/people/sharing'
 import { findFlow } from '../../registry'
@@ -40,6 +38,7 @@ import {
   toastAtom,
   undoRevokeAtom,
 } from './model'
+import { en } from '@/app/locales/en'
 
 // Resolves an i18next key such as `flows.scPpl002.title` against the English strings.
 const translate = (key: string): unknown =>

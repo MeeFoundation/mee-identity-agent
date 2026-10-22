@@ -7,6 +7,6 @@ const PATH =
 
 export const ChevronRightIcon = ({ color = '#3b5b63', size = 10 }: IconProps) => (
   <Svg fill="none" height={size} viewBox="0 0 10 10" width={size}>
-    <Path d={PATH} fill={color} clipRule="evenodd" fillRule="evenodd" />
+    <Path clipRule="evenodd" d={PATH} fill={color} fillRule="evenodd" />
   </Svg>
 )

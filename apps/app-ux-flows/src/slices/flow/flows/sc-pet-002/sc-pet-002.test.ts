@@ -1,7 +1,5 @@
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { apoquelMedication } from '../../pods/ginger/apoquel-fixture'
 import { toDoseHistory } from '../../pods/ginger/dose-history'
 import { toDoseStatus } from '../../pods/ginger/dose-status'
@@ -18,6 +16,7 @@ import { findFlow } from '../../registry'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPet002Flow } from './flow'
 import { doseTimes, toastAtom } from './model'
+import { en } from '@/app/locales/en'
 
 // Resolves an i18next key such as `flows.scPet002.title` against the English strings.
 const translate = (key: string): unknown =>

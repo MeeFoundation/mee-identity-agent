@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { toAttachmentDetail } from '../format'
 import { type Attachment, attachmentKindIcons, toAttachmentKind } from '../model'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 type AttachmentItemProps = {
   attachment: Attachment

@@ -1,9 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { groupChatComponents } from '@/shared/ui/group-chat-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
   chatAtom,
@@ -19,6 +15,9 @@ import { ContactInfoScreen } from './screens/contact-info-screen'
 import { InfoScreen } from './screens/info-screen'
 import { MembersScreen } from './screens/members-screen'
 import { NotesScreen } from './screens/notes-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { groupChatComponents } from '@/shared/ui/group-chat-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

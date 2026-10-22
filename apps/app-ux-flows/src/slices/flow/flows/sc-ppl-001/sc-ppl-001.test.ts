@@ -1,7 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { findFlow, listFlows } from '../../registry'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPpl001Flow } from './flow'
@@ -23,6 +21,7 @@ import {
   tidiedAtom,
   tidyPreviewAtom,
 } from './model'
+import { en } from '@/app/locales/en'
 
 // Resolves an i18next key such as `flows.scPpl001.title` against the English strings.
 const translate = (key: string): unknown =>

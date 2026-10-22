@@ -13,7 +13,7 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <PlaceholderScreen name={t('screens.home')} />
-      <Link href={{ pathname: '/pods/[id]', params: { id: '1' } }} style={{ padding: 24, textAlign: 'center' }}>
+      <Link href={{ params: { id: '1' }, pathname: '/pods/[id]' }} style={{ padding: 24, textAlign: 'center' }}>
         {t('screens.podInfo')}
       </Link>
     </View>

@@ -1,12 +1,11 @@
 import { atom } from 'jotai'
 
-import type { ChatComponents } from '@/shared/ui/chat-components'
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { applyTemplate, createPodFromTemplate, type PodInstance } from '../../pods/catalog/create-pod'
 import { findSuggestion, type TemplateSuggestion } from '../../pods/catalog/suggestions'
+import type { ChatComponents } from '@/shared/ui/chat-components'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type ScPet001ScreenId =
   | 'home'

@@ -1,16 +1,9 @@
 import { useId } from 'react'
 
+import { FACES, type FaceId } from '../faces'
 import { cn } from '@/shared/lib/cn'
 
-import { FACES, type FaceId } from '../faces'
-
-export const TourFace = ({
-  face,
-  size = 'md',
-}: {
-  face: FaceId
-  size?: 'md' | 'sm' | 'xs'
-}) => {
+export const TourFace = ({ face, size = 'md' }: { face: FaceId; size?: 'md' | 'sm' | 'xs' }) => {
   const { cut, hair, skin } = FACES[face]
   const clipId = `tour-face-${useId()}`
 

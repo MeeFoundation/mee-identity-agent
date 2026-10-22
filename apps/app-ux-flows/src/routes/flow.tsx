@@ -1,9 +1,8 @@
 import { createRoute, notFound, redirect } from '@tanstack/react-router'
 
-import { findFlow } from '@/slices/flow/registry'
-
 import { validateFlowSearch } from './flow-search'
 import { rootRoute } from './root'
+import { findFlow } from '@/slices/flow/registry'
 
 export const flowRoute = createRoute({
   beforeLoad: ({ params, search }) => {

@@ -1,8 +1,7 @@
 import { ChevronRight, type Icon } from 'react-bootstrap-icons'
 
-import { cn } from '@/shared/lib/cn'
-
 import { Button } from './button'
+import { cn } from '@/shared/lib/cn'
 
 type RecordRowAction = {
   label: string

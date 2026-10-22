@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
+import { PodTabs } from './pod-tabs'
 import type { PodHeaderConfig } from '@/shared/chrome'
 import {
   ChevronLeftIcon,
@@ -15,8 +16,6 @@ import {
   ThreeDotsVerticalIcon,
   typography,
 } from '@/shared/ui'
-
-import { PodTabs } from './pod-tabs'
 
 type PodHeaderProps = {
   pod: PodHeaderConfig

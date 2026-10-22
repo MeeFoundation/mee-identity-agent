@@ -1,8 +1,6 @@
 import { Children, createElement, type ReactNode } from 'react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { toDoseStatus } from '../../pods/ginger/dose-status'
 import {
   feedingHistoryAtom,
@@ -19,6 +17,7 @@ import { renderScreen } from '../../runtime/render-screen'
 import { resolveFlow } from '../../runtime/resolve-flow'
 import { scPet004Flow } from './flow'
 import { mealTimes, SAM_ID, type ScPet004ScreenId, toastAtom } from './model'
+import { en } from '@/app/locales/en'
 
 // The amount is the feed sheet's own state, which a render without a DOM can't change; the screen's handler can be.
 const feedSheet = vi.hoisted(() => ({ onConfirm: (_amount: MealAmount) => {} }))

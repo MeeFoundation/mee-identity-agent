@@ -10,6 +10,8 @@
     "production:android": "pnpm --filter app-production android",
     "tellipod:ios": "pnpm --filter app-tellipod ios",
     "tellipod:android": "pnpm --filter app-tellipod android",
+    "tellipod:storybook:android": "pnpm --filter app-tellipod storybook:android",
+    "tellipod:storybook:ios": "pnpm --filter app-tellipod storybook:ios",
     "ux-flows:dev": "pnpm --filter app-ux-flows dev",
     "steiger:concepts": "pnpm --filter app-concepts steiger"
   },

@@ -4,10 +4,6 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 import { describe, expect, it } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
-import { HomeTopBar } from '@/shared/ui/home-top-bar'
-
 import { podCategoryIris } from '../../pods/catalog/categories'
 import { categoriesWithStructure } from '../../pods/catalog/templates'
 import { findFlow, listFlows } from '../../registry'
@@ -42,6 +38,8 @@ import {
   suggestionReadyAtom,
   telliProgressAtom,
 } from './model'
+import { en } from '@/app/locales/en'
+import { HomeTopBar } from '@/shared/ui/home-top-bar'
 
 // Resolves an i18next key such as `flows.scPet001.goal` against the English strings.
 const translate = (key: string): unknown =>

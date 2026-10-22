@@ -2,6 +2,7 @@ import { FlagIcon, XIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { BriefingContent, type BriefingProps } from './briefing-content'
 import {
   Dialog,
   DialogBackdrop,
@@ -10,8 +11,6 @@ import {
   DialogPortal,
   DialogTitle,
 } from '@/shared/ui/primitives/dialog'
-
-import { BriefingContent, type BriefingProps } from './briefing-content'
 
 const PHONE_WIDTH_QUERY = '(max-width: 480px)'
 

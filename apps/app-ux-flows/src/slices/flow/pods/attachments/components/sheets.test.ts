@@ -4,14 +4,12 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
-import { type PodComponents, podComponents } from '@/shared/ui/pod-components'
-
 import { FlowRuntimeContext } from '../../../runtime/flow-context'
 import { sofiaAttachments } from '../sofia-fixture'
 import { AddAttachmentSheet } from './add-attachment-sheet'
 import { AttachmentActionsSheet } from './attachment-actions-sheet'
+import { en } from '@/app/locales/en'
+import { type PodComponents, podComponents } from '@/shared/ui/pod-components'
 
 const i18n = createInstance()
 i18n.init({

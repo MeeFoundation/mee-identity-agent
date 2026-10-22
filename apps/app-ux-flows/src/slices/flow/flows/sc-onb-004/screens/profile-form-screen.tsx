@@ -62,7 +62,11 @@ export const ProfileFormScreen = () => {
             onChange={(firstName) => patch({ firstName })}
             value={profile.firstName}
           />
-          <TextField label={t(key('profile.lastName'))} onChange={(lastName) => patch({ lastName })} value={profile.lastName} />
+          <TextField
+            label={t(key('profile.lastName'))}
+            onChange={(lastName) => patch({ lastName })}
+            value={profile.lastName}
+          />
         </div>
         <TextField label={t(key('profile.email'))} onChange={(email) => patch({ email })} value={profile.email} />
         <label className="flex flex-col gap-1.5 text-sm">

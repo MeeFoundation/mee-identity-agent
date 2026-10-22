@@ -67,10 +67,7 @@ export const TourScreen = () => {
           role="img"
         >
           {BEATS.map((id, i) => (
-            <span
-              className={`h-1.5 rounded-full ${i === index ? 'w-5 bg-brand-700' : 'w-1.5 bg-gray-300'}`}
-              key={id}
-            />
+            <span className={`h-1.5 rounded-full ${i === index ? 'w-5 bg-brand-700' : 'w-1.5 bg-gray-300'}`} key={id} />
           ))}
         </div>
       </div>

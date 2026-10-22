@@ -4,8 +4,6 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { I18nextProvider } from 'react-i18next'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { en } from '@/app/locales/en'
-
 import { toDoseStatus } from '../../pods/ginger/dose-status'
 import {
   careInstructionsAtom,
@@ -32,6 +30,7 @@ import {
   TELLI_DELAY_MS,
   toastAtom,
 } from './model'
+import { en } from '@/app/locales/en'
 
 // Resolves an i18next key such as `flows.scPet003.title` against the English strings.
 const translate = (key: string): unknown =>

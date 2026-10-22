@@ -1,9 +1,6 @@
 import { type ReactNode, type RefObject, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { cn } from '@/shared/lib/cn'
-import { useOverlayContainer } from '@/shared/lib/overlay-container'
-
 import {
   Dialog,
   DialogBackdrop,
@@ -13,6 +10,8 @@ import {
   DialogPortal,
   DialogTitle,
 } from './primitives/dialog'
+import { cn } from '@/shared/lib/cn'
+import { useOverlayContainer } from '@/shared/lib/overlay-container'
 
 type BottomSheetProps = {
   title: ReactNode

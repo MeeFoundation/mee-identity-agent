@@ -2,8 +2,6 @@
 
 /* Primitives from Mee Design System v5.2.2 (Figma MX0vkzAw7MfoG7ZMQUmfhu) */
 @theme {
-  --color-*: initial;
-
   --color-white: #ffffff;
   --color-black: #000000;
 
@@ -127,6 +125,7 @@
   --shadow-tab: 0 0 3px 0 rgb(2 6 23 / 0.07), 0 2px 2px 0 rgb(2 6 23 / 0.05);
   --shadow-sheet: 0 -1px 30px 0 rgb(2 6 23 / 0.1);
   --drop-shadow-topbar: 0 1px 15px rgb(2 6 23 / 0.15);
+  --color-*: initial;
 }
 
 /* Semantic roles (shadcn) */

@@ -1,8 +1,5 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-import { podComponents } from '@/shared/ui/pod-components'
-
 import { type DesignFrame, defineFlow } from '../../runtime/define-flow'
 import {
   filesAtom,
@@ -16,6 +13,8 @@ import { ActionsScreen } from './screens/actions-screen'
 import { AddScreen } from './screens/add-screen'
 import { FilesScreen } from './screens/files-screen'
 import { RenameScreen } from './screens/rename-screen'
+import { defaultComponents } from '@/shared/ui/default-components'
+import { podComponents } from '@/shared/ui/pod-components'
 
 const figmaFrame = (name: string, nodeId: string): DesignFrame => ({
   name,

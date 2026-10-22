@@ -3,11 +3,10 @@ import { ChevronLeftIcon } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { devMode } from '@/shared/lib/dev-mode'
-import { Button } from '@/shared/ui/button'
-
 import { validateFlowSearch } from './flow-search'
 import { rootRoute } from './root'
+import { devMode } from '@/shared/lib/dev-mode'
+import { Button } from '@/shared/ui/button'
 import { DeviceFrame } from '@/slices/device-frame/device-frame'
 import { BriefingButton } from '@/slices/flow/briefing/briefing-button'
 import { BriefingPanel } from '@/slices/flow/briefing/briefing-panel'
@@ -134,8 +133,8 @@ export const flowScreenRoute = createRoute({
   },
   component: FlowScreenRoute,
   getParentRoute: () => rootRoute,
-  loaderDeps: ({ search }) => ({ case: search.case, variant: search.variant }),
   loader: ({ context }) => ({ flow: context.flow, variantSource: context.variantSource }),
+  loaderDeps: ({ search }) => ({ case: search.case, variant: search.variant }),
   path: 'flows/$flowId/$screenId',
   validateSearch: validateFlowSearch,
 })

@@ -1,14 +1,13 @@
 import { atom } from 'jotai'
 
-import type { DefaultComponents } from '@/shared/ui/default-components'
-import type { GroupChatComponents } from '@/shared/ui/group-chat-components'
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import type { NoteBlock } from '../../pods/notes/tidy'
 import type { ContactInfoRecord } from '../../pods/people/contact-info'
 import { bogdan, daysBefore, geo, type Member } from '../../pods/people/sharing'
 import { answerFor } from '../../pods/people/telli-answers'
 import type { FlowStore } from '../../runtime/define-flow'
+import type { DefaultComponents } from '@/shared/ui/default-components'
+import type { GroupChatComponents } from '@/shared/ui/group-chat-components'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 export type ScPpl003ScreenId = 'notes' | 'chat' | 'info' | 'contact-info' | 'members'
 

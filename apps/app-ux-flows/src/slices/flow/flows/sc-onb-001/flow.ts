@@ -1,10 +1,9 @@
 import { createStore as createJotaiStore } from 'jotai'
 
-import { defaultComponents } from '@/shared/ui/default-components'
-
 import { createIntroScreens } from '../../pods/tellipod-intro/screens/create-intro-screens'
 import { defineFlow } from '../../runtime/define-flow'
 import type { ScOnb001Components, ScOnb001ScreenId } from './model'
+import { defaultComponents } from '@/shared/ui/default-components'
 
 const { ExistingDeviceScreen, IntroScreen, RestoreScreen, TelliHandoffScreen } = createIntroScreens({ mode: 'next' })
 

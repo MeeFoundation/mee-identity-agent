@@ -2,11 +2,10 @@ import { useLayoutEffect } from 'react'
 import { ArrowRight, Cloud, Phone } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import { Button } from '@/shared/ui/button'
-import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
-
 import { useFlowNavigation } from '../../../runtime/flow-context'
 import type { IntroScreenId } from '../model'
+import { Button } from '@/shared/ui/button'
+import telliAssistantIcon from '@/shared/ui/icons/telli-assistant.svg'
 
 type StandInId = Extract<IntroScreenId, 'telli-handoff' | 'existing-device' | 'restore'>
 

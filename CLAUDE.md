@@ -36,6 +36,8 @@ pnpm hoists all packages to root `node_modules/`. The `expo-modules-autolinking`
 - `pnpm concepts:android` — build and run app-concepts on Android
 - `pnpm production:ios` — build and run app-production on iOS
 - `pnpm production:android` — build and run app-production on Android
+- `pnpm tellipod:ios` / `pnpm tellipod:android` — build and run app-tellipod
+- `pnpm tellipod:storybook:ios` / `pnpm tellipod:storybook:android` — run app-tellipod in Storybook mode (`EXPO_PUBLIC_STORYBOOK=true`); stories live next to components as `*.stories.tsx` in `packages/ui/src` and `apps/app-tellipod/src`, and `pnpm --filter app-tellipod storybook:generate` regenerates the story index
 
 ### Quality checks (run from repo root)
 - `pnpm lint` — Biome lint across all packages and apps

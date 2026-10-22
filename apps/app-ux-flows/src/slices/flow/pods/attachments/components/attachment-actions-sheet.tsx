@@ -1,11 +1,10 @@
 import { Floppy, Pencil, Trash3 } from 'react-bootstrap-icons'
 import { useTranslation } from 'react-i18next'
 
-import type { PodComponents } from '@/shared/ui/pod-components'
-
 import { useFlowComponents } from '../../../runtime/flow-context'
 import { toAttachmentDetail } from '../format'
 import type { Attachment } from '../model'
+import type { PodComponents } from '@/shared/ui/pod-components'
 
 type AttachmentActionsSheetProps = {
   attachment: Attachment
