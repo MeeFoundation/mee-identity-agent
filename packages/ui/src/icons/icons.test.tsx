@@ -5,6 +5,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
+  ExclamationCircleIcon,
   FolderPlusIcon,
   type IconProps,
   PaperclipIcon,
@@ -12,6 +13,8 @@ import {
   PeopleIcon,
   PersonVideoIcon,
   PlusIcon,
+  QuestionCircleIcon,
+  SearchIcon,
 } from '.'
 
 const svgProps = async (element: ReactElement) => {
@@ -31,6 +34,9 @@ const designSizes: [string, (props: IconProps) => ReactNode, number][] = [
   ['PersonVideoIcon', PersonVideoIcon, 18],
   ['ChevronDownIcon', ChevronDownIcon, 16],
   ['ChevronRightIcon', ChevronRightIcon, 16],
+  ['SearchIcon', SearchIcon, 16],
+  ['ExclamationCircleIcon', ExclamationCircleIcon, 14],
+  ['QuestionCircleIcon', QuestionCircleIcon, 16],
 ]
 
 describe('icons', () => {

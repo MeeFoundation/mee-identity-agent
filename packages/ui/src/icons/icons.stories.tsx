@@ -5,12 +5,15 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
+  ExclamationCircleIcon,
   FolderPlusIcon,
   PaperclipIcon,
   PencilIcon,
   PeopleIcon,
   PersonVideoIcon,
   PlusIcon,
+  QuestionCircleIcon,
+  SearchIcon,
 } from '.'
 
 const styles = StyleSheet.create({
@@ -34,12 +37,15 @@ const icons = {
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
+  ExclamationCircleIcon,
   FolderPlusIcon,
   PaperclipIcon,
   PencilIcon,
   PeopleIcon,
   PersonVideoIcon,
   PlusIcon,
+  QuestionCircleIcon,
+  SearchIcon,
 }
 
 const IconGallery = ({ color, size }: { color?: string; size?: number }) => (

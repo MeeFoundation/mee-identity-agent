@@ -4,33 +4,13 @@ import { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import { Button } from './Button'
+import * as Field from './fieldParts'
+import * as InputGroup from './inputGroupParts'
 import { Sheet, type SheetProps } from './Sheet'
 
 const styles = StyleSheet.create({
-  field: {
-    gap: 8,
-  },
   form: {
     gap: 24,
-  },
-  input: {
-    borderColor: '#CBD5E1',
-    borderRadius: 12,
-    borderWidth: 1,
-    color: '#1E293B',
-    fontFamily: 'PublicSans_400Regular',
-    fontSize: 16,
-    height: 44,
-    letterSpacing: 0.08,
-    paddingHorizontal: 12,
-  },
-  label: {
-    color: '#1E293B',
-    fontFamily: 'PublicSans_400Regular',
-    fontSize: 16,
-    letterSpacing: 0.08,
-    lineHeight: 24,
-    paddingHorizontal: 2,
   },
   note: {
     color: '#475569',
@@ -75,10 +55,12 @@ const fields = [
 const FormContent = ({ onSave }: { onSave: () => void }) => (
   <View style={styles.form}>
     {fields.map((field) => (
-      <View key={field.label} style={styles.field}>
-        <Text style={styles.label}>{field.label}</Text>
-        <BottomSheetTextInput defaultValue={field.value} style={styles.input} />
-      </View>
+      <Field.Root key={field.label} size="L">
+        <Field.Label>{field.label}</Field.Label>
+        <InputGroup.Root>
+          <InputGroup.Input component={BottomSheetTextInput} defaultValue={field.value} />
+        </InputGroup.Root>
+      </Field.Root>
     ))}
     <Button onPress={onSave} size="lg">
       Save
