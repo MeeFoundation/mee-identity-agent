@@ -1,6 +1,6 @@
 export const en = {
   footer: {
-    'ask-telli': 'Ask Telli',
+    'ask-telli': 'Telli Guide',
     index: 'Home',
     navigation: 'Navigation',
     notifications: 'Notifications',
