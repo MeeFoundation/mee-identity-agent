@@ -25,7 +25,7 @@
 ## 5. Exports, stories and checks
 
 - [x] 5.1 Export all new parts and their prop types from `packages/ui/src/index.ts`; verify consumers can import them from `@mee/ui`
-- [ ] 5.2 Add colocated stories covering the three placements x sizes S/M/L x default, focus, filled, alert and disabled, plus adornments, counter and error; verify the stories render in Storybook (`pnpm tellipod:storybook:ios`) and compare against the Figma sheet
-- [ ] 5.3 Check the `edge` label is not clipped on Android and that S and L text sizes and the above-label gaps match the Figma S and L variants; resolve the open questions in design.md and adjust the spec if needed
+- [x] 5.2 Add colocated stories covering the three placements x sizes S/M/L x default, focus, filled, alert and disabled, plus adornments, counter and error; verify the stories render in Storybook (`pnpm tellipod:storybook:ios`) and compare against the Figma sheet
+- [x] 5.3 Check the `edge` label is not clipped on Android and that S and L text sizes and the above-label gaps match the Figma S and L variants; resolve the open questions in design.md and adjust the spec if needed
 - [x] 5.4 Run `pnpm lint` and `pnpm check-types` from the repo root and `pnpm --filter app-tellipod test`; verify all pass with no errors
 - [x] 5.5 Let `InputGroupInput` render a different text input component (`component` prop) and use the new field parts with `BottomSheetTextInput` in `Sheet.stories.tsx` instead of its hand-styled inputs; verify a test covers the override and `pnpm --filter @mee/ui check-types` passes
