@@ -264,3 +264,14 @@ All user-facing text introduced for the shell, including screen names, tab label
 #### Scenario: No hardcoded text
 - **WHEN** a developer searches the shell screens and chrome for literal user-facing strings
 - **THEN** none are found; text is resolved through translation keys
+
+### Requirement: Sheet host
+app-tellipod SHALL provide, for every screen, the hosts that let a `@mee/ui` `Sheet` be presented and dragged, so that a screen can open a sheet without setting anything up itself.
+
+#### Scenario: Sheet opened from a screen
+- **WHEN** any screen shows a `Sheet` with `visible` set to `true`
+- **THEN** the sheet is presented over the screen and can be dragged and dismissed
+
+#### Scenario: Sheet over the footer
+- **WHEN** a sheet is presented on a screen that shows the app footer
+- **THEN** the sheet is shown above the footer
