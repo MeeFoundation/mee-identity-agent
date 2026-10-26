@@ -134,11 +134,10 @@ The card SHALL be announced as one labelled region named after its heading and t
 ### Requirement: Baseline path in every variant
 `home` SHALL show, as in EXP-PET-004:
 - the Home top bar defined by `app-ux-flows/design-system`, with the greeting "Welcome, Alice", the initial "A", the sharing line and the search field;
-- a "Pods" section label;
-- one Ginger pod row;
+- the "Recent Pods" section with no "See all pods" link and one Ginger pod card;
 - the app tab bar with Home active.
 
-Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
+Activating the Ginger card SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-004:
 - back SHALL show `home`;
@@ -201,15 +200,15 @@ In variant B, `ginger-notes` and `ginger-info` SHALL show the due-dose card as a
 - **THEN** Notes and Info show no due-dose card
 
 ### Requirement: Today section in variant C
-In variant C, `home` SHALL show a "Today" section above the "Pods" section. It holds the due-dose card, with Ginger's avatar and the name "Ginger" above the medication line, so that the card names the pet outside its pod. Variants A and B SHALL show no Today section, and the rest of Home SHALL be identical in all variants.
+In variant C, `home` SHALL show a "Today" section above the "Recent Pods" section. It holds the due-dose card, with Ginger's avatar and the name "Ginger" above the medication line, so that the card names the pet outside its pod. Variants A and B SHALL show no Today section, and the rest of Home SHALL be identical in all variants.
 
 #### Scenario: Today names the pet
 - **WHEN** a participant in variant C starts the run
-- **THEN** Home shows "Today" with a card naming Ginger, Apoquel, "16 mg · 2 times per day", "Due now" and "Mark as given", above the Ginger pod row
+- **THEN** Home shows "Today" with a card naming Ginger, Apoquel, "16 mg · 2 times per day", "Due now" and "Mark as given", above the Ginger pod card
 
 #### Scenario: Home unchanged in A and B
 - **WHEN** a participant in variant A or B starts the run
-- **THEN** Home shows only the greeting, the "Pods" section and the tab bar
+- **THEN** Home shows only the greeting, the "Recent Pods" section and the tab bar
 
 ### Requirement: Dose history
 `dose-history` SHALL show a top bar titled "Dose history", with the trail "Medical", back and an inert, recorded menu control. Below it, in this order:

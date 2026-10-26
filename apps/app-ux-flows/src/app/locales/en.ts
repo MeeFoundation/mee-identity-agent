@@ -967,6 +967,35 @@ export const en = {
       },
       title: 'Meals',
     },
+    scPod001: {
+      cases: {
+        a: {
+          about: 'The list with two pods. A card shows the pod, its category and whether it has unread activity.',
+          description: 'The list has loaded and holds pods.',
+          name: 'With pods',
+        },
+        b: {
+          about: 'Placeholder cards while the list loads. They pulse, unless reduced motion is on.',
+          description: 'The list is loading, with placeholder cards.',
+          name: 'Loading',
+        },
+        c: {
+          about: 'The first-run card shown once the list has loaded and holds no pods.',
+          description: 'The user has no pods yet, so Home invites them to create the first.',
+          name: 'First run, no pods',
+        },
+        d: {
+          about: "Loading failed. Retry shows the loading state, which doesn't resolve by itself.",
+          description: 'Loading the pods failed, with a retry action.',
+          name: 'Failed to load',
+        },
+      },
+      description:
+        'See how Home shows the list of pods while it loads, with pods, on first run with none, and when it fails to load.',
+      title: 'Pods on Home',
+      userInitial: 'A',
+      welcome: 'Welcome, Alice',
+    },
     scPpl001: {
       cases: {
         a: {
@@ -1399,6 +1428,7 @@ export const en = {
       onboarding: 'Onboarding',
       people: 'People',
       pets: 'Pet care',
+      pods: 'Pods',
     },
     group: {
       title: '{{title}} ({{count}})',
@@ -1611,7 +1641,6 @@ export const en = {
         title: 'Forms',
       },
       home: {
-        pods: 'Pods',
         userInitial: 'A',
         welcome: 'Welcome, Alice',
       },
@@ -1950,6 +1979,18 @@ export const en = {
     inlineFieldEditor: {
       cancel: 'Cancel',
       save: 'Save',
+    },
+    podsSection: {
+      addPod: 'Add Pod',
+      emptyBody: 'A Pod is a private little room for any info — your kid, a trip, a project.',
+      emptyTitle: 'Create your first Pod',
+      error: "Couldn't load your pods.",
+      loading: 'Loading pods',
+      maybeLater: 'Maybe later',
+      recent: 'Recent Pods',
+      retry: 'Retry',
+      seeAll: 'See all pods',
+      unread: 'Unread',
     },
     podTopBar: {
       back: 'Back',

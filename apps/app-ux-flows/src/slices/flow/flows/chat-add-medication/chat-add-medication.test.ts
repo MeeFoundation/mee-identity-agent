@@ -35,6 +35,7 @@ describe('chat-add-medication showcase', () => {
       'sc-onb-002',
       'sc-onb-003',
       'sc-onb-004',
+      'sc-pod-001',
     ])
   })
 

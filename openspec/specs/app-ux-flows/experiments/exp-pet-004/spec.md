@@ -62,7 +62,7 @@ The code that starts a run SHALL be able to supply a different pod or medication
 - **THEN** EXP-PET-003 still shows its own default medication, unchanged
 
 ### Requirement: Home, Ginger tabs and Ginger Info
-`home` SHALL be shown as in EXP-PET-003: the Home top bar defined by `app-ux-flows/design-system`, with the greeting "Welcome, Alice", the initial "A", the sharing line and the search field, then a "Pods" section label, one Ginger pod row, and the app tab bar with Home active. Activating the Ginger row SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
+`home` SHALL be shown as in EXP-PET-003: the Home top bar defined by `app-ux-flows/design-system`, with the greeting "Welcome, Alice", the initial "A", the sharing line and the search field, then the "Recent Pods" section with one Ginger pod card, and the app tab bar with Home active. Activating the Ginger card SHALL show `ginger-notes`. Ask Telli, Notifications, Navigation and the search field SHALL be recorded and do nothing else.
 
 `ginger-notes` and `ginger-info` SHALL show the Ginger pod top bar and tabs as in EXP-PET-003:
 - back SHALL show `home`;
@@ -74,7 +74,7 @@ The code that starts a run SHALL be able to supply a different pod or medication
 `ginger-info` SHALL show the layout of EXP-PET-003 variant A in every variant: a "Forms" section with the Pet form row, a divider, then the category rows Medical (count 1, no preview line), Attachments 0, Subpods 0 and Members 1. Activating Medical SHALL show `medical`. The Pet row and the other category rows SHALL be recorded and do nothing else.
 
 #### Scenario: Ginger opens on Notes
-- **WHEN** a participant on `home` activates the Ginger row
+- **WHEN** a participant on `home` activates the Ginger card
 - **THEN** `ginger-notes` is shown with the Notes tab selected, and `pod_opened` is recorded
 
 #### Scenario: Same path in every variant
