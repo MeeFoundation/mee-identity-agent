@@ -43,7 +43,7 @@ describe('usePodList', () => {
     const { result } = await renderHook(() => usePodList({ sort: 'name_asc' }, 2), { wrapper })
 
     expect(calls).toHaveLength(1)
-    expect(calls[0].request).toEqual({ cursor: undefined, limit: 2, params: { sort: 'name_asc' } })
+    expect(calls[0].request).toEqual({ cursor: null, limit: 2, params: { sort: 'name_asc' } })
     expect(result.current.status).toBe('loading')
     expect(result.current.pods).toEqual([])
 
@@ -84,7 +84,7 @@ describe('usePodList', () => {
     await act(async () => {
       result.current.refresh()
     })
-    expect(calls[2].request.cursor).toBeUndefined()
+    expect(calls[2].request.cursor).toBeNull()
     expect(result.current.status).toBe('refreshing')
     await act(async () => calls[2].resolve(page(['9'], null)))
     expect(result.current.pods.map((item) => item.id)).toEqual(['9'])
@@ -92,7 +92,8 @@ describe('usePodList', () => {
 
   it('retries the action that failed', async () => {
     const { calls, wrapper } = setup()
-    const { result } = await renderHook(() => usePodList({ sort: 'last_activity' }, 2), { wrapper })
+    const params: PodListParams = { sort: 'last_activity' }
+    const { result } = await renderHook(() => usePodList(params, 2), { wrapper })
 
     await act(async () => calls[0].reject(new Error('offline')))
     expect(result.current.status).toBe('error')
@@ -101,7 +102,7 @@ describe('usePodList', () => {
     await act(async () => {
       result.current.retry()
     })
-    expect(calls[1].request.cursor).toBeUndefined()
+    expect(calls[1].request.cursor).toBeNull()
     await act(async () => calls[1].resolve(page(['1'], 'c1')))
 
     await act(async () => {
@@ -121,7 +122,7 @@ describe('usePodList', () => {
     await act(async () => {
       result.current.retry()
     })
-    expect(calls[5].request.cursor).toBeUndefined()
+    expect(calls[5].request.cursor).toBeNull()
     expect(result.current.pods.map((item) => item.id)).toEqual(['1', '2'])
   })
 

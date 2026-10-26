@@ -33,6 +33,7 @@ export const spacing = {
 
 export const radii = {
   '2lg': 10,
+  '2xl': 16,
   '3xl': 28,
   full: 9999,
   xl: 12,

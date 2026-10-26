@@ -4,6 +4,7 @@ export {
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   type IconProps,

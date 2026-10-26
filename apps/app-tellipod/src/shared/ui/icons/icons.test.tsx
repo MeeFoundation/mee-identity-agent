@@ -6,6 +6,7 @@ import {
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   type IconProps,
@@ -28,6 +29,7 @@ describe('icons', () => {
   it.each([
     ['ChevronLeftIcon', ChevronLeftIcon, 24],
     ['PeopleIcon', PeopleIcon, 14],
+    ['HeartsIcon', HeartsIcon, 14],
     ['ChevronRightIcon', ChevronRightIcon, 10],
     ['ThreeDotsVerticalIcon', ThreeDotsVerticalIcon, 24],
     ['SearchIcon', SearchIcon, 20],

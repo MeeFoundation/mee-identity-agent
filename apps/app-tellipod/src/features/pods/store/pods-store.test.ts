@@ -67,7 +67,7 @@ describe('loadPodsAtom', () => {
     const loading = run(loadPodsAtom, A, 2)
 
     expect(listOf(A).status).toBe('loading')
-    expect(calls[0].request).toEqual({ cursor: undefined, limit: 2, params: { sort: 'last_activity' } })
+    expect(calls[0].request).toEqual({ cursor: null, limit: 2, params: { sort: 'last_activity' } })
 
     calls[0].resolve(page(['1', '2'], 'c1'))
     await loading
@@ -110,7 +110,7 @@ describe('loadPodsAtom', () => {
 
     const retried = run(loadPodsAtom, A)
     expect(calls).toHaveLength(2)
-    expect(calls[1].request.cursor).toBeUndefined()
+    expect(calls[1].request.cursor).toBeNull()
     calls[1].resolve(page(['1'], null))
     await retried
 
@@ -234,7 +234,7 @@ describe('refreshPodsAtom', () => {
 
     expect(listOf(A).status).toBe('refreshing')
     expect(idsOf(A)).toEqual(['1', '2', '3', '4'])
-    expect(calls[2].request.cursor).toBeUndefined()
+    expect(calls[2].request.cursor).toBeNull()
 
     calls[2].resolve(page(['9', '1'], 'c9'))
     await refreshing
@@ -280,7 +280,7 @@ describe('removePodListAtom', () => {
 
     const reload = run(loadPodsAtom, A)
     expect(calls).toHaveLength(3)
-    expect(calls[2].request.cursor).toBeUndefined()
+    expect(calls[2].request.cursor).toBeNull()
     calls[2].resolve(page(['1'], null))
     await reload
   })

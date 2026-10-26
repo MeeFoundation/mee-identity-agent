@@ -23,6 +23,15 @@ export const en = {
       immediateFamily: 'Immediate Family',
       people: 'People',
     },
+    card: {
+      unread: 'Unread',
+    },
+    categories: {
+      'health-wellness': 'Health & Wellness',
+      'immediate-family': 'Immediate Family',
+      people: 'People',
+      pets: 'Pets',
+    },
     tabs: {
       chat: 'Chat',
       info: 'Info',
