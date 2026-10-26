@@ -53,6 +53,18 @@ describe('usePodList', () => {
     expect(result.current.pods.map((item) => item.id)).toEqual(['1', '2'])
   })
 
+  it('reports whether the list has loaded, including a loaded empty list', async () => {
+    const { calls, wrapper } = setup()
+    const { result } = await renderHook(() => usePodList({ sort: 'name_asc' }, 2), { wrapper })
+
+    expect(result.current.hasLoaded).toBe(false)
+
+    await act(async () => calls[0].resolve(page([], null)))
+
+    expect(result.current.hasLoaded).toBe(true)
+    expect(result.current.pods).toEqual([])
+  })
+
   it('does not request again when remounted with a loaded list', async () => {
     const { calls, wrapper } = setup()
     const first = await renderHook(() => usePodList({ sort: 'last_activity' }, 2), { wrapper })

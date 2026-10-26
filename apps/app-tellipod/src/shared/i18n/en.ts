@@ -32,6 +32,12 @@ export const en = {
       people: 'People',
       pets: 'Pets',
     },
+    list: {
+      empty: 'No pods yet',
+      error: "Couldn't load pods",
+      loading: 'Loading pods',
+      retry: 'Try again',
+    },
     tabs: {
       chat: 'Chat',
       info: 'Info',

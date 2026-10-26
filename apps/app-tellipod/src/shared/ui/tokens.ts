@@ -66,4 +66,5 @@ export const typography = {
 export const motion = {
   footerDuration: 250,
   headerDuration: 200,
+  skeletonPulseDuration: 800,
 } as const

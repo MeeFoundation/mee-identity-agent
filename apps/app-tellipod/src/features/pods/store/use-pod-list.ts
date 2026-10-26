@@ -35,5 +35,5 @@ export const usePodList = (params: PodListParams, limit: number) => {
 
   const pods = useMemo(() => flattenListPages(list.pages), [list.pages])
 
-  return { error: list.error, loadMore, pods, refresh, retry, status: list.status }
+  return { error: list.error, hasLoaded: list.pages.length > 0, loadMore, pods, refresh, retry, status: list.status }
 }

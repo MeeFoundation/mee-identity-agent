@@ -37,6 +37,7 @@ jest.mock('react-native-reanimated', () => {
       },
     }),
     useSharedValue: (initial: number) => useRef({ value: initial }).current,
+    withRepeat: jest.fn((value: number) => value),
     withTiming: jest.fn((value: number) => value),
   }
 })
