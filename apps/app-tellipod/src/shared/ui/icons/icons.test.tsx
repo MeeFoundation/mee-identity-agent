@@ -2,15 +2,19 @@ import { render } from '@testing-library/react-native'
 import type { ReactNode } from 'react'
 
 import {
+  ArrowRightIcon,
   BellFilledIcon,
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CookieIcon,
+  HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   type IconProps,
   ListNestedIcon,
   PeopleIcon,
+  PlusIcon,
   SearchIcon,
   ShieldLockIcon,
   TelliGuideIcon,
@@ -28,6 +32,7 @@ describe('icons', () => {
   it.each([
     ['ChevronLeftIcon', ChevronLeftIcon, 24],
     ['PeopleIcon', PeopleIcon, 14],
+    ['HeartsIcon', HeartsIcon, 14],
     ['ChevronRightIcon', ChevronRightIcon, 10],
     ['ThreeDotsVerticalIcon', ThreeDotsVerticalIcon, 24],
     ['SearchIcon', SearchIcon, 20],
@@ -38,6 +43,9 @@ describe('icons', () => {
     ['BellIcon', BellIcon, 24],
     ['BellFilledIcon', BellFilledIcon, 24],
     ['ListNestedIcon', ListNestedIcon, 24],
+    ['ArrowRightIcon', ArrowRightIcon, 16],
+    ['PlusIcon', PlusIcon, 24],
+    ['CookieIcon', CookieIcon, 24],
   ])('%s renders at its design size', async (_name, icon, size) => {
     const props = await svgProps(icon)
     expect(props.width ?? props.bbWidth).toEqual(size)

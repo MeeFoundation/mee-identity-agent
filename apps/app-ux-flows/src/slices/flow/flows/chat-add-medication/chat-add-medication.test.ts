@@ -27,6 +27,7 @@ describe('chat-add-medication showcase', () => {
       'sc-pet-003',
       'sc-pet-004',
       'chat-add-medication',
+      'sc-pet-006',
       'sc-ppl-001',
       'sc-ppl-002',
       'sc-ppl-003',
@@ -35,6 +36,7 @@ describe('chat-add-medication showcase', () => {
       'sc-onb-002',
       'sc-onb-003',
       'sc-onb-004',
+      'sc-pod-001',
     ])
   })
 

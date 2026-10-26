@@ -15,6 +15,7 @@ import { InlineFieldEditor } from './inline-field-editor'
 import { MemberCard, MemberRow } from './member-row'
 import { PodScreen } from './pod-screen'
 import { PodTopBar } from './pod-top-bar'
+import { PodsSection } from './pods-section'
 import { RadioGroupField } from './radio-group-field'
 import { RecordRow } from './record-row'
 import { SectionLabel } from './section-label'
@@ -42,6 +43,7 @@ export const podComponents = {
   MemberCard,
   MemberRow,
   PodScreen,
+  PodsSection,
   PodTopBar,
   RadioGroupField,
   RecordRow,

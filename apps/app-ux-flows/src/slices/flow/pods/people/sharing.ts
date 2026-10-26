@@ -1,7 +1,11 @@
 // People who joined a pod and invites that are not used yet. Telli is the pod's assistant, not a member.
 // Dates are kept as whole days before the day the run started, so fixtures stay true on any day.
 
-type MemberRole = 'owner' | 'viewer'
+// `logger` can also give and undo doses; `viewer` can only read.
+export type MemberRole = 'owner' | 'logger' | 'viewer'
+
+// What an owner can offer someone they invite.
+export type InviteRole = Exclude<MemberRole, 'owner'>
 
 export type Member = {
   id: string
@@ -15,6 +19,8 @@ export type PendingInvite = {
   name: string
   link: string
   sentDaysAgo: number
+  // Defaults to `viewer`.
+  role?: InviteRole
 }
 
 const INVITE_LIFETIME_DAYS = 7
@@ -68,3 +74,8 @@ export const geo: Member = { id: 'geo', joinedDaysAgo: 21, name: 'Geo', role: 'v
 export const andrew: Member = { id: 'andrew', joinedDaysAgo: 3, name: 'Andrew', role: 'viewer' }
 
 export const geoInvite: PendingInvite = { id: 'geo', link: FIRST_INVITE_LINK, name: 'Geo', sentDaysAgo: 2 }
+
+export const canLogDoses = (role: MemberRole) => role !== 'viewer'
+
+export const roleLabelKey = (role: MemberRole) =>
+  `pods.people.sharing.${role === 'owner' ? 'owner' : role === 'logger' ? 'canLogDoses' : 'canView'}` as const

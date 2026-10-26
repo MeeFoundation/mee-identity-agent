@@ -13,12 +13,18 @@ type GingerCategoryRowsProps = {
   // Without it there is no Care & Feeding row, as in the flows from before it existed.
   onOpenCareFeeding?: () => void
   careFeedingCount?: number
+  // Without it the Members row does nothing.
+  onOpenMembers?: () => void
+  // Replaces the pod's member count, for a flow where members and invites change.
+  memberCount?: number
 }
 
 export const GingerCategoryRows = ({
   onOpenMedical = noop,
   onOpenCareFeeding,
   careFeedingCount = 0,
+  onOpenMembers = noop,
+  memberCount,
 }: GingerCategoryRowsProps) => {
   const { t } = useTranslation()
   const { CategoryRow } = useFlowComponents<GingerPodComponents>()
@@ -37,7 +43,12 @@ export const GingerCategoryRows = ({
       )}
       <CategoryRow count={0} icon={Paperclip} label={t('pods.ginger.categories.attachments')} onClick={noop} />
       <CategoryRow count={0} icon={Diagram3} label={t('pods.ginger.categories.subpods')} onClick={noop} />
-      <CategoryRow count={pod.memberCount} icon={People} label={t('pods.ginger.categories.members')} onClick={noop} />
+      <CategoryRow
+        count={memberCount ?? pod.memberCount}
+        icon={People}
+        label={t('pods.ginger.categories.members')}
+        onClick={onOpenMembers}
+      />
     </>
   )
 }

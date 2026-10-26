@@ -61,6 +61,10 @@ pnpm hoists all packages to root `node_modules/`. The `expo-modules-autolinking`
 - All user-facing strings must use i18next (`t('key')`)
 - TypeScript strict mode — no `any`, no `// @ts-ignore`
 - Linter/formatter is **Biome** — no ESLint, no Prettier
+- Component files use PascalCase (`PodCard.tsx`); a component's tests and stories share its name (`PodCard.test.tsx`, `PodCard.stories.tsx`). Applies to new components — do not rename existing files outside the task
+- Declare props and other object shapes with `type`, never `interface`
+- Fields in `type` declarations are `readonly`
+- Arrays in types use `ReadonlyArray<T>`, not `T[]`
 
 ## AI Behavior Rules
 - Never leave `console.log` debug statements in code
