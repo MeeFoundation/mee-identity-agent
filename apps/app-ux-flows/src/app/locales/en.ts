@@ -967,6 +967,108 @@ export const en = {
       },
       title: 'Meals',
     },
+    scPet006: {
+      cases: {
+        a: {
+          description: 'You are Sam, Ginger’s owner, and you are away for the weekend.',
+          goal: 'You’re going away for the weekend. Invite Geo to look after Ginger and let them log her doses.',
+          name: 'Invite a sitter',
+        },
+        b: {
+          description: 'You are Geo, and Sam shared Ginger with you so you can look, but not change anything.',
+          goal: 'Sam shared Ginger with you. Find out when her last Apoquel was given.',
+          name: 'Sitter can look',
+        },
+        c: {
+          description: 'You are Geo, and Sam let you log Ginger’s doses.',
+          goal: 'Sam asked you to give Ginger her evening Apoquel. Give it and record it.',
+          hints: {
+            medical: 'Ginger’s scheduled dose is at the top of Medical.',
+          },
+          name: 'Sitter gives the dose',
+        },
+      },
+      description: 'Invite a sitter to Ginger’s pod and choose whether they can only look or also log doses.',
+      hints: {
+        doseHistory: 'Check which doses are recorded and who gave them.',
+        giveDose: 'Confirm the dose, or cancel.',
+        info: 'Medical and Members are on Ginger’s Info tab.',
+        inviteName: 'Name the sitter and choose what they can do.',
+        inviteShare: 'Send the link to the sitter.',
+        medical: 'Ginger’s scheduled dose is at the top of Medical.',
+        members: 'Who is in Ginger’s pod, and what each person can do.',
+      },
+      inviteName: {
+        access: 'What can they do?',
+        create: 'Create invite link',
+        label: 'Who are you inviting?',
+        roles: {
+          logger: {
+            description: 'Can see everything and mark doses as given',
+            label: 'Can log doses',
+          },
+          viewer: {
+            description: 'Can see everything, and can’t change anything',
+            label: 'Can view',
+          },
+        },
+        title: 'Add a member to <bold>{{pod}}</bold>',
+      },
+      members: {
+        invite: 'Add a member',
+        pendingDetail: '{{access}} · {{sent}}',
+        pendingInvites: 'PENDING INVITES',
+        title: 'Members',
+      },
+      questions: {
+        expire: 'Should a sitter’s access end by itself after a date?',
+        notify: 'Should Sam be told when the sitter gives a dose?',
+      },
+      screens: {
+        doseHistory: {
+          about: 'Every dose with who gave it. Nobody can change it here.',
+        },
+        giveDose: {
+          about: 'The same confirmation as SC-PET-002. Only someone who can log doses gets it.',
+          questions: {
+            note: 'Should the sitter be able to add a note to a dose?',
+          },
+        },
+        info: {
+          about: 'Ginger’s Info tab, reduced to the way to Medical and to Members.',
+        },
+        inviteName: {
+          about: 'The owner picks what the sitter can do before the link exists.',
+        },
+        inviteShare: {
+          about: 'As in SC-PPL-002, with the access the invite carries.',
+        },
+        medical: {
+          about: 'Ginger’s Medical screen. With “Can view” the dose card has no Mark as given.',
+        },
+        members: {
+          about: 'Who is in the pod and what each can do. Only the owner can add a member.',
+          questions: {
+            changeAccess: 'Should the owner be able to change a member’s access later?',
+          },
+        },
+      },
+      share: {
+        description:
+          'This link is the key to your pod. Send it only to {{name}}, in a way you trust. The link works once and expires {{date}}.',
+        target: {
+          copy: 'Copy',
+          mail: 'Mail',
+          messages: 'Messages',
+        },
+        targets: 'Send the link with',
+        title: 'Invite {{name}} to <bold>{{pod}}</bold>',
+      },
+      title: 'Share Ginger’s care',
+      toast: {
+        sent: 'Invite link sent to {{name}}',
+      },
+    },
     scPod001: {
       cases: {
         a: {
@@ -1746,6 +1848,7 @@ export const en = {
       },
       sharing: {
         assistant: 'Assistant',
+        canLogDoses: 'Can log doses',
         canView: 'Can view',
         copied: 'Copied',
         copyInviteLink: 'copy invite link',

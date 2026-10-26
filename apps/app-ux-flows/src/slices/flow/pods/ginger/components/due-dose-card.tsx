@@ -28,7 +28,8 @@ const treatments = {
 } as const satisfies Record<DoseStatus, object>
 
 type DueDoseCardProps = {
-  onGive: () => void
+  // Without it the card offers no way to give the dose, as for a member who can only read.
+  onGive?: () => void
   // Opens the medication's dose history.
   onHistory: () => void
   // Reverts a dose the participant marked as given; without it the given card offers no undo.
@@ -107,7 +108,7 @@ export const DueDoseCard = ({ onGive, onHistory, onUndo, showPet = false }: DueD
           </Button>
         )}
       </div>
-      {(status === 'due' || status === 'overdue') && (
+      {(status === 'due' || status === 'overdue') && onGive && (
         <Button className="w-full" onClick={onGive} size="m">
           {t('pods.ginger.dose.markAsGiven')}
         </Button>

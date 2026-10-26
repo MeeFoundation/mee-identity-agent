@@ -12,6 +12,7 @@ import { scPet001Flow } from './flows/sc-pet-001/flow'
 import { scPet002Flow } from './flows/sc-pet-002/flow'
 import { scPet003Flow } from './flows/sc-pet-003/flow'
 import { scPet004Flow } from './flows/sc-pet-004/flow'
+import { scPet006Flow } from './flows/sc-pet-006/flow'
 import { scPod001Flow } from './flows/sc-pod-001/flow'
 import { scPpl001Flow } from './flows/sc-ppl-001/flow'
 import { scPpl002Flow } from './flows/sc-ppl-002/flow'
@@ -46,6 +47,7 @@ export const flowDefinitions: readonly AnyFlow[] = [
   scPet003Flow,
   scPet004Flow,
   chatAddMedicationFlow,
+  scPet006Flow,
   scPpl001Flow,
   scPpl002Flow,
   scPpl003Flow,

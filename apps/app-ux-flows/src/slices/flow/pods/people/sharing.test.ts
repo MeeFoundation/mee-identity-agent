@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import {
   bogdan,
+  canLogDoses,
   FIRST_INVITE_LINK,
   formatShortDate,
   geo,
@@ -11,6 +12,7 @@ import {
   memberCount,
   nextInviteLink,
   pendingLabel,
+  roleLabelKey,
 } from './sharing'
 
 const today = new Date(2026, 9, 12)
@@ -53,5 +55,19 @@ describe('nextInviteLink', () => {
     for (let index = 0; index < 8; index++) links.push(nextInviteLink(links))
     expect(new Set(links).size).toBe(8)
     for (const link of links) expect(link).toMatch(/^pod\.app\/i\/[a-z0-9]{4}-[a-z0-9]{4}$/)
+  })
+})
+
+describe('roles', () => {
+  it('lets the owner and a dose logger give doses, but not a viewer', () => {
+    expect(canLogDoses('owner')).toBe(true)
+    expect(canLogDoses('logger')).toBe(true)
+    expect(canLogDoses('viewer')).toBe(false)
+  })
+
+  it('labels each role', () => {
+    expect(roleLabelKey('owner')).toBe('pods.people.sharing.owner')
+    expect(roleLabelKey('logger')).toBe('pods.people.sharing.canLogDoses')
+    expect(roleLabelKey('viewer')).toBe('pods.people.sharing.canView')
   })
 })

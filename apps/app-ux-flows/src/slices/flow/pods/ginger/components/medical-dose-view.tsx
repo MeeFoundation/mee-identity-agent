@@ -38,7 +38,8 @@ type MedicalDoseViewProps = {
   notice?: ReactNode
   onMenu: () => void
   onOpenMedication: () => void
-  onAddMedication: () => void
+  // Without it "Add medication" is not shown, as for a member who can't change the pod.
+  onAddMedication?: () => void
   onOpenHistory: () => void
 }
 
@@ -62,10 +63,12 @@ export const MedicalDoseView = ({
       <section className="flex flex-col gap-3">
         <SectionLabel>{t('pods.ginger.medical.medications')}</SectionLabel>
         <MedicationRow onOpen={onOpenMedication} />
-        <Button className="w-full px-4" onClick={onAddMedication} size="l" tone="tertiary" variant="outlined">
-          <Plus aria-hidden className="shrink-0" size={24} />
-          <span className="px-2.5">{t('pods.ginger.medical.add')}</span>
-        </Button>
+        {onAddMedication && (
+          <Button className="w-full px-4" onClick={onAddMedication} size="l" tone="tertiary" variant="outlined">
+            <Plus aria-hidden className="shrink-0" size={24} />
+            <span className="px-2.5">{t('pods.ginger.medical.add')}</span>
+          </Button>
+        )}
       </section>
       <RecordRow
         description={lastGiven}
