@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 import type { PodSummary } from '../model/pod-summary'
 import { PodListView } from './PodListView'
@@ -70,3 +70,8 @@ export const LoadFailed: Story = { args: { hasLoaded: false, pods: [], status: '
 export const InlineError: Story = { args: { status: 'error' } }
 
 export const Empty: Story = { args: { pods: [] } }
+
+export const CustomEmpty: Story = {
+  args: { pods: [] },
+  render: (args) => <PodListView {...args} empty={<Text>Nothing here yet</Text>} />,
+}

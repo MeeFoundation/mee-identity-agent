@@ -2,16 +2,19 @@ import type { Meta, StoryObj } from '@storybook/react-native'
 import { Text, View } from 'react-native'
 
 import {
+  ArrowRightIcon,
   BellFilledIcon,
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CookieIcon,
   HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   type IconProps,
   ListNestedIcon,
   PeopleIcon,
+  PlusIcon,
   SearchIcon,
   ShieldLockIcon,
   TelliGuideIcon,
@@ -19,15 +22,18 @@ import {
 } from './index'
 
 const icons = {
+  ArrowRightIcon,
   BellFilledIcon,
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CookieIcon,
   HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   ListNestedIcon,
   PeopleIcon,
+  PlusIcon,
   SearchIcon,
   ShieldLockIcon,
   TelliGuideIcon,

@@ -1,4 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native'
+import type { ReactNode } from 'react'
+import { Text } from 'react-native'
 
 import type { PodSummary } from '../model/pod-summary'
 import { PodListView } from './PodListView'
@@ -22,6 +24,7 @@ type RenderOptions = {
   readonly limit?: number
   readonly onPodPress?: (pod: PodSummary) => void
   readonly onRetry?: () => void
+  readonly empty?: ReactNode
 }
 
 const renderView = ({
@@ -31,9 +34,11 @@ const renderView = ({
   limit = 3,
   onPodPress = jest.fn(),
   onRetry = jest.fn(),
+  empty,
 }: RenderOptions = {}) =>
   render(
     <PodListView
+      empty={empty}
       hasLoaded={hasLoaded}
       limit={limit}
       onPodPress={onPodPress}
@@ -123,5 +128,35 @@ describe('PodListView', () => {
     expect(screen.getByText('No pods yet')).toBeTruthy()
     expect(screen.queryByTestId('list-pending')).toBeNull()
     expect(screen.queryByTestId('list-error')).toBeNull()
+  })
+
+  it('shows the supplied empty content instead of the empty message', async () => {
+    await renderView({ empty: <Text>Custom empty</Text> })
+
+    expect(screen.getByText('Custom empty')).toBeTruthy()
+    expect(screen.queryByText('No pods yet')).toBeNull()
+    expect(screen.queryByTestId('list-pending')).toBeNull()
+    expect(screen.queryByTestId('list-error')).toBeNull()
+  })
+
+  it('shows the pending state, not the supplied empty content, while loading', async () => {
+    await renderView({ empty: <Text>Custom empty</Text>, hasLoaded: false, status: 'loading' })
+
+    expect(screen.getByTestId('list-pending')).toBeTruthy()
+    expect(screen.queryByText('Custom empty')).toBeNull()
+  })
+
+  it('shows the error, not the supplied empty content, when the first load fails', async () => {
+    await renderView({ empty: <Text>Custom empty</Text>, hasLoaded: false, status: 'error' })
+
+    expect(screen.getByText("Couldn't load pods")).toBeTruthy()
+    expect(screen.queryByText('Custom empty')).toBeNull()
+  })
+
+  it('shows the pods, not the supplied empty content, when the list has pods', async () => {
+    await renderView({ empty: <Text>Custom empty</Text>, pods: [pod('1')] })
+
+    expect(screen.getByText('Pod 1')).toBeTruthy()
+    expect(screen.queryByText('Custom empty')).toBeNull()
   })
 })

@@ -1,4 +1,5 @@
 import { Button } from '@mee/ui'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 
@@ -15,6 +16,7 @@ type PodListViewProps = {
   readonly limit: number
   readonly onPodPress: (pod: PodSummary) => void
   readonly onRetry: () => void
+  readonly empty?: ReactNode
   readonly testID?: string
 }
 
@@ -36,7 +38,16 @@ const ErrorBlock = ({ onRetry, testID }: ErrorBlockProps) => {
   )
 }
 
-export const PodListView = ({ pods, hasLoaded, status, limit, onPodPress, onRetry, testID }: PodListViewProps) => {
+export const PodListView = ({
+  pods,
+  hasLoaded,
+  status,
+  limit,
+  onPodPress,
+  onRetry,
+  empty,
+  testID,
+}: PodListViewProps) => {
   const { t } = useTranslation()
   const shown = pods.slice(0, limit)
   const childTestID = (suffix: string) => (testID ? `${testID}-${suffix}` : undefined)
@@ -46,6 +57,9 @@ export const PodListView = ({ pods, hasLoaded, status, limit, onPodPress, onRetr
       return <ErrorBlock onRetry={onRetry} testID={childTestID('error')} />
     }
     if (hasLoaded && status === 'idle') {
+      if (empty) {
+        return <>{empty}</>
+      }
       return (
         <View style={styles.message} testID={childTestID('empty')}>
           <Text style={styles.messageText}>{t('pod.list.empty')}</Text>

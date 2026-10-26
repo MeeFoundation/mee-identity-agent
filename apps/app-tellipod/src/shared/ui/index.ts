@@ -1,15 +1,18 @@
 export { AnimatedView } from './animated-view'
 export {
+  ArrowRightIcon,
   BellFilledIcon,
   BellIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CookieIcon,
   HeartsIcon,
   HomeFilledIcon,
   HomeIcon,
   type IconProps,
   ListNestedIcon,
   PeopleIcon,
+  PlusIcon,
   SearchIcon,
   ShieldLockIcon,
   TelliGuideIcon,
