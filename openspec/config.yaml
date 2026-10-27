@@ -6,10 +6,22 @@ context: |
   packages/* (@mee/core: framework-agnostic utilities, @mee/ui: React Native UI).
   Apps may be split into separate repositories later, so specs must stay separable per app.
 
+  Tellipod (product specs, specs/tellipod/; this repo builds only the mobile app, which asks a node to store pods and share changes with other members): a free, open-source app from
+  The Mee Foundation for creating pods - private, secure collaboration spaces that other people and Tellipod-compatible
+  services can join. A pod is the atomic unit of information: it has an optional category, one note,
+  a chat, members, attachments, tags and optional tools (a form is one kind; some tools hold structured
+  claims). Product specs are written before implementation. Read specs/tellipod/context/product.md and
+  glossary.md before writing or changing any Tellipod spec.
+
 rules:
   proposal:
     - List capabilities using the app-scoped spec paths defined in the specs rules
+    - For product changes, list capabilities as `tellipod/mobile/<capability>`
   specs:
+    - Product specs live in `specs/tellipod/mobile/<capability>` (what the mobile app does); they are the exception to the app-first rule below and must not mention frameworks, screen layouts, components or libraries
+    - In `specs/tellipod/**` say only what the app offers, applies, shows, keeps personal or does when the node denies a command
+    - In `specs/tellipod/**` write each requirement as a SHALL statement with Given/When/Then scenarios, and never create tasks or implementation design for a product change
+    - Reuse terms from `specs/tellipod/context/glossary.md` exactly; record unresolved questions in `specs/tellipod/context/open-questions.md` instead of inventing behavior
     - Organize capabilities by app first, then by domain - `specs/<app>/<domain>`, e.g. `app-ux-flows/flow-runtime`, `app-concepts/wallet`
     - Use the workspace folder name as the app segment (`app-concepts`, `app-production`, `app-tellipod`, `app-ux-flows`)
     - When behavior differs per platform, split it into `specs/<app>/<domain>/ios` and `specs/<app>/<domain>/android`; keep cross-platform behavior in `specs/<app>/<domain>`
