@@ -2,11 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react-native'
 import { StyleSheet, Text, View } from 'react-native'
 
 import {
+  CheckCircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
   ExclamationCircleIcon,
+  ExclamationOctagonIcon,
+  ExclamationTriangleIcon,
   FolderPlusIcon,
+  InfoCircleIcon,
   PaperclipIcon,
   PencilIcon,
   PeopleIcon,
@@ -14,6 +18,7 @@ import {
   PlusIcon,
   QuestionCircleIcon,
   SearchIcon,
+  XIcon,
 } from '.'
 
 const styles = StyleSheet.create({
@@ -34,11 +39,15 @@ const styles = StyleSheet.create({
 })
 
 const icons = {
+  CheckCircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
   ExclamationCircleIcon,
+  ExclamationOctagonIcon,
+  ExclamationTriangleIcon,
   FolderPlusIcon,
+  InfoCircleIcon,
   PaperclipIcon,
   PencilIcon,
   PeopleIcon,
@@ -46,6 +55,7 @@ const icons = {
   PlusIcon,
   QuestionCircleIcon,
   SearchIcon,
+  XIcon,
 }
 
 const IconGallery = ({ color, size }: { color?: string; size?: number }) => (

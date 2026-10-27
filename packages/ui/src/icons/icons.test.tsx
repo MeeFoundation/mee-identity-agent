@@ -2,12 +2,16 @@ import { render } from '@testing-library/react-native'
 import type { ReactElement, ReactNode } from 'react'
 
 import {
+  CheckCircleIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   Diagram3Icon,
   ExclamationCircleIcon,
+  ExclamationOctagonIcon,
+  ExclamationTriangleIcon,
   FolderPlusIcon,
   type IconProps,
+  InfoCircleIcon,
   PaperclipIcon,
   PencilIcon,
   PeopleIcon,
@@ -15,6 +19,7 @@ import {
   PlusIcon,
   QuestionCircleIcon,
   SearchIcon,
+  XIcon,
 } from '.'
 
 const svgProps = async (element: ReactElement) => {
@@ -37,6 +42,11 @@ const designSizes: [string, (props: IconProps) => ReactNode, number][] = [
   ['SearchIcon', SearchIcon, 16],
   ['ExclamationCircleIcon', ExclamationCircleIcon, 14],
   ['QuestionCircleIcon', QuestionCircleIcon, 16],
+  ['InfoCircleIcon', InfoCircleIcon, 16],
+  ['CheckCircleIcon', CheckCircleIcon, 16],
+  ['ExclamationOctagonIcon', ExclamationOctagonIcon, 16],
+  ['ExclamationTriangleIcon', ExclamationTriangleIcon, 16],
+  ['XIcon', XIcon, 20],
 ]
 
 describe('icons', () => {
